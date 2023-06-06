@@ -10,7 +10,7 @@ To provide users with a playable virtual keyboard that allows them to record, sa
 
 
 ## Website Demographics:
-Either people with a musical background and have a use for visualizing or producing sheet music, or anyone who enjoys experimenting with melody creation.
+Either people with a musical background who have a use for visualizing or producing sheet music, or anyone who enjoys experimenting with melody creation.
 
 
 ## Website Data:
