@@ -10,17 +10,17 @@ To provide users with a playable virtual keyboard that allows them to record, sa
 
 
 ## Website Demographics:
-Either people who either have a musical background and have a use for visualizing or producing sheet music, or anyone who enjoys experimenting with melody creation.
+Either people with a musical background and have a use for visualizing or producing sheet music, or anyone who enjoys experimenting with melody creation.
 
 
 ## Website Data:
-I plan to use an API that generates the sheet music image based on imputed music information (such as VexFlow), and also the WebAudi API or the "use-sound" React Hook.
+I plan to use an API (such as VexFlow) that generates the sheet music image based on imputed music information, and also the WebAudi API or the "use-sound" React Hook.
 
 
 
 ## Approach:
 #### Database schema:
-I will store registered users in my database. Login authentication information and data for their saved virtual melodies will be stored for each user. Depending on how easy it is to store and retrieve images from an SQL server, the produced sheet music will either also be saved on the database or they will be re-rendered using the API each time a user logs in.  
+I will store registered users in my database. Login authentication information and data for their saved melodies will be stored for each user. Depending on how easy it is to store and retrieve images from an SQL server, the produced sheet music will either also be saved on the database or they will be re-rendered using the API each time a user logs in.  
 
 
 #### Potential API issues:
