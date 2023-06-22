@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.track.com/trackUpdate.schema.json",
+  "type": "object",
+  "properties": {
+    "midi_id": {
+      "type": "integer",
+      "minLength": 1
+    },
+    "track_name": {
+      "type": "string",
+      "minLength": 7
+    },
+    "notes": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": []
+}
