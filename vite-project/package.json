@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "bootstrap": "^5.3.0",
     "jwt-decode": "^3.1.2",
+    "midi-note": "^1.0.0",
     "midi-parser-js": "^4.0.4",
     "midi-player-js": "^2.0.16",
     "polymer-midi-player": "^1.1.7",
@@ -20,7 +22,8 @@
     "react-midi-player": "^1.0.6",
     "react-native-base64": "^0.2.1",
     "react-router-dom": "^6.13.0",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "reactstrap": "^9.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

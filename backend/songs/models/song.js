@@ -75,14 +75,15 @@ class Song {
   //  * - dir
   //  * 
   //  *
-  //  * Returns [{ midi_id, title, dir, ticks_per_beat }, ...]
+  //  * Returns [{ midi_id, title, dir, song_length, bpm }, ...]
   //  * */
 
   static async findAll(searchFilters = {}) {
     let query = `SELECT midi_id,
                         title,
                         dir,
-                        ticks_per_beat
+                        song_length,
+                        bpm
                  FROM songs`;
     let whereExpressions = [];
     let queryValues = [];
@@ -116,7 +117,7 @@ class Song {
 
   // /** Given a song, return data about song.
   //  *
-  //  * Returns { midi_id, title, dir, ticks_per_beat, non_drum_tracks, drum_tracks}
+  //  * Returns { midi_id, title, dir, song_length, bpm, non_drum_tracks, drum_tracks}
   //  *   where non_drum_tracks is [{id, track_name}, ...]
   //  *   and where drum_tracks is [{id, track_name}, ...]
 
@@ -129,7 +130,8 @@ class Song {
       `SELECT midi_id,
           title,
           dir,
-          ticks_per_beat
+          song_length,
+          bpm
           FROM songs
            WHERE midi_id = $1`,
       [midiId]);
@@ -166,9 +168,9 @@ class Song {
   //  * This is a "partial update" --- it's fine if data doesn't contain all the
   //  * fields; this only changes provided ones.
   //  *
-  //  * Data can include: {midi_id, title, dir, ticks_per_beat}
+  //  * Data can include: {midi_id, title, dir, song_length, bpm}
   //  *
-  //  * Returns {midi_id, title, dir, ticks_per_beat}
+  //  * Returns {midi_id, title, dir, song_length, bpm}
   //  *
   //  * Throws NotFoundError if not found.
   //  */
@@ -178,7 +180,7 @@ class Song {
       data,
       {
         midiId: "midi_id",
-        ticksPerBeat: "ticks_per_beat",
+        songLength: "song_length",
       });
     const midiIdVarIdx = "$" + (values.length + 1);
 
@@ -188,7 +190,8 @@ class Song {
                       RETURNING midi_id, 
                                 title, 
                                 dir,  
-                                ticks_per_beat`;
+                                song_length,
+                                bpm`;
     const result = await db.query(querySql, [...values, midiId]);
     const song = result.rows[0];
 

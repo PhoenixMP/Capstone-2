@@ -45,7 +45,7 @@ class Track {
       `SELECT midi_id,
               title,
               dir,
-              ticks_per_beat
+              song_length, bpm
               FROM songs
                WHERE midi_id = $1`,
       [midiId]);

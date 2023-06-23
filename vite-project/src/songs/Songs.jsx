@@ -21,11 +21,11 @@ const Songs = () => {
         search();
 
     }, []);
-    console.log(songs)
+
 
     /** Triggered by search form submit; reloads songs. */
     async function search(title) {
-        console.log(title)
+
         let songs = await Melodic2API.getAllsongs({ title });
         setSongs(songs);
     }

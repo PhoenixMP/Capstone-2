@@ -37,7 +37,7 @@ const SongDetails = () => {
         <div>
             <h4>{song.song.title}</h4>
             <br />{song.song.dir}
-            <MidiPlayerComponent EncodedMidiData={song.midiData} fullSong={true} />
+            <MidiPlayerComponent encodedMidiData={song.midiData} fullSong={true} />
             <br />{<TrackCardList tracks={song.song.nonDrumTrack} midiData={song.midiData} midiId={midiId} />}
 
         </div>

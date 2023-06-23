@@ -6,22 +6,21 @@ import MidiPlayer from 'react-midi-player';
 
 
 
-function MidiPlayerComponent({ trackName, EncodedMidiData, fullSong }) {
+function MidiPlayerComponent({ trackName, encodedMidiData, fullSong }) {
     const [midiData, setMidiData] = useState(null);
+    console.log(encodedMidiData)
 
 
     useEffect(() => {
         let encodedData;
         if (fullSong) {
-            encodedData = EncodedMidiData.encodedSong.encodedSong
+            encodedData = encodedMidiData.encodedSong.encodedSong
         } else {
-            const idx = EncodedMidiData.encodedTracks.findIndex(obj => obj.trackName === trackName);
-            encodedData = EncodedMidiData.encodedTracks[idx].encodedData
+            const idx = encodedMidiData.encodedTracks.findIndex(obj => obj.trackName === trackName);
+            encodedData = encodedMidiData.encodedTracks[idx].encodedData
         }
 
         const decodedData = base64.decode(encodedData)// Decode the Base64-encoded MIDI data
-        console.log(`decodedData:${decodedData}`)
-
         setMidiData(decodedData);
 
 

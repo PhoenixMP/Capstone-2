@@ -2,7 +2,8 @@ CREATE TABLE songs (
   midi_id INTEGER PRIMARY KEY,
   title TEXT NOT NULL,
   dir TEXT NOT NULL,
-  ticks_per_beat FLOAT
+  song_length FLOAT,
+  bpm FLOAT
 );
 
 CREATE TABLE drum_tracks (

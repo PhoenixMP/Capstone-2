@@ -1,4 +1,6 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 import { Link } from "react-router-dom";
 import MidiPlayerComponent from "./midi/MidiPlayer"
@@ -14,19 +16,25 @@ import MidiPlayerComponent from "./midi/MidiPlayer"
  * JobCardList -> JobCard
  */
 
-function TrackCard({ id, trackName, midiData }) {
+function TrackCard({ id, trackName, midiId, midiData }) {
+
+    const navigate = useNavigate();
+    const navigateGame = () => {
+        // 👇️ navigate to /
+        navigate(`/game/${midiId}/${id}`);
+    };
 
 
 
 
     return (
-        <div className="TrackCard card">
+        <div className="TrackCard card" key={id}>
             <div className="card-body">
-                <Link to={`/track/${id}`} key={id}>
-                    <h2 className="card-title">{trackName}</h2>
+                <h2 className="card-title">{trackName}</h2>
+                <button onClick={navigateGame}>I Pick This One!</button>
 
-                </Link>
-                <MidiPlayerComponent trackName={trackName} EncodedMidiData={midiData} />
+                <MidiPlayerComponent trackName={trackName} encodedMidiData={midiData} />
+
             </div>
         </div>
     );

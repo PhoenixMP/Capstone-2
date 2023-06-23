@@ -12,7 +12,6 @@ import SongCard from "./SongCard";
  */
 
 const SongCardList = ({ songs }) => {
-    console.log(songs)
 
 
     return (
