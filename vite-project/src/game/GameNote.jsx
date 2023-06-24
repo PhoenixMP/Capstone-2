@@ -15,7 +15,7 @@ import "./Game.css"
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
-    const StreamContainerHeight = 100000
+    const StreamContainerHeight = (songLength / 180) * 100000
     const StreamContainerWidth = 500
     const noteLength = noteEnd - noteStart
     const noteHeight = (noteLength / songLength) * StreamContainerHeight

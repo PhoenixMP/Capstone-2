@@ -5,6 +5,7 @@ import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import MidiPlayerComponent from "../songs/midi/MidiPlayer"
 import StreamContainer from "./StreamContainer";
+import Piano from "./piano/Piano";
 import musicContext from "../songs/musicContext";
 import "./Game.css"
 
@@ -28,6 +29,7 @@ const Game = () => {
 
 
     const [isAnimationStarted, setIsAnimationStarted] = useState(false);
+    const [isAnimationStopped, setIsAnimationStopped] = useState(false);
     const { trackNotes, setTrackNotes, track, setTrack } = useContext(musicContext);
 
 
@@ -51,18 +53,25 @@ const Game = () => {
         setIsAnimationStarted(true);
     };
 
+    const handleStopAnimation = () => {
+        console.log('stopping')
+        setIsAnimationStopped(true);
+        setIsAnimationStarted(false);
+    };
 
 
-    console.log(`track:${trackNotes}`)
 
     return (
         <div className="game-page-parent">
             <div className="game-page-child-1">
                 <MidiPlayerComponent fullSong={true} />
                 <button onClick={handleStartAnimation}>Start</button>
-            </div>
-            <div className="game-page-child-2"><StreamContainer isAnimationStarted={isAnimationStarted} /> </div>
+                <button onClick={handleStopAnimation}>Stop</button>
 
+            </div>
+            <div className="game-page-child-2"><StreamContainer isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
+                <div className="piano-container"><Piano /></div>
+            </div>
         </div>
     )
 

@@ -15,7 +15,7 @@ import "./Game.css"
  * MyRoutes -> Homepage
  */
 
-const StreamContainer = ({ isAnimationStarted }) => {
+const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
 
     const { song, trackNotes } = useContext(musicContext);
     const songLength = song.song.song_length
@@ -25,27 +25,33 @@ const StreamContainer = ({ isAnimationStarted }) => {
     const travelDuration = songLength * 1000; // Specify the desired travel duration in milliseconds
 
     useEffect(() => {
+        let animationFrameId;
+
+        const animateStream = (startTime) => {
+            const currentTime = Date.now();
+            const elapsedTime = currentTime - startTime;
+
+            if (elapsedTime >= travelDuration) {
+                setStreamPosition(travelDistance);
+            } else {
+                const progress = (elapsedTime / travelDuration) * travelDistance;
+                setStreamPosition(progress);
+                animationFrameId = requestAnimationFrame(() => animateStream(startTime));
+            }
+        };
+
         if (isAnimationStarted) {
             const startTime = Date.now();
-
-            const animateStream = () => {
-                const currentTime = Date.now();
-                const elapsedTime = currentTime - startTime;
-
-                if (elapsedTime >= travelDuration) {
-                    setStreamPosition(travelDistance);
-                } else {
-                    const progress = (elapsedTime / travelDuration) * travelDistance;
-                    setStreamPosition(progress);
-                    requestAnimationFrame(animateStream);
-                }
-            };
-
-            animateStream();
+            animateStream(startTime);
+        } else if (isAnimationStopped) {
+            cancelAnimationFrame(animationFrameId);
+            setStreamPosition(0);
         }
-    }, [isAnimationStarted]);
 
-
+        return () => {
+            cancelAnimationFrame(animationFrameId);
+        };
+    }, [isAnimationStarted, isAnimationStopped]);
 
     return (
         <div className="stream-container" style={{ top: `${streamPosition}px` }} >
