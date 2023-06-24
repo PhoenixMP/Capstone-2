@@ -68,7 +68,7 @@ class Track {
     }
 
     const drumTrackRes = await db.query(
-      `SELECT id, track_name
+      `SELECT id, track_name, program
          FROM drum_tracks
          WHERE midi_id = $1`,
       [midiId]
@@ -90,7 +90,7 @@ class Track {
     this.checkType(type)
 
     const trackRes = await db.query(
-      `SELECT id, midi_id, track_name, notes
+      `SELECT id, program, midi_id, track_name, notes
              FROM ${type}
              WHERE id = $1`,
       [id]);
@@ -130,6 +130,7 @@ class Track {
                       SET ${setCols} 
                       WHERE id = ${idVarIdx} 
                       RETURNING id, 
+                      program,
                                 midi_id, 
                                 track_name,  
                                 notes`;

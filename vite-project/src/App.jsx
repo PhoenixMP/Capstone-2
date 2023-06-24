@@ -7,8 +7,10 @@ import jwt_decode from "jwt-decode";
 import MyRoutes from './routes-nav/MyRoutes'
 import MyNav from './routes-nav/MyNav'
 import UserContext from "./auth/UserContext";
+import musicContext from "./songs/musicContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Melodic2API from "./api/api";
+import "./routes-nav/Navigation.css";
 
 
 /** Jobly application.
@@ -27,6 +29,12 @@ import Melodic2API from "./api/api";
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
+  const [song, setSong] = useLocalStorage("song", null);
+  const [track, setTrack] = useLocalStorage("track", null);
+  const [trackNotes, setTrackNotes] = useState(null);
+
+
+
   // const [token, setToken] = useLocalStorage(null);
   // const [userInfoLoaded, setUserInfoLoaded] = useState(false)
 
@@ -90,14 +98,18 @@ function App() {
 
 
 
+
+
   return (
 
     <BrowserRouter>
       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-        <div>
-          <MyNav logout={logout} />
-          <MyRoutes login={login} signup={signup} />
-        </div>
+        <musicContext.Provider value={{ song, setSong, trackNotes, setTrackNotes, track, setTrack }}>
+          <div>
+            <MyNav logout={logout} />
+            <MyRoutes login={login} signup={signup} />
+          </div>
+        </musicContext.Provider>
       </UserContext.Provider >
     </BrowserRouter>
 

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Melodic2API from "../api/api";
 import TrackCardList from "./TrackCardList"
 import MidiPlayerComponent from "./midi/MidiPlayer"
 import LoadingSpinner from "../common/LoadingSpinner";
+import musicContext from "./musicContext";
+
 
 
 /** Homepage of site.
@@ -18,28 +20,30 @@ import LoadingSpinner from "../common/LoadingSpinner";
 const SongDetails = () => {
 
     const { midiId } = useParams();
-    console.debug("Song", "midiId=", midiId);
-
-    const [song, setSong] = useState(null);
+    const { song, setSong } = useContext(musicContext);
+    console.log(song)
 
     useEffect(function getSongInfo() {
         async function getSong() {
-            setSong(await Melodic2API.getSong(midiId));
+            const newSong = await Melodic2API.getSong(midiId);
+            setSong(newSong);
+
         }
         getSong();
+
     }, [midiId]);
 
 
-    if (!song) return <LoadingSpinner />;
+    if (!song || !song === true) return <LoadingSpinner />;
 
 
     return (
         <div>
             <h4>{song.song.title}</h4>
             <br />{song.song.dir}
-            <MidiPlayerComponent encodedMidiData={song.midiData} fullSong={true} />
-            <br />{<TrackCardList tracks={song.song.nonDrumTrack} midiData={song.midiData} midiId={midiId} />}
 
+            <MidiPlayerComponent fullSong={true} />
+            <br />{<TrackCardList />}
         </div>
     )
 

@@ -8,6 +8,7 @@ CREATE TABLE songs (
 
 CREATE TABLE drum_tracks (
   id SERIAL PRIMARY KEY,
+    program FLOAT,
   midi_id INTEGER REFERENCES songs(midi_id) ON DELETE CASCADE,
   track_name TEXT,
   notes JSON
@@ -15,6 +16,7 @@ CREATE TABLE drum_tracks (
 
 CREATE TABLE non_drum_tracks (
   id SERIAL PRIMARY KEY,
+  program FLOAT,
   midi_id INTEGER REFERENCES songs(midi_id) ON DELETE CASCADE,
   track_name TEXT,
   notes JSON

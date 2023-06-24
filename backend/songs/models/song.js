@@ -141,7 +141,7 @@ class Song {
     if (!song) throw new NotFoundError(`No song: ${midiId}`);
 
     const nonDrumTrackRes = await db.query(
-      `SELECT id, track_name
+      `SELECT id, program, track_name
            FROM non_drum_tracks
            WHERE midi_id = $1
            ORDER BY id`,
@@ -149,7 +149,7 @@ class Song {
     );
 
     const drumTrackRes = await db.query(
-      `SELECT id, track_name
+      `SELECT id, program, track_name
        FROM drum_tracks
        WHERE midi_id = $1
        ORDER BY id`,

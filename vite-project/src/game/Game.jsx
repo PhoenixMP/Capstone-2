@@ -1,10 +1,12 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
-import MidiPlayer from 'react-midi-player';
-import StreamContainer from "./StreamContainer"
+import MidiPlayerComponent from "../songs/midi/MidiPlayer"
+import StreamContainer from "./StreamContainer";
+import musicContext from "../songs/musicContext";
+import "./Game.css"
 
 
 
@@ -19,35 +21,48 @@ import StreamContainer from "./StreamContainer"
 
 const Game = () => {
 
-    const { id, midiId } = useParams();
-    console.debug("track", "id=", id);
 
-    const [track, setTrack] = useState(null);
-    const [trackNotes, setTrackNotes] = useState(null);
-    const [song, setSong] = useState(null);
 
-    useEffect(function getInfo() {
-        async function getSong() {
-            const song = await Melodic2API.getSong(midiId);
-            setSong(song);
-        }
+    const { midiId, id } = useParams();
+    console.debug("Game", "id=", id);
+
+
+    const [isAnimationStarted, setIsAnimationStarted] = useState(false);
+    const { trackNotes, setTrackNotes, track, setTrack } = useContext(musicContext);
+
+
+    useEffect(function getTrackInfo() {
         async function getTrack() {
-            const track = await Melodic2API.getTrack(id, { type: "non_drum_tracks" });
-            setTrack(track)
-            setTrackNotes(track.notes.reverse())
+            const newTrack = await Melodic2API.getTrack(id, { type: "non_drum_tracks" });
+            console.log(`testing: ${id}`, track)
+            setTrack(newTrack)
+            setTrackNotes(newTrack.notes.reverse())
+
         }
-        getSong();
         getTrack()
     }, [midiId, id]);
 
+    if (!trackNotes) return <LoadingSpinner />;
 
-    if (!song) return <LoadingSpinner />;
-    if (!track) return <LoadingSpinner />;
+
+
+
+    const handleStartAnimation = () => {
+        setIsAnimationStarted(true);
+    };
+
+
+
+    console.log(`track:${trackNotes}`)
 
     return (
-        <div className="game parent">
-            <div className="game child"><MidiPlayer encodedMidiData={song.midiData} fullSong={true} autoPlay /></div>
-            <StreamContainer trackNotes={trackNotes} songLength={song.song.song_length} bpm={song.song.bpm} />
+        <div className="game-page-parent">
+            <div className="game-page-child-1">
+                <MidiPlayerComponent fullSong={true} />
+                <button onClick={handleStartAnimation}>Start</button>
+            </div>
+            <div className="game-page-child-2"><StreamContainer isAnimationStarted={isAnimationStarted} /> </div>
+
         </div>
     )
 

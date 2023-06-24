@@ -1,7 +1,9 @@
 
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import GameNote from "./GameNote"
-import "./StreamContainer.css"
+import LoadingSpinner from "../common/LoadingSpinner";
+import musicContext from "../songs/musicContext";
+import "./Game.css"
 
 
 /** Homepage of site.
@@ -13,27 +15,40 @@ import "./StreamContainer.css"
  * MyRoutes -> Homepage
  */
 
-const StreamContainer = ({ trackNotes, songLength, bpm }) => {
+const StreamContainer = ({ isAnimationStarted }) => {
 
-    // const noteContainer = document.getElementById('noteContainer');
+    const { song, trackNotes } = useContext(musicContext);
+    const songLength = song.song.song_length
+    const bpm = song.song.bpm
+    const [streamPosition, setStreamPosition] = useState(0);
+    const travelDistance = 100000; // Specify the desired travel distance
+    const travelDuration = songLength * 1000; // Specify the desired travel duration in milliseconds
 
-    // const containerHeight = noteContainer.offsetHeight;
-    // const targetPosition = '10vh'; // Adjust this value to set the desired position
+    useEffect(() => {
+        if (isAnimationStarted) {
+            const startTime = Date.now();
 
-    // // Set the initial position
-    // noteContainer.style.top = `-${containerHeight}px`;
+            const animateStream = () => {
+                const currentTime = Date.now();
+                const elapsedTime = currentTime - startTime;
 
-    // // Move the container to the target position
-    // function moveNoteContainer() {
-    //     noteContainer.style.top = targetPosition;
-    // }
+                if (elapsedTime >= travelDuration) {
+                    setStreamPosition(travelDistance);
+                } else {
+                    const progress = (elapsedTime / travelDuration) * travelDistance;
+                    setStreamPosition(progress);
+                    requestAnimationFrame(animateStream);
+                }
+            };
 
-
+            animateStream();
+        }
+    }, [isAnimationStarted]);
 
 
 
     return (
-        <div className="stream-container" id="noteContainer" style={{ transition: `top ${songLength}s ease` }}>
+        <div className="stream-container" style={{ top: `${streamPosition}px` }} >
             {trackNotes.map((note, idx) => (
 
                 <GameNote

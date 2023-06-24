@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+
 
 
 /** Show limited information about a job.
@@ -12,8 +13,6 @@ import { Link } from "react-router-dom";
  */
 
 function SongCard({ midiId, title, dir }) {
-
-
 
 
     return (

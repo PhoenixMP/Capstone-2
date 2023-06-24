@@ -1,11 +1,42 @@
-.parent {
+.game-page-parent {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    /* or other alignment options like flex-start, flex-end, center, etc. */
-    align-items: flex-start
 }
 
-.child {
-    padding: 50px
+.game-page-child-1 {
+    flex: 1;
+    position: relative;
+    top: 200px
+}
+
+.game-page-child-2 {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -99500px
+}
+
+.stream-container {
+    position: relative;
+    height: 100000px;
+    width: 600px;
+    bottom: 800px;
+    background-color: lightblue
+}
+
+.game-note {
+    background-color: blue;
+    position: absolute;
+    border-bottom: 2px solid white;
+    border-left: 2px solid white;
+    border-right: 2px solid white
+}
+
+.note-name {
+    color: white;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }

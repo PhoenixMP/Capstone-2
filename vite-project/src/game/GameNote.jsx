@@ -1,6 +1,6 @@
 
 import React from "react";
-import StreamContainer from "./StreamContainer";
+import "./Game.css"
 
 
 
@@ -64,7 +64,6 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     return (
         <div className='game-note' style={noteStyle} >
             <div className='note-name'> {noteName}</div>
-
         </div>
     )
 

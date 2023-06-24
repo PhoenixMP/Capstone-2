@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-
-import { Link } from "react-router-dom";
 import MidiPlayerComponent from "./midi/MidiPlayer"
+
 
 
 
@@ -16,14 +16,16 @@ import MidiPlayerComponent from "./midi/MidiPlayer"
  * JobCardList -> JobCard
  */
 
-function TrackCard({ id, trackName, midiId, midiData }) {
+function TrackCard({ id, trackName }) {
+    const { midiId } = useParams();
+
 
     const navigate = useNavigate();
+
     const navigateGame = () => {
-        // 👇️ navigate to /
+        // navigate to /
         navigate(`/game/${midiId}/${id}`);
     };
-
 
 
 
@@ -33,7 +35,7 @@ function TrackCard({ id, trackName, midiId, midiData }) {
                 <h2 className="card-title">{trackName}</h2>
                 <button onClick={navigateGame}>I Pick This One!</button>
 
-                <MidiPlayerComponent trackName={trackName} encodedMidiData={midiData} />
+                <MidiPlayerComponent trackName={trackName} />
 
             </div>
         </div>

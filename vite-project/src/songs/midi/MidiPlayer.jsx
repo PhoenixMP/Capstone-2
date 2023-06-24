@@ -1,37 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import base64 from 'react-native-base64'
 import MidiPlayer from 'react-midi-player';
+import musicContext from "../musicContext";
+import LoadingSpinner from "../../common/LoadingSpinner";
 
 
 
 
 
-function MidiPlayerComponent({ trackName, encodedMidiData, fullSong }) {
-    const [midiData, setMidiData] = useState(null);
-    console.log(encodedMidiData)
+function MidiPlayerComponent({ trackName, fullSong }) {
+    const { song } = useContext(musicContext);
 
 
-    useEffect(() => {
-        let encodedData;
-        if (fullSong) {
-            encodedData = encodedMidiData.encodedSong.encodedSong
-        } else {
-            const idx = encodedMidiData.encodedTracks.findIndex(obj => obj.trackName === trackName);
-            encodedData = encodedMidiData.encodedTracks[idx].encodedData
-        }
+    let encodedData;
 
-        const decodedData = base64.decode(encodedData)// Decode the Base64-encoded MIDI data
-        setMidiData(decodedData);
+    const encodedMidiData = song.midiData;
+    if (fullSong) {
+        encodedData = encodedMidiData.encodedSong.encodedSong;
+    } else {
+        const idx = encodedMidiData.encodedTracks.findIndex(obj => obj.trackName === trackName);
+        encodedData = encodedMidiData.encodedTracks[idx].encodedData;
+    }
+    const decodedData = base64.decode(encodedData);
 
-
-    }, [trackName, fullSong]);
-
-
+    if (!decodedData) return <LoadingSpinner />;
 
 
     return (
         <div>
-            <MidiPlayer data={midiData} />
+            <MidiPlayer data={decodedData} />
         </div >
 
     );

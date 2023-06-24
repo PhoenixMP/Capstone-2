@@ -2,6 +2,7 @@
 import React from "react";
 import SongCard from "./SongCard";
 
+
 /** Homepage of site.
  *
  * Shows welcome message or login/register buttons.
@@ -14,16 +15,15 @@ import SongCard from "./SongCard";
 const SongCardList = ({ songs }) => {
 
 
+
     return (
         <div>
             {songs.map(song => (
                 <SongCard
-                    key={song.midi_id}
+                    key={song.midiId}
                     midiId={song.midi_id}
                     title={song.title}
-                    dir={song.dir}
-
-                />
+                    dir={song.dir} />
             ))}
         </div>
     )

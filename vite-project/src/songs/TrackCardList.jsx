@@ -1,6 +1,8 @@
 
-import React from "react";
+import React, { useContext } from "react";
+
 import TrackCard from "./TrackCard";
+import musicContext from "./musicContext";
 
 
 /** Homepage of site.
@@ -12,11 +14,12 @@ import TrackCard from "./TrackCard";
  * MyRoutes -> Homepage
  */
 
-const TrackCardList = ({ tracks, midiData, midiId }) => {
+const TrackCardList = () => {
+
+    const { song } = useContext(musicContext);
 
 
-
-
+    const tracks = song.song.nonDrumTrack
 
     return (
         <div>
@@ -26,8 +29,6 @@ const TrackCardList = ({ tracks, midiData, midiId }) => {
                         <TrackCard
                             id={track.id}
                             trackName={track.track_name}
-                            midiId={midiId}
-                            midiData={midiData}
                         />
 
                     </div>
