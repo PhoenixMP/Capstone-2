@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import GameNote from "./GameNote"
 import LoadingSpinner from "../common/LoadingSpinner";
 import musicContext from "../songs/musicContext";
+import gameContext from "./gameContext";
 import "./Game.css"
 
 
@@ -18,6 +19,19 @@ import "./Game.css"
 const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
 
     const { song, trackNotes } = useContext(musicContext);
+    const { setKeyA_inPlay,
+        setKeyW_inPlay,
+        setKeyS_inPlay,
+        setKeyE_inPlay,
+        setKeyD_inPlay,
+        setKeyF_inPlay,
+        setKeyT_inPlay,
+        setKeyG_inPlay,
+        setKeyY_inPlay,
+        setKeyH_inPlay,
+        setKeyU_inPlay,
+        setKeyJ_inPlay } = useContext(gameContext);
+
     const songLength = song.song.song_length
     const bpm = song.song.bpm
     const [streamPosition, setStreamPosition] = useState(0);

@@ -1,6 +1,7 @@
 
 import React from "react";
 import "./Game.css"
+import gameContext from "./gameContext";
 
 
 
@@ -15,27 +16,29 @@ import "./Game.css"
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
+
     const StreamContainerHeight = (songLength / 180) * 100000
-    const StreamContainerWidth = 500
+    const StreamContainerWidth = 600
     const noteLength = noteEnd - noteStart
     const noteHeight = (noteLength / songLength) * StreamContainerHeight
-    const blackNoteWidth = StreamContainerWidth / 15.5;
-    const whiteNoteWidth = StreamContainerWidth * (1.5 / 15.5);
+    const blackNoteWidth = 35; //px
+    const whiteNoteWidth = 70; //px
+    const leftPaddingWidth = 32
 
 
     const noteKey = {
-        'C': { "width": whiteNoteWidth, "leftPosition": 0 },
-        'C#': { "width": blackNoteWidth, "leftPosition": whiteNoteWidth },
-        'D': { "width": whiteNoteWidth, "leftPosition": whiteNoteWidth + blackNoteWidth },
-        'D#': { "width": blackNoteWidth, "leftPosition": (2 * whiteNoteWidth) + (1 * blackNoteWidth) },
-        'E': { "width": whiteNoteWidth, "leftPosition": (2 * whiteNoteWidth) + (2 * blackNoteWidth) },
-        'F': { "width": whiteNoteWidth, "leftPosition": (3 * whiteNoteWidth) + (2 * blackNoteWidth) },
-        'F#': { "width": blackNoteWidth, "leftPosition": (4 * whiteNoteWidth) + (2 * blackNoteWidth) },
-        'G': { "width": whiteNoteWidth, "leftPosition": (4 * whiteNoteWidth) + (3 * blackNoteWidth) },
-        'G#': { "width": blackNoteWidth, "leftPosition": (5 * whiteNoteWidth) + (3 * blackNoteWidth) },
-        'A': { "width": whiteNoteWidth, "leftPosition": (5 * whiteNoteWidth) + (4 * blackNoteWidth) },
-        'A#': { "width": blackNoteWidth, "leftPosition": (6 * whiteNoteWidth) + (4 * blackNoteWidth) },
-        'B': { "width": whiteNoteWidth, "leftPosition": (6 * whiteNoteWidth) + (5 * blackNoteWidth) }
+        'C': { "width": whiteNoteWidth, "keyboardKey": 'A', "leftPosition": 0 },
+        'C#': { "width": blackNoteWidth, "keyboardKey": 'W', "leftPosition": whiteNoteWidth - (blackNoteWidth / 2) - 8 },
+        'D': { "width": whiteNoteWidth, "keyboardKey": 'S', "leftPosition": whiteNoteWidth },
+        'D#': { "width": blackNoteWidth, "keyboardKey": 'E', "leftPosition": (2 * whiteNoteWidth) - (blackNoteWidth / 2) - 4 },
+        'E': { "width": whiteNoteWidth, "keyboardKey": 'D', "leftPosition": (2 * whiteNoteWidth) },
+        'F': { "width": whiteNoteWidth, "keyboardKey": 'F', "leftPosition": (3 * whiteNoteWidth) },
+        'F#': { "width": blackNoteWidth, "keyboardKey": 'T', "leftPosition": (4 * whiteNoteWidth) - (blackNoteWidth / 2) - 1 },
+        'G': { "width": whiteNoteWidth, "keyboardKey": 'G', "leftPosition": (4 * whiteNoteWidth) },
+        'G#': { "width": blackNoteWidth, "keyboardKey": 'Y', "leftPosition": (5 * whiteNoteWidth) - (blackNoteWidth / 2) },
+        'A': { "width": whiteNoteWidth, "keyboardKey": 'H', "leftPosition": (5 * whiteNoteWidth) },
+        'A#': { "width": blackNoteWidth, "keyboardKey": 'U', "leftPosition": (6 * whiteNoteWidth) - (blackNoteWidth / 2) + 4 },
+        'B': { "width": whiteNoteWidth, "keyboardKey": 'J', "leftPosition": (6 * whiteNoteWidth) + 8 }
     };
 
     const convertPitchToNote = (pitch) => {
@@ -47,6 +50,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     const noteName = convertPitchToNote(pitch)
 
     const noteWidth = noteKey[noteName]['width']
+    const notekeyboardKey = noteKey[noteName]["keyboardKey"]
     const noteBottomPosition = (noteStart / songLength) * StreamContainerHeight
     const noteLeftPosition = noteKey[noteName]['leftPosition']
 
@@ -55,15 +59,16 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
         height: `${noteHeight}px`,
         width: `${noteWidth}px`,
         bottom: `${noteBottomPosition}px`,
-        left: `${noteLeftPosition}px`,
-
+        left: `${noteLeftPosition + leftPaddingWidth}px`,
     }
 
+    let gameNoteClass;
+    (noteKey[noteName]['width'] === whiteNoteWidth) ? gameNoteClass = 'white-game-note' : gameNoteClass = 'black-game-note';
 
 
     return (
-        <div className='game-note' style={noteStyle} >
-            <div className='note-name'> {noteName}</div>
+        <div className={`game-note ${gameNoteClass}`} id={`game-note-${noteName}`} style={noteStyle} >
+            <div className='note-name'> {notekeyboardKey}</div>
         </div>
     )
 
