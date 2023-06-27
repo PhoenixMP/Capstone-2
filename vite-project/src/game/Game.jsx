@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
@@ -22,7 +22,6 @@ import "./Game.css"
  */
 
 const Game = () => {
-
 
 
     const { midiId, id } = useParams();
@@ -92,7 +91,7 @@ const Game = () => {
                 keyA_inPlay, setKeyA_inPlay, keyW_inPlay, setKeyW_inPlay, keyS_inPlay, setKeyS_inPlay, keyE_inPlay, setKeyE_inPlay, keyD_inPlay, setKeyD_inPlay, keyF_inPlay, setKeyF_inPlay, keyT_inPlay, setKeyT_inPlay, keyG_inPlay, setKeyG_inPlay, keyY_inPlay, setKeyY_inPlay, keyH_inPlay, setKeyH_inPlay, keyU_inPlay, setKeyU_inPlay, keyJ_inPlay, setKeyJ_inPlay
             }}>
                 <div className="game-page-child-2"><StreamContainer isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
-                    <div className="piano-container"><Piano /></div>
+                    <div id="pianoViewport" className="piano-container"><Piano /></div>
                 </div>
             </gameContext.Provider>
 

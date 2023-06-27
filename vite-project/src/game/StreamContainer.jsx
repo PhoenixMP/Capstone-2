@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import GameNote from "./GameNote"
 import LoadingSpinner from "../common/LoadingSpinner";
 import musicContext from "../songs/musicContext";
@@ -17,6 +17,11 @@ import "./Game.css"
  */
 
 const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
+    const gameNoteRefs = useRef([]);
+    const streamRef = useRef();
+    const [observeIntersection, setObserveIntersection] = useState(false);
+    const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+
 
     const { song, trackNotes } = useContext(musicContext);
     const { setKeyA_inPlay,
@@ -32,11 +37,14 @@ const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
         setKeyU_inPlay,
         setKeyJ_inPlay } = useContext(gameContext);
 
+
     const songLength = song.song.song_length
     const bpm = song.song.bpm
     const [streamPosition, setStreamPosition] = useState(0);
     const travelDistance = 100000; // Specify the desired travel distance
     const travelDuration = songLength * 1000; // Specify the desired travel duration in milliseconds
+
+
 
     useEffect(() => {
         let animationFrameId;
@@ -45,30 +53,55 @@ const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
             const currentTime = Date.now();
             const elapsedTime = currentTime - startTime;
 
-            if (elapsedTime >= travelDuration) {
-                setStreamPosition(travelDistance);
+            // Customize this value based on your animation duration
+            const animationDuration = 2000;
+
+            if (elapsedTime >= animationDuration) {
+                setIsAnimationComplete(true);
             } else {
-                const progress = (elapsedTime / travelDuration) * travelDistance;
-                setStreamPosition(progress);
                 animationFrameId = requestAnimationFrame(() => animateStream(startTime));
             }
         };
 
-        if (isAnimationStarted) {
+        if (isAnimationComplete) {
+            // Start observing intersection once the animation is complete
+            const handleIntersection = (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        console.log('Stream entered Piano viewport');
+                        // Perform actions specific to the Stream being in the Piano viewport
+                    } else {
+                        console.log('Stream exited Piano viewport');
+                        // Perform actions specific to the Stream not being in the Piano viewport
+                    }
+                });
+            };
+
+            const options = {
+                root: document.getElementById('pianoViewport'),
+                rootMargin: '0px',
+                threshold: 1.0,
+            };
+
+            const observer = new IntersectionObserver(handleIntersection, options);
+            observer.observe(streamRef.current);
+
+            return () => {
+                observer.unobserve(streamRef.current);
+            };
+        } else {
+            // Start the animation
             const startTime = Date.now();
             animateStream(startTime);
-        } else if (isAnimationStopped) {
-            cancelAnimationFrame(animationFrameId);
-            setStreamPosition(0);
         }
 
         return () => {
             cancelAnimationFrame(animationFrameId);
         };
-    }, [isAnimationStarted, isAnimationStopped]);
+    }, [isAnimationComplete]);
 
     return (
-        <div className="stream-container" style={{ top: `${streamPosition}px` }} >
+        <div ref={streamRef} className="stream-container" style={{ top: `${streamPosition}px` }} >
             {trackNotes.map((note, idx) => (
 
                 <GameNote

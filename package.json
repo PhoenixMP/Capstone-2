@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ffmpeg": "^0.0.4",
+    "subprocess": "^0.3.0"
+  }
+}

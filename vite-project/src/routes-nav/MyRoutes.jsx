@@ -5,7 +5,7 @@ import PrivateRoute from "./PrivateRoute"
 import Home from "../home/Home";
 import Songs from "../songs/Songs";
 import SongDetails from "../songs/SongDetails";
-import Piano from "../piano/Piano"
+
 import Profile from "../profile/Profile"
 import Game from "../game/Game"
 
@@ -47,7 +47,6 @@ function MyRoutes({ login, signup }) {
 
         <Route exact path="/game/:midiId/:id" element={<Game />} />
 
-        <Route exact path="/piano" element={<Piano />} />
 
 
         <Route path="*" element={<Navigate replace to="/" />} />
