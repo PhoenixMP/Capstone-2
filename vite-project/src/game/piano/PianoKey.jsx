@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
+import gameContext from "../gameContext";
 import { useSound } from 'use-sound';
 
 import "../Game.css";
@@ -6,8 +7,12 @@ import "../Game.css";
 
 
 
-function PianoKey({ note, id, className, children, letter, active, pressKey, releaseKey }) {
+function PianoKey({ note, id, className, children, letter }) {
+    const { pressKey, releaseKey, activeKeys } = useContext(gameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
+
+    const active = activeKeys[letter].active
+
 
     useEffect(() => {
         if (active) {
@@ -43,10 +48,10 @@ function PianoKey({ note, id, className, children, letter, active, pressKey, rel
             document.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('keyup', handleKeyUp);
         };
-    }, []);
+    }, [active]);
 
     return (
-        <li id={id} className={`${className} ${active ? 'active' : ''}`}>
+        <li id={id} className={`${className} ${active ? 'active' : ''} `}>
             {children}
         </li>
     );

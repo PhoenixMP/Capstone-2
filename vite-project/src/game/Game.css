@@ -1,29 +1,43 @@
 .game-page-parent {
     display: flex;
+    height: 100vh;
 }
 
 .game-page-child-1 {
-    flex: 1;
-    position: relative;
-    top: 200px
+    flex: 0 0 10px;
+    /* Adjust the width as needed */
+    /* Other styles for game-page-child-1 */
 }
 
 .game-page-child-2 {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
     position: relative;
-    top: -99500px
+    /* Other styles for game-page-child-2 */
 }
-
 
 .stream-container {
-    position: relative;
-    height: 100000px;
+    position: absolute;
+    bottom: 65vh;
+    /* Adjust the value to position the stream container very far up on the page */
     width: 600px;
-    background-color: lightblue
+    background-color: lightblue;
+
 }
+
+.piano-container {
+    position: fixed;
+    top: 40vh;
+    /* Adjust the value to position the piano container 900px below the top of the page */
+    width: 650px;
+    height: 200px;
+    background-color: white;
+    margin: 0;
+    z-index: 0;
+}
+
+
 
 .game-note {
     position: absolute;
@@ -58,13 +72,6 @@
 
 
 
-.piano-container {
-    width: 600px;
-    height: 900px;
-    z-index: 999;
-    background-color: white
-}
-
 
 li {
     margin: 0;
@@ -73,6 +80,7 @@ li {
     position: relative;
     float: left
 }
+
 
 ul .white {
     color: black;

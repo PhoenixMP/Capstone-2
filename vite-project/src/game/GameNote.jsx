@@ -1,6 +1,7 @@
 
-import React from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import "./Game.css"
+import { useInView } from 'react-intersection-observer';
 import gameContext from "./gameContext";
 
 
@@ -15,6 +16,34 @@ import gameContext from "./gameContext";
  */
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
+
+    const { inPlayKeys, streakMultiplier } = useContext(gameContext);
+
+
+
+
+    const { ref, inView } = useInView({
+        /* Optional options */
+        rootMargin: '-40% 0px 0px 0px',
+        threshold: 0,
+    });
+
+
+
+
+    const handleIntersection = (entries) => {
+        entries.forEach((entry) => {
+            if (entry.target.id === id) {
+                if (entry.isIntersecting && entry.intersectionRatio === 1) {
+                    // Fully inside the view
+                    console.log(`GameNote ${id} is fully inside the view.`);
+                } else {
+                    // Not fully inside the view
+                    console.log(`GameNote ${id} is partially visible.`);
+                }
+            }
+        });
+    };
 
 
     const StreamContainerHeight = (songLength / 180) * 100000
@@ -50,7 +79,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     const noteName = convertPitchToNote(pitch)
 
     const noteWidth = noteKey[noteName]['width']
-    const notekeyboardKey = noteKey[noteName]["keyboardKey"]
+    const letter = noteKey[noteName]["keyboardKey"]
     const noteBottomPosition = (noteStart / songLength) * StreamContainerHeight
     const noteLeftPosition = noteKey[noteName]['leftPosition']
 
@@ -66,11 +95,25 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     (noteKey[noteName]['width'] === whiteNoteWidth) ? gameNoteClass = 'white-game-note' : gameNoteClass = 'black-game-note';
 
 
+
+    useEffect(() => {
+
+        if (inView) {
+            let timeout;
+            console.log(`${idx} gameNote inPlay`)
+            timeout = setTimeout(() => console.log(`${idx} gameNote out of Play`), noteLength * 1000);
+        }
+
+    }, [inView, ref]);
+
+
     return (
-        <div className={`game-note ${gameNoteClass}`} id={`game-note-${noteName}`} style={noteStyle} >
-            <div className='note-name'> {notekeyboardKey}</div>
+        <div ref={ref} className={`game-note ${gameNoteClass}`} id={idx} style={noteStyle} >
+            <div className='note-name'>{letter}</div>
         </div>
     )
 
 };
 export default GameNote;
+
+// inPlayKeys = [{ name: 'Y', start: 'time', keyactive: false }]
