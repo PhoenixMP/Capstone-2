@@ -28,22 +28,6 @@ import noteB from './notes-mp3/note_B.mp3';
 function Piano() {
 
 
-    // const [keyAActive, setKeyAActive] = useState(false);
-    // const [keyWActive, setKeyWActive] = useState(false);
-    // const [keySActive, setKeySActive] = useState(false);
-    // const [keyEActive, setKeyEActive] = useState(false);
-    // const [keyDActive, setKeyDActive] = useState(false);
-    // const [keyFActive, setKeyFActive] = useState(false);
-    // const [keyTActive, setKeyTActive] = useState(false);
-    // const [keyGActive, setKeyGActive] = useState(false);
-    // const [keyYActive, setKeyYActive] = useState(false);
-    // const [keyHActive, setKeyHActive] = useState(false);
-    // const [keyUActive, setKeyUActive] = useState(false);
-    // const [keyJActive, setKeyJActive] = useState(false);
-
-
-
-
 
 
 

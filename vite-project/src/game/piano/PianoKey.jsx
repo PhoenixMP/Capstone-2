@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import gameContext from "../gameContext";
 import { useSound } from 'use-sound';
 
@@ -10,35 +10,39 @@ import "../Game.css";
 function PianoKey({ note, id, className, children, letter }) {
     const { pressKey, releaseKey, activeKeys } = useContext(gameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
+    const isKeyDownRef = useRef(false);
+    const [startTime, setStartTime] = useState(null)
 
-    const active = activeKeys[letter].active
-
-
-    useEffect(() => {
-        if (active) {
-            // Play the audio file associated with the key
-            play();
-        } else {
-            // Stop the audio playback
-            stop();
-        }
-    }, [active, play, stop]);
 
     const handleKeyDown = (event) => {
-        if (event.key === letter || event.key === letter.toLowerCase()) {
+        if (!isKeyDownRef.current && (event.key === letter || event.key === letter.toLowerCase())) {
             event.preventDefault();
-            console.log(`${letter} down`);
-            pressKey(letter);
+            const time = Date.now()
+            setStartTime(time)
+            pressKey(letter, time);
+            isKeyDownRef.current = true;
         }
     };
 
     const handleKeyUp = (event) => {
         if (event.key === letter || event.key === letter.toLowerCase()) {
             event.preventDefault();
-            console.log(`${letter} up`);
-            releaseKey(letter);
+            releaseKey(letter, startTime, Date.now());
+            isKeyDownRef.current = false;
         }
     };
+
+    useEffect(() => {
+
+        if (activeKeys.hasOwnProperty(letter)) {
+            // Play the audio file associated with the key
+            play();
+        } else {
+            // Stop the audio playback
+            stop();
+        }
+    }, [activeKeys, play, stop]);
+
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
@@ -48,10 +52,10 @@ function PianoKey({ note, id, className, children, letter }) {
             document.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('keyup', handleKeyUp);
         };
-    }, [active]);
+    }, [startTime]);
 
     return (
-        <li id={id} className={`${className} ${active ? 'active' : ''} `}>
+        <li id={id} className={`${className} ${activeKeys.hasOwnProperty(letter) ? 'active' : ''} `}>
             {children}
         </li>
     );

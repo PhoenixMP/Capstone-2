@@ -17,7 +17,7 @@ import gameContext from "./gameContext";
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
-    const { inPlayKeys, streakMultiplier } = useContext(gameContext);
+    const { removeKeyInPlay, addKeyInPlay } = useContext(gameContext);
 
 
 
@@ -29,21 +29,6 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     });
 
 
-
-
-    const handleIntersection = (entries) => {
-        entries.forEach((entry) => {
-            if (entry.target.id === id) {
-                if (entry.isIntersecting && entry.intersectionRatio === 1) {
-                    // Fully inside the view
-                    console.log(`GameNote ${id} is fully inside the view.`);
-                } else {
-                    // Not fully inside the view
-                    console.log(`GameNote ${id} is partially visible.`);
-                }
-            }
-        });
-    };
 
 
     const StreamContainerHeight = (songLength / 180) * 100000
@@ -100,8 +85,13 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
         if (inView) {
             let timeout;
-            console.log(`${idx} gameNote inPlay`)
-            timeout = setTimeout(() => console.log(`${idx} gameNote out of Play`), noteLength * 1000);
+            const currTime = Date.now()
+            const NoteLength_ms = noteLength * 1000
+            const endTime = currTime + NoteLength_ms
+            addKeyInPlay(letter, currTime, NoteLength_ms)
+            timeout = setTimeout(() => {
+                removeKeyInPlay(letter, endTime);
+            }, NoteLength_ms)
         }
 
     }, [inView, ref]);
