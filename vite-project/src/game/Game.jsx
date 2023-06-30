@@ -33,6 +33,7 @@ const Game = () => {
     const [isAnimationStopped, setIsAnimationStopped] = useState(false);
 
     const [timeoutId, setTimeoutId] = useState({});
+    const [missedKey, setMissedKey] = useState(new Set());
     const [inPlayKeys, setInPlayKeys] = useState({});
     const [activeKeys, setActiveKeys] = useState({});
     const [keysPlayed, setKeysPlayed] = useState([]);
@@ -41,89 +42,51 @@ const Game = () => {
 
     const [accuracyAlert, setAccuracyAlert] = useState({})
 
-    const [accuracyStatus, setAccuracyStatus] = useState({
-        'A': { 'acurate': false },
-        'W': { 'acurate': false },
-        'S': { 'acurate': false },
-        'E': { 'acurate': false },
-        'D': { 'acurate': false },
-        'F': { 'acurate': false },
-        'T': { 'acurate': false },
-        'G': { 'acurate': false },
-        'Y': { 'acurate': false },
-        'H': { 'acurate': false },
-        'U': { 'acurate': false },
-        'J': { 'acurate': false }
-    })
+
     const [streakCount, setStreakCount] = useState(0);
     const [streakMultiplier, setStreakMultiplier] = useState(1);
     const [startNoteScore, setStartNoteScore] = useState({})
     const [endNoteScore, setEndNoteScore] = useState({})
+    const [scoreQueue, setScoreQueue] = useState([])
     const [totalScore, setTotalScore] = useState(0);
 
-
-
-    // useEffect(() => {
-    //     console.log('inPlayKeys:', inPlayKeys)
-    // }, [inPlayKeys])
-
-    // useEffect(() => {
-    //     console.log('activeKeys:', activeKeys)
-    // }, [activeKeys])
-    // useEffect(() => {
-    //     console.log('startNoteScore:', startNoteScore)
-    // }, [startNoteScore])
-    // useEffect(() => {
-    //     console.log('endNoteScore:', endNoteScore)
-    // }, [endNoteScore])
-    useEffect(() => {
-        if (Object.keys(accuracyAlert).length !== 0) {
-            console.log('accuracyAlert:', accuracyAlert)
-        }
-    }, [accuracyAlert])
-
-
-    useEffect(() => {
-        console.log('streakCount:', streakCount)
-    }, [streakCount])
-
-    useEffect(() => {
-        console.log('streakMultiplier:', streakMultiplier)
-    }, [streakMultiplier])
-
-    useEffect(() => {
-        console.log('totalScore:', totalScore)
-    }, [totalScore])
+    const maxDelay = 4000;
 
 
 
-
-
+    // console.log('streakCount:', streakCount);
+    // console.log('streakMultiplier:', streakMultiplier);
+    // console.log('totalScore:', totalScore);
 
 
 
     const resetNote = (keyLetter) => {
-        setAccuracyStatus(prevState => ({
-            ...prevState,
-            [keyLetter]: { 'accurate': false }
-        }));
         setAccuracyAlert(prevState => {
             const newState = { ...prevState };
             delete newState[keyLetter];
             return newState;
         });
+        if (startNoteScore.hasOwnProperty(keyLetter) && endNoteScore.hasOwnProperty(keyLetter)) {
+            const score = startNoteScore[keyLetter] + endNoteScore[keyLetter]
+            setScoreQueue(prevState => [...prevState, score])
 
-    }
+            setStartNoteScore(prevState => {
+                const newState = { ...prevState };
+                delete newState[keyLetter];
+                return newState;
+            });
+
+            setEndNoteScore(prevState => {
+                const newState = { ...prevState };
+                delete newState[keyLetter];
+                return newState;
+            });
+        };
+    };
 
 
     const handleRightTiming = (type, keyLetter, phrase, score) => {
         if (type === 'start') {
-
-            setAccuracyStatus(prevState => ({
-                ...prevState,
-                [keyLetter]: { 'accurate': true }
-            }));
-
             setAccuracyAlert(prevState => ({
                 ...prevState,
                 [keyLetter]: phrase
@@ -136,177 +99,190 @@ const Game = () => {
 
 
         } else if (type === 'end') {
-
-            if (startNoteScore[keyLetter]) {
-
-
+            if (startNoteScore.hasOwnProperty(keyLetter)) {
                 setEndNoteScore(prevState => ({
                     ...prevState,
                     [keyLetter]: score * streakMultiplier
                 }));
 
-            } else {
-                setStartNoteScore(prevState => {
-                    const newState = { ...prevState };
-                    delete newState[keyLetter];
-                    return newState;
-                });
+                resetNote(keyLetter);
             }
-            resetNote(keyLetter);
         }
-    }
+    };
 
     const handleWrongTiming = (type, keyLetter) => {
-        setStreakCount(0)
-        console.log(type)
+        if (streakCount !== 0) setStreakCount(0);
 
         if (type === 'start') {
-            console.log('missed the key!')
-
-            setAccuracyStatus(prevState => ({
-                ...prevState,
-                [keyLetter]: { 'accurate': false }
-            }));
-
             setAccuracyAlert(prevState => ({
                 ...prevState,
                 [keyLetter]: 'Miss'
             }));
 
-
         } else if (type === 'end') {
-            console.log('Lost they key!')
-
-
-            setEndNoteScore(prevState => ({
-                ...prevState,
-                [keyLetter]: 0
-            }));
-
-
-
-
+            if (startNoteScore.hasOwnProperty(keyLetter)) {
+                setEndNoteScore(prevState => ({
+                    ...prevState,
+                    [keyLetter]: 0
+                }));
+            }
             resetNote(keyLetter);
         }
-    }
-
-
-
-
-
-
-    const checkTiming = (type, keyLetter, timeDelay) => {
-
-        let phrase;
-        let score;
-
-        if (timeDelay >= 1000) {
-            phrase = 'Miss'
-            score = 0;
-        } else if (timeDelay >= 50 && timeDelay < 1000) {
-            phrase = 'Good!'
-            score = 1;
-        } else if (timeDelay >= 30 && timeDelay < 50) {
-            phrase = 'Great!'
-            score = 2;
-
-        } else if (timeDelay < 30) {
-            phrase = 'Perfect!'
-            score = 3;
-        }
-
-        checkPhrase(type, keyLetter, phrase, score);
-    }
+    };
 
 
     const checkPhrase = (type, keyLetter, phrase, score) => {
         if (phrase === 'Miss') {
-            handleWrongTiming(type, keyLetter)
+            handleWrongTiming(type, keyLetter);
         } else {
-            handleRightTiming(type, keyLetter, phrase, score)
+            handleRightTiming(type, keyLetter, phrase, score);
         }
-    }
+    };
+
+
+    const checkTiming = (type, keyLetter, timeDelay) => {
+        let phrase;
+        let score;
+
+        if (timeDelay >= maxDelay) {
+            phrase = 'Miss'
+            score = 0;
+        } else if ((timeDelay >= 1000) && (timeDelay < maxDelay)) {
+            phrase = 'Good!'
+            score = 1;
+        } else if (timeDelay >= 100 && timeDelay < 500) {
+            phrase = 'Great!'
+            score = 2;
+        } else if (timeDelay < 100) {
+            phrase = 'Perfect!'
+            score = 3;
+        }
+        checkPhrase(type, keyLetter, phrase, score);
+    };
+
+
+
+    const compareKeyStarts = (keyLetter, startTime, callBackCount) => {
+        console.log('comparing key start')
+        console.log('callbackcount', callBackCount)
+        if (inPlayKeys.hasOwnProperty(keyLetter)) {
+            console.log('we pressed an in-play-key')
+
+            setMissedKey((prevSet) => {
+                const updatedSet = new Set(prevSet);
+                updatedSet.delete(keyLetter);
+                return updatedSet;
+            });
+
+            const inPlayStart = inPlayKeys[keyLetter]['startTime']
+            const timeDelay = Math.abs(startTime - inPlayStart)
+            console.log('timeDelay start', timeDelay)
+            console.log('about to checking timing of keypress')
+            checkTiming('start', keyLetter, timeDelay)
+        } else {
+            if (callBackCount > 0) {
+                handleWrongTiming('start', keyLetter)
+                return;
+
+            } else {
+                const timeout = setTimeout(() => {
+                    clearTimeout(timeoutId[keyLetter]);
+                    compareKeyStarts(keyLetter, startTime, callBackCount + 1);
+                }, 100);
+
+                setTimeoutId(prevState => ({
+                    ...prevState,
+                    [keyLetter]: { timeout }
+                }));
+            }
+        }
+    };
+
+
+    const compareKeyEnds = (keyLetter, endTime) => {
+        if (inPlayKeys.hasOwnProperty(keyLetter)) {
+
+            setMissedKey((prevSet) => {
+                const updatedSet = new Set(prevSet);
+                updatedSet.delete(keyLetter);
+                return updatedSet;
+            });
+
+            const inPlayEnd = inPlayKeys[keyLetter]['endTime'];
+            const timeDelay = Math.abs(endTime - inPlayEnd);
+            console.log(`released early, TimeDelay: ${timeDelay}`)
+            checkTiming('end', keyLetter, timeDelay);
+        } else {
+            if (lastInPlay.hasOwnProperty(keyLetter)) {
+                const inPlayEnd = lastInPlay[keyLetter]['endTime'];
+                const timeDelay = Math.abs(endTime - inPlayEnd);
+                console.log(`released late, timedelay: ${timeDelay}`)
+                checkTiming('end', keyLetter, timeDelay);
+            } else {
+                handleWrongTiming('end', keyLetter)
+            }
+        }
+    };
+
+
 
 
     //handling played keys
     const pressKey = (keyLetter, startTime) => {
-        // Check if the key is active
-        if (inPlayKeys.hasOwnProperty(keyLetter)) {
-            const inPlayStart = inPlayKeys[keyLetter]['startTime']
-            const timeDelay = Math.abs(startTime - inPlayStart) - 3000
-            checkTiming('start', keyLetter, timeDelay)
-            console.log('normalkeypress, timedelay', timeDelay)
-
-        } else {
-
-            const timeout = setTimeout(() => {
-                clearTimeout(timeoutId[keyLetter]);
-                if (inPlayKeys.hasOwnProperty(keyLetter)) {
-                    const inPlayStart = inPlayKeys[keyLetter]['startTime']
-                    const timeDelay = Math.abs(startTime - inPlayStart) - 3000
-                    console.log('delaykeypress, timedelay', timeDelay)
-                    checkTiming('start', keyLetter, timeDelay)
-
-                } else {
-                    handleWrongTiming('start', keyLetter)
-
-                }
-            }, 100);
-
-            setTimeoutId(prevState => ({
-                ...prevState,
-                [keyLetter]: { timeout }
-            }));; // Store the new timeout ID
-
-        }
-
         setActiveKeys(prevState => ({
             ...prevState,
             [keyLetter]: { startTime }
         }));
+        console.log('activeKeys', activeKeys)
+        compareKeyStarts(keyLetter, startTime, 0)
     };
 
 
+
     const releaseKey = (keyLetter, startTime, endTime) => {
-        if (inPlayKeys.hasOwnProperty(keyLetter)) {
-            const inPlaystart = inPlayKeys[keyLetter]['startTime'];
-            const inPlayEnd = inPlaystart + inPlayKeys[keyLetter]['noteLength'];
-            const timeDelay = Math.abs(endTime - inPlayEnd);
-            console.log(`releasekey TimeDelay`, timeDelay)
-            checkTiming('end', keyLetter, timeDelay);
-            clearTimeout(timeoutId[keyLetter]);
-        }
-
-
-
         setActiveKeys(prevState => {
             const newState = { ...prevState };
             delete newState[keyLetter];
             return newState;
         })
-        setKeysPlayed(prevState => [{ 'keyLetter': keyLetter, 'startTime': startTime, 'endTime': endTime }, ...prevState])
+        compareKeyEnds(keyLetter, endTime);
 
+        setKeysPlayed(prevState => [{ 'keyLetter': keyLetter, 'startTime': startTime, 'endTime': endTime }, ...prevState])
     };
+
 
 
     //handling gameNotes
-    const addKeyInPlay = (keyLetter, startTime, noteLength) => {
+    const addKeyInPlay = (keyLetter, startTime, endTime) => {
 
         setInPlayKeys(prevState => ({
             ...prevState,
-            [keyLetter]: { startTime, noteLength }
+            [keyLetter]: { startTime, endTime }
         }));
-
+        console.log('inplay keys', inPlayKeys)
+        if (!activeKeys.hasOwnProperty(keyLetter)) {
+            setMissedKey((prevSet) => new Set(prevSet).add(keyLetter));
+        }
     };
 
-    const removeKeyInPlay = (keyLetter, endTime) => {
 
+    const removeKeyInPlay = (keyLetter, endTime) => {
 
         setInPlayKeys(prevState => {
             const newState = { ...prevState };
             delete newState[keyLetter];
             return newState;
         });
+
+        if (missedKey.has(keyLetter)) {
+            if (streakCount !== 0) setStreakCount(0);
+            setMissedKey((prevSet) => {
+                const updatedSet = new Set(prevSet);
+                updatedSet.delete(keyLetter);
+                return updatedSet;
+            });
+        };
+
         setLastInPlay(prevState => ({
             ...prevState,
             [keyLetter]: { endTime }
@@ -326,27 +302,16 @@ const Game = () => {
 
 
     useEffect(function handleScore() {
-        let noteTotal;
-        if (endNoteScore !== {}) {
-            Object.keys(endNoteScore).forEach((key) => {
-                noteTotal = + (startNoteScore[key] + endNoteScore[key]);
-                setStreakCount(prevState => prevState + 1)
-
-                setEndNoteScore(prevState => {
-                    const newState = { ...prevState };
-                    delete newState[key];
-                    return newState;
-                });
-                setStartNoteScore(prevState => {
-                    const newState = { ...prevState };
-                    delete newState[key];
-                    return newState;
-                });
-                setTotalScore(prevState => prevState + noteTotal)
+        let noteTotal = 0;
+        if (scoreQueue.length > 0) {
+            scoreQueue.forEach((score) => {
+                noteTotal = + score;
             });
+            setTotalScore(prevState => prevState + noteTotal)
+            setScoreQueue([])
         }
 
-    }, [endNoteScore])
+    }, [scoreQueue])
 
 
 
@@ -388,11 +353,14 @@ const Game = () => {
         <div className="game-page-parent">
             <div className="game-page-child-1">
                 <MidiPlayerComponent fullSong={true} />
+                <div>Streak:{streakCount}</div>
+                <div>Score:{totalScore}</div>
+
                 <button onClick={handleStartAnimation}>Start</button>
                 <button onClick={handleStopAnimation}>Stop</button>
             </div>
 
-            <gameContext.Provider value={{ accuracyStatus, inPlayKeys, activeKeys, removeKeyInPlay, addKeyInPlay, streakMultiplier, pressKey, releaseKey }}>
+            <gameContext.Provider value={{ accuracyAlert, inPlayKeys, activeKeys, removeKeyInPlay, addKeyInPlay, streakMultiplier, pressKey, releaseKey }}>
                 <div className="game-page-child-2"><StreamContainer isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
                     <div className="piano-container"><Piano /></div>
                 </div>

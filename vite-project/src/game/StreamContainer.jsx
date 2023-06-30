@@ -20,7 +20,7 @@ const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
 
 
 
-    const travelDistance = (songLength / 180) * 100000
+    const travelDistance = songLength * (10000 / 60)
     const travelDuration = songLength * 1000; // Specify the desired travel duration in milliseconds
 
 
@@ -63,7 +63,7 @@ const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
     return (
         <div
             className="stream-container"
-            style={{ bottom: `calc(65vh - ${streamDistance}px)`, height: `${travelDistance}px` }}
+            style={{ bottom: `calc(50% - ${streamDistance}px)`, height: `${travelDistance}px` }}
         >
             {
                 trackNotes.map((note, idx) => (
@@ -83,6 +83,7 @@ const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
 };
 
 export default StreamContainer;
+
 
 
 

@@ -8,16 +8,18 @@ import "../Game.css";
 
 
 function PianoKey({ note, id, className, children, letter }) {
-    const { pressKey, releaseKey, activeKeys } = useContext(gameContext);
+    const { pressKey, releaseKey, activeKeys, accuracyAlert } = useContext(gameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
     const isKeyDownRef = useRef(false);
     const [startTime, setStartTime] = useState(null)
+    let noteStatus = ''
 
 
     const handleKeyDown = (event) => {
         if (!isKeyDownRef.current && (event.key === letter || event.key === letter.toLowerCase())) {
             event.preventDefault();
             const time = Date.now()
+            console.log(time)
             setStartTime(time)
             pressKey(letter, time);
             isKeyDownRef.current = true;
@@ -54,8 +56,14 @@ function PianoKey({ note, id, className, children, letter }) {
         };
     }, [startTime]);
 
+
+
     return (
-        <li id={id} className={`${className} ${activeKeys.hasOwnProperty(letter) ? 'active' : ''} `}>
+        <li id={id} className={
+            `${className} 
+            ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
+            ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
+            ${activeKeys.hasOwnProperty(letter) ? 'active' : ''} `}>
             {children}
         </li>
     );

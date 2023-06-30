@@ -14,27 +14,36 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    /* Other styles for game-page-child-2 */
+    justify-content: flex-end;
+
 }
 
 .stream-container {
     position: absolute;
-    bottom: 65vh;
     /* Adjust the value to position the stream container very far up on the page */
     width: 600px;
+    margin-bottom: 0;
+    padding-bottom: 0;
     background-color: lightblue;
+
+
+
+
 
 }
 
 .piano-container {
     position: fixed;
-    top: 40vh;
+    bottom: 50%;
     /* Adjust the value to position the piano container 900px below the top of the page */
     width: 650px;
-    height: 200px;
+    height: 800px;
     background-color: white;
     margin: 0;
-    z-index: 0;
+    padding-top: 0;
+    transform: translatey(820px);
+    z-index: 1;
+
 }
 
 
@@ -59,6 +68,8 @@
     background: linear-gradient(to bottom, #eee 0%, #fff 100%)
 }
 
+
+
 .black-game-note {
     color: white;
     border: 1px solid #000;
@@ -67,11 +78,22 @@
     background: linear-gradient(45deg, #222 0%, #555 100%)
 }
 
+.white-game-note.accurate,
+.black-game-note.accurate {
+    background: linear-gradient(to bottom, #fff 0%, #152db5 100%)
+}
+
+.white-game-note.inaccurate,
+.black-game-note.inaccurate {
+    background: linear-gradient(to bottom, #fff 0%, #b51515 100%)
+}
 
 
 
-
-
+ul {
+    margin-top: 0;
+    padding-top: 0;
+}
 
 li {
     margin: 0;
@@ -82,7 +104,7 @@ li {
 }
 
 
-ul .white {
+.key.white {
     color: black;
     height: 220px;
     width: 70px;
@@ -94,8 +116,8 @@ ul .white {
     background: linear-gradient(to bottom, #eee 0%, #fff 100%)
 }
 
-ul .white:active,
-.white.active {
+.key.white:active,
+.key.white.active {
     border-top: 1px solid #777;
     border-left: 1px solid #999;
     border-bottom: 1px solid #999;
@@ -103,7 +125,17 @@ ul .white:active,
     background: linear-gradient(to bottom, #fff 0%, #e9e9e9 100%)
 }
 
-.black {
+.key.white.accurate.active,
+.key.black.accurate.active {
+    background: linear-gradient(to bottom, #fff 0%, #152db5 100%)
+}
+
+.key.white.inaccurate.active,
+.key.black.inaccurate.active {
+    background: linear-gradient(to bottom, #fff 0%, #b51515 100%)
+}
+
+.key.black {
     color: white;
     height: 130px;
     width: 35px;
@@ -115,8 +147,8 @@ ul .white:active,
     background: linear-gradient(45deg, #222 0%, #555 100%)
 }
 
-.black:active,
-.black.active {
+.key.black:active,
+.key.black.active {
     box-shadow: -1px -1px 2px rgba(255, 255, 255, 0.2) inset, 0 -2px 2px 3px rgba(0, 0, 0, 0.6) inset, 0 1px 2px rgba(0, 0, 0, 0.5);
     background: linear-gradient(to right, #444 0%, #222 100%)
 }

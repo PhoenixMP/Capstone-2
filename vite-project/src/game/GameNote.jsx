@@ -17,21 +17,21 @@ import gameContext from "./gameContext";
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
-    const { removeKeyInPlay, addKeyInPlay } = useContext(gameContext);
+    const { removeKeyInPlay, inPlayKeys, addKeyInPlay, accuracyAlert } = useContext(gameContext);
 
 
 
 
     const { ref, inView } = useInView({
         /* Optional options */
-        rootMargin: '-40% 0px 0px 0px',
+        rootMargin: '-50% 0px 0px 0px',
         threshold: 0,
     });
 
 
 
 
-    const StreamContainerHeight = (songLength / 180) * 100000
+    const StreamContainerHeight = songLength * (10000 / 60)
     const StreamContainerWidth = 600
     const noteLength = noteEnd - noteStart
     const noteHeight = (noteLength / songLength) * StreamContainerHeight
@@ -88,7 +88,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
             const currTime = Date.now()
             const NoteLength_ms = noteLength * 1000
             const endTime = currTime + NoteLength_ms
-            addKeyInPlay(letter, currTime, NoteLength_ms)
+            addKeyInPlay(letter, currTime, endTime)
             timeout = setTimeout(() => {
                 removeKeyInPlay(letter, endTime);
             }, NoteLength_ms)
@@ -98,7 +98,13 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
 
     return (
-        <div ref={ref} className={`game-note ${gameNoteClass}`} id={idx} style={noteStyle} >
+        <div ref={ref} className=
+            {`game-note 
+            ${gameNoteClass}
+            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'in//accurate' : ''} 
+            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
+        `}
+            id={idx} style={noteStyle} >
             <div className='note-name'>{letter}</div>
         </div>
     )
@@ -106,4 +112,5 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 };
 export default GameNote;
 
-// inPlayKeys = [{ name: 'Y', start: 'time', keyactive: false }]
+//            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'in//accurate' : ''} 
+//${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
