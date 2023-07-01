@@ -5,15 +5,14 @@ import musicContext from "../songs/musicContext";
 import gameContext from "./gameContext";
 import "./Game.css";
 
-const StreamContainer = ({ isAnimationStarted, isAnimationStopped }) => {
+const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopped }) => {
 
 
 
     const { song, trackNotes } = useContext(musicContext);
     // const { setKeyA_inPlay, setKeyW_inPlay, setKeyS_inPlay, setKeyE_inPlay, setKeyD_inPlay, setKeyF_inPlay, setKeyT_inPlay, setKeyG_inPlay, setKeyY_inPlay, setKeyH_inPlay, setKeyU_inPlay, setKeyJ_inPlay } = useContext(gameContext);
 
-    const songLength = song.song.song_length;
-    const bpm = song.song.bpm;
+
 
     const [streamDistance, setStreamDistance] = useState(0)
 

@@ -29,6 +29,9 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     });
 
 
+    const beatsPerSecond = bpm / 60
+    const miliSecondsPerBeat = 1000 / (beatsPerSecond)
+    const wholeNoteLength = 4 * miliSecondsPerBeat
 
 
     const StreamContainerHeight = songLength * (10000 / 60)
@@ -42,7 +45,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
     const noteKey = {
         'C': { "width": whiteNoteWidth, "keyboardKey": 'A', "leftPosition": 0 },
-        'C#': { "width": blackNoteWidth, "keyboardKey": 'W', "leftPosition": whiteNoteWidth - (blackNoteWidth / 2) - 8 },
+        'C#': { "width": blackNoteWidth, "keyboardKey": 'W', "leftPosition": whiteNoteWidth - (blackNoteWidth / 2) - 20 },
         'D': { "width": whiteNoteWidth, "keyboardKey": 'S', "leftPosition": whiteNoteWidth },
         'D#': { "width": blackNoteWidth, "keyboardKey": 'E', "leftPosition": (2 * whiteNoteWidth) - (blackNoteWidth / 2) - 4 },
         'E': { "width": whiteNoteWidth, "keyboardKey": 'D', "leftPosition": (2 * whiteNoteWidth) },
@@ -85,13 +88,16 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
         if (inView) {
             let timeout;
-            const currTime = Date.now()
-            const NoteLength_ms = noteLength * 1000
-            const endTime = currTime + NoteLength_ms
-            addKeyInPlay(letter, currTime, endTime)
+            const currTime = Date.now();
+            const noteLength_ms = noteLength * 1000;
+            const endTime = currTime + noteLength_ms;
+            const isLongNote = noteLength_ms >= wholeNoteLength;
+
+            addKeyInPlay(letter, currTime, endTime, isLongNote);
+
             timeout = setTimeout(() => {
                 removeKeyInPlay(letter, endTime);
-            }, NoteLength_ms)
+            }, noteLength_ms);
         }
 
     }, [inView, ref]);
@@ -101,8 +107,8 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
         <div ref={ref} className=
             {`game-note 
             ${gameNoteClass}
-            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'in//accurate' : ''} 
-            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
+ 
+            ${inView ? 'accurate' : ''} 
         `}
             id={idx} style={noteStyle} >
             <div className='note-name'>{letter}</div>
@@ -112,5 +118,6 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 };
 export default GameNote;
 
-//            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'in//accurate' : ''} 
-//${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
+// ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
+// ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
+

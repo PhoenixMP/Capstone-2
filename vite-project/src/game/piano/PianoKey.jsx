@@ -19,7 +19,6 @@ function PianoKey({ note, id, className, children, letter }) {
         if (!isKeyDownRef.current && (event.key === letter || event.key === letter.toLowerCase())) {
             event.preventDefault();
             const time = Date.now()
-            console.log(time)
             setStartTime(time)
             pressKey(letter, time);
             isKeyDownRef.current = true;
