@@ -58,7 +58,8 @@ router.get("/", checkAPIToken, async function (req, res, next) {
 router.get("/:mp3Id", checkAPIToken, async function (req, res, next) {
     try {
         const mp3Id = req.params.mp3Id
-        const song = await Song.get(mp3Id);
+        const songRes = await Song.get(mp3Id);
+        const { song, notes } = songRes
         const baseUrl = `${req.protocol}://${req.get('host')}`;
         const mp3Data = await Song.getmp3(mp3Id, baseUrl)
 
@@ -66,7 +67,7 @@ router.get("/:mp3Id", checkAPIToken, async function (req, res, next) {
 
         // Additional JSON data to include in the response
         const jsonData = {
-            song,
+            song, notes,
             mp3Data
         };
 

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
-import musicContext from "./musicContext";
+import musicContext from "../songs/musicContext";
 
 
 
@@ -22,8 +22,9 @@ const SongDetails = () => {
     const navigate = useNavigate();
 
 
-    const { song, setSong, setNotes } = useContext(musicContext);
+    const { song, setSong, setNotes, encodedData, setEncodedData } = useContext(musicContext);
     console.log(song)
+    console.log("encodedData", encodedData)
 
 
     const navigateGame = () => {
@@ -34,11 +35,13 @@ const SongDetails = () => {
     useEffect(function getSongInfo() {
         async function getSong() {
             const newSong = await Melodic2API.getSong(mp3Id);
-            setSong(newSong);
-            setNotes(newSong.notes)
+            setSong(newSong.song);
+            setNotes(newSong.notes.notes)
 
+            setEncodedData(newSong.mp3Data.encodedSong)
         }
         getSong();
+
 
     }, [mp3Id]);
 
@@ -48,8 +51,8 @@ const SongDetails = () => {
 
     return (
         <div>
-            <h4>{song.song.title}</h4>
-            <br />{song.song.dir}
+            <h4>{song.title}</h4>
+            <br />{song.dir}
             <br /> <button onClick={navigateGame}>Play!</button>
 
 

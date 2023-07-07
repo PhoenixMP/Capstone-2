@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
+import Mp3Player from "./Mp3Player";
 import StreamContainer from "./StreamContainer";
 import Piano from "./piano/Piano";
 import gameContext from "./gameContext";
@@ -28,8 +29,8 @@ const Game = () => {
     const { mp3Id, id } = useParams();
     const { notes, setNotes, song } = useContext(musicContext);
 
-    const songLength = song.song.song_length;
-    const bpm = song.song.bpm;
+    const songLength = song.song_length;
+    const bpm = song.bpm;
 
 
 
@@ -389,8 +390,8 @@ const Game = () => {
                 <div>Streak:{streakCount}</div>
                 <div>Score:{totalScore}</div>
 
-                <button onClick={handleStartAnimation}>Start</button>
-                <button onClick={handleStopAnimation}>Stop</button>
+
+                <div><Mp3Player handleStartAnimation={handleStartAnimation} handleStopAnimation={handleStopAnimation} /></div>
             </div>
 
             <gameContext.Provider value={{ accuracyAlert, inPlayKeys, activeKeys, removeKeyInPlay, addKeyInPlay, streakMultiplier, pressKey, releaseKey }}>

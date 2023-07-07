@@ -15,7 +15,7 @@ const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopp
 
 
     const [streamDistance, setStreamDistance] = useState(0)
-    console.log('song:', song)
+
 
 
 
@@ -65,6 +65,19 @@ const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopp
             className="stream-container"
             style={{ bottom: `calc(50% - ${streamDistance}px)`, height: `${travelDistance}px` }}
         >
+            {
+                notes.map((note, idx) => (
+                    <GameNote
+                        key={idx}
+                        idx={idx}
+                        noteStart={note.start}
+                        noteEnd={note.end}
+                        pitch={note.pitch}
+                        songLength={songLength}
+                        bpm={bpm}
+                    />
+                ))
+            }
 
         </div >
     );
@@ -75,16 +88,3 @@ export default StreamContainer;
 
 
 
-// {
-//     notes.map((note, idx) => (
-//         <GameNote
-//             key={idx}
-//             idx={idx}
-//             noteStart={note.start}
-//             noteEnd={note.end}
-//             pitch={note.pitch}
-//             songLength={songLength}
-//             bpm={bpm}
-//         />
-//     ))
-// }
