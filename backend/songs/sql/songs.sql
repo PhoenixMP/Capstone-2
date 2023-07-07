@@ -6,9 +6,8 @@ CREATE DATABASE melodic2_songs;
 \connect melodic2_songs
 
 \i songs-schema.sql
-\i song-data-seed.sql
-\i non-drums-seed.sql
-\i drums-seed.sql
+\i songs-seed.sql
+\i notes-seed.sql
 
 
 \echo 'Delete and recreate melodic2-songs_test db?'

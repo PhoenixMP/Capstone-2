@@ -30,8 +30,7 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
   const [song, setSong] = useLocalStorage("song", null);
-  const [track, setTrack] = useLocalStorage("track", null);
-  const [trackNotes, setTrackNotes] = useState(null);
+  const [notes, setNotes] = useState(null);
 
 
 
@@ -104,7 +103,7 @@ function App() {
 
     <BrowserRouter>
       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-        <musicContext.Provider value={{ song, setSong, trackNotes, setTrackNotes, track, setTrack }}>
+        <musicContext.Provider value={{ song, setSong, notes, setNotes }}>
           <div>
             <MyNav logout={logout} />
             <MyRoutes login={login} signup={signup} />

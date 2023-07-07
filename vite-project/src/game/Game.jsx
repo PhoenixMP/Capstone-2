@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
-import MidiPlayerComponent from "../songs/midi/MidiPlayer"
 import StreamContainer from "./StreamContainer";
 import Piano from "./piano/Piano";
 import gameContext from "./gameContext";
@@ -26,8 +25,8 @@ import "./Game.css"
 const Game = () => {
 
 
-    const { midiId, id } = useParams();
-    const { trackNotes, setTrackNotes, song, setTrack } = useContext(musicContext);
+    const { mp3Id, id } = useParams();
+    const { notes, setNotes, song } = useContext(musicContext);
 
     const songLength = song.song.song_length;
     const bpm = song.song.bpm;
@@ -378,17 +377,6 @@ const Game = () => {
 
     }, [streakCount])
 
-    useEffect(function getTrackInfo() {
-        async function getTrack() {
-            const newTrack = await Melodic2API.getTrack(id, { type: "non_drum_tracks" });
-            setTrack(newTrack)
-            setTrackNotes(newTrack.notes.reverse())
-
-        }
-        getTrack()
-    }, [midiId, id]);
-
-    if (!trackNotes) return <LoadingSpinner />;
 
 
 
@@ -398,7 +386,6 @@ const Game = () => {
     return (
         <div className="game-page-parent">
             <div className="game-page-child-1">
-                <MidiPlayerComponent fullSong={true} />
                 <div>Streak:{streakCount}</div>
                 <div>Score:{totalScore}</div>
 

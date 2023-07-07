@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Melodic2API from "../api/api";
-import TrackCardList from "./TrackCardList"
-import MidiPlayerComponent from "./midi/MidiPlayer"
 import LoadingSpinner from "../common/LoadingSpinner";
 import musicContext from "./musicContext";
 
@@ -19,19 +18,29 @@ import musicContext from "./musicContext";
 
 const SongDetails = () => {
 
-    const { midiId } = useParams();
-    const { song, setSong } = useContext(musicContext);
+    const { mp3Id } = useParams();
+    const navigate = useNavigate();
+
+
+    const { song, setSong, setNotes } = useContext(musicContext);
     console.log(song)
+
+
+    const navigateGame = () => {
+        // navigate to /
+        navigate(`/game/${mp3Id}`);
+    };
 
     useEffect(function getSongInfo() {
         async function getSong() {
-            const newSong = await Melodic2API.getSong(midiId);
+            const newSong = await Melodic2API.getSong(mp3Id);
             setSong(newSong);
+            setNotes(newSong.notes)
 
         }
         getSong();
 
-    }, [midiId]);
+    }, [mp3Id]);
 
 
     if (!song || !song === true) return <LoadingSpinner />;
@@ -41,9 +50,9 @@ const SongDetails = () => {
         <div>
             <h4>{song.song.title}</h4>
             <br />{song.song.dir}
+            <br /> <button onClick={navigateGame}>Play!</button>
 
-            <MidiPlayerComponent fullSong={true} />
-            <br />{<TrackCardList />}
+
         </div>
     )
 

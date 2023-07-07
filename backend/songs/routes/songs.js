@@ -19,7 +19,7 @@ const router = new express.Router();
 
 
 /** GET /  =>
- *   { songs: [ {midiId, title, dir, ticksPerBeat }, ...] }
+ *   { songs: [ {mp3Id, title, dir, ticksPerBeat }, ...] }
  *
  * Can filter on provided search filters:
  * - title
@@ -46,28 +46,28 @@ router.get("/", checkAPIToken, async function (req, res, next) {
 });
 
 
-/** GET /[midiId]  =>  { song, midiFiles }
+/** GET /[mp3Id]  =>  { song, mp3Files }
  *
- *  song is { midi_id, title, dir, ticksPerBeat, nonDrumTracks, drumTracks}
+ *  song is { mp3_id, title, dir, ticksPerBeat, nonDrumTracks, drumTracks}
 //  *   where nonDrumTracks is [{id, track_name}, ...]
 //  *   and where drumTracks is [{id, track_name}, ...]
  *
  * Authorization required: API_token
  */
 
-router.get("/:midiId", checkAPIToken, async function (req, res, next) {
+router.get("/:mp3Id", checkAPIToken, async function (req, res, next) {
     try {
-        const midiId = req.params.midiId
-        const song = await Song.get(midiId);
+        const mp3Id = req.params.mp3Id
+        const song = await Song.get(mp3Id);
         const baseUrl = `${req.protocol}://${req.get('host')}`;
-        const midiData = await Song.getMidi(midiId, baseUrl)
+        const mp3Data = await Song.getmp3(mp3Id, baseUrl)
 
 
 
         // Additional JSON data to include in the response
         const jsonData = {
             song,
-            midiData
+            mp3Data
         };
 
         // Set the content type as 'application/json'
@@ -81,18 +81,18 @@ router.get("/:midiId", checkAPIToken, async function (req, res, next) {
 
 });
 
-/** PATCH /[midiId] { song } => { song }
+/** PATCH /[mp3Id] { song } => { song }
  *
  * Patches song data.
  *
  * fields can be: { title, dir, ticksPerBeat}
  *
- * Returns { midiId, title, dir, ticksPerBeat }
+ * Returns { mp3Id, title, dir, ticksPerBeat }
  *
  * Authorization required: admin
  */
 
-router.patch("/:midiId", ensureAdmin, async function (req, res, next) {
+router.patch("/:mp3Id", ensureAdmin, async function (req, res, next) {
     try {
         const validator = jsonschema.validate(req.body, songUpdateSchema);
         if (!validator.valid) {
@@ -100,22 +100,22 @@ router.patch("/:midiId", ensureAdmin, async function (req, res, next) {
             throw new BadRequestError(errs);
         }
 
-        const song = await Song.update(req.params.midiId, req.body);
+        const song = await Song.update(req.params.mp3Id, req.body);
         return res.json({ song });
     } catch (err) {
         return next(err);
     }
 });
 
-/** DELETE /[midiId]  =>  { deleted: midiId }
+/** DELETE /[mp3Id]  =>  { deleted: mp3Id }
  *
  * Authorization: admin
  */
 
-router.delete("/:midiId", ensureAdmin, async function (req, res, next) {
+router.delete("/:mp3Id", ensureAdmin, async function (req, res, next) {
     try {
-        await Song.remove(req.params.midiId);
-        return res.json({ deleted: req.params.midiId });
+        await Song.remove(req.params.mp3Id);
+        return res.json({ deleted: req.params.mp3Id });
     } catch (err) {
         return next(err);
     }

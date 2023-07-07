@@ -44,10 +44,10 @@ class Melodic2API {
 
   // Individual API routes
 
-  /** Get details on a song by midiId. */
+  /** Get details on a song by mp3Id. */
 
-  static async getSong(midiId) {
-    let res = await this.request(`songs/${midiId}`);
+  static async getSong(mp3Id) {
+    let res = await this.request(`songs/${mp3Id}`);
     return res;
   }
 
@@ -59,20 +59,6 @@ class Melodic2API {
   }
 
 
-  /** Get tracks for a song. */
-
-  static async getSongTracks(midiId, data) {
-    let res = await this.request(`tracks/midi-id/${midiId}`, data);
-    return res.tracks;
-  }
-
-
-  /** Get track. */
-
-  static async getTrack(id, data) {
-    let res = await this.request(`tracks/id/${id}`, data);
-    return res.track;
-  }
 
   // /** Register New User. */
 

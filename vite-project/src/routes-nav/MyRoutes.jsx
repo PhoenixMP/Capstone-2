@@ -43,9 +43,9 @@ function MyRoutes({ login, signup }) {
 
         <Route exact path="/songs" element={<Songs />} />
 
-        <Route exact path="/song/:midiId" element={<SongDetails />} />
+        <Route exact path="/song/:mp3Id" element={<SongDetails />} />
 
-        <Route exact path="/game/:midiId/:id" element={<Game />} />
+        <Route exact path="/game/:mp3Id" element={<Game />} />
 
 
 

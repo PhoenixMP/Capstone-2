@@ -12,7 +12,7 @@ const { NotFoundError } = require("./expressError");
 
 
 const songsRoutes = require("./songs/routes/songs");
-const tracksRoutes = require("./songs/routes/tracks");
+
 
 
 // const usersAuthRoutes = require("./users/routes/auth");
@@ -34,7 +34,7 @@ app.use(morgan("tiny"));
 
 
 app.use("/songs", songsRoutes);
-app.use("/tracks", tracksRoutes);
+
 
 
 

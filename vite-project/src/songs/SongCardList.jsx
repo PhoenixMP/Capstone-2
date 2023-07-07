@@ -20,8 +20,8 @@ const SongCardList = ({ songs }) => {
         <div>
             {songs.map(song => (
                 <SongCard
-                    key={song.midiId}
-                    midiId={song.midi_id}
+                    key={song.mp3Id}
+                    mp3Id={song.mp3_id}
                     title={song.title}
                     dir={song.dir} />
             ))}

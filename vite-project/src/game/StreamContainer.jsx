@@ -9,12 +9,13 @@ const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopp
 
 
 
-    const { song, trackNotes } = useContext(musicContext);
+    const { song, notes } = useContext(musicContext);
     // const { setKeyA_inPlay, setKeyW_inPlay, setKeyS_inPlay, setKeyE_inPlay, setKeyD_inPlay, setKeyF_inPlay, setKeyT_inPlay, setKeyG_inPlay, setKeyY_inPlay, setKeyH_inPlay, setKeyU_inPlay, setKeyJ_inPlay } = useContext(gameContext);
 
 
 
     const [streamDistance, setStreamDistance] = useState(0)
+    console.log('song:', song)
 
 
 
@@ -64,19 +65,7 @@ const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopp
             className="stream-container"
             style={{ bottom: `calc(50% - ${streamDistance}px)`, height: `${travelDistance}px` }}
         >
-            {
-                trackNotes.map((note, idx) => (
-                    <GameNote
-                        key={idx}
-                        idx={idx}
-                        noteStart={note.start}
-                        noteEnd={note.end}
-                        pitch={note.pitch}
-                        songLength={songLength}
-                        bpm={bpm}
-                    />
-                ))
-            }
+
         </div >
     );
 };
@@ -86,3 +75,16 @@ export default StreamContainer;
 
 
 
+// {
+//     notes.map((note, idx) => (
+//         <GameNote
+//             key={idx}
+//             idx={idx}
+//             noteStart={note.start}
+//             noteEnd={note.end}
+//             pitch={note.pitch}
+//             songLength={songLength}
+//             bpm={bpm}
+//         />
+//     ))
+// }

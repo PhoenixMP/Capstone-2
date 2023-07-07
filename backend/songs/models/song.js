@@ -21,49 +21,19 @@ const db = generalDB;
 /** Related functions for songs. */
 
 class Song {
-  static async getMidi(midiId, baseUrl) {
+  static async getmp3(mp3Id, baseUrl) {
 
-    const folderPath = path.resolve(`./songs/midi/${midiId}`);
-    const tracks = fs.readdirSync(folderPath)
-
-    let song;
-    for (const [i, file] of tracks.entries()) {
-      if (file.includes('full.mid')) {
-        song = tracks.splice(i, 1)
-      }
-    }
-
-
-    const songPath = path.join(folderPath, song[0]);
-
+    const folderPath = path.resolve(`./songs/mp3/${mp3Id}`);
+    const songs = fs.readdirSync(folderPath);
+    console.log(songs[0])
+    const song = songs[0]
+    const songPath = path.join(folderPath, song);
     const songData = fs.readFileSync(songPath)
     const encodedSong = songData.toString('base64');
+    const mp3Data = { encodedSong }
 
 
-
-
-    // Prepare an array to store the encoded data for each track and the song
-    const encodedTracks = [];
-    // Iterate over each track
-    tracks.forEach(track => {
-      const trackPath = path.join(folderPath, track);
-
-      // Read the contents of the track file
-
-      const trackData = fs.readFileSync(trackPath);
-      const encodedData = trackData.toString('base64');
-
-      const parts1 = track.split('-');
-      const parts2 = parts1[2].split('.')
-      let trackName = `${parts1[1]} ${parts2[0]}`;
-      trackName = trackName.charAt(0).toUpperCase() + trackName.slice(1);
-      // Store the encoded data in the array
-      encodedTracks.push({ midiName: track, trackName, encodedData });
-    });
-
-    const midiData = { encodedSong: { song: song[0], encodedSong }, encodedTracks }
-
-    return midiData
+    return mp3Data
   };
 
 
@@ -75,11 +45,11 @@ class Song {
   //  * - dir
   //  * 
   //  *
-  //  * Returns [{ midi_id, title, dir, song_length, bpm }, ...]
+  //  * Returns [{ mp3_id, title, dir, song_length, bpm }, ...]
   //  * */
 
   static async findAll(searchFilters = {}) {
-    let query = `SELECT midi_id,
+    let query = `SELECT mp3_id,
                         title,
                         dir,
                         song_length,
@@ -117,7 +87,7 @@ class Song {
 
   // /** Given a song, return data about song.
   //  *
-  //  * Returns { midi_id, title, dir, song_length, bpm, non_drum_tracks, drum_tracks}
+  //  * Returns { mp3_id, title, dir, song_length, bpm, non_drum_tracks, drum_tracks}
   //  *   where non_drum_tracks is [{id, track_name}, ...]
   //  *   and where drum_tracks is [{id, track_name}, ...]
 
@@ -125,42 +95,34 @@ class Song {
   //  * Throws NotFoundError if not found.
   //  **/
 
-  static async get(midiId) {
+  static async get(mp3Id) {
     const songRes = await db.query(
-      `SELECT midi_id,
+      `SELECT mp3_id,
           title,
           dir,
           song_length,
           bpm
           FROM songs
-           WHERE midi_id = $1`,
-      [midiId]);
+           WHERE mp3_id = $1`,
+      [mp3Id]);
 
     const song = songRes.rows[0];
 
-    if (!song) throw new NotFoundError(`No song: ${midiId}`);
+    if (!song) throw new NotFoundError(`No song: ${mp3Id}`);
 
-    const nonDrumTrackRes = await db.query(
-      `SELECT id, program, track_name
-           FROM non_drum_tracks
-           WHERE midi_id = $1
-           ORDER BY id`,
-      [midiId]
+
+    const notesRes = await db.query(
+      `SELECT id, notes
+           FROM notes
+           WHERE mp3_id = $1`,
+      [mp3Id]
     );
 
-    const drumTrackRes = await db.query(
-      `SELECT id, program, track_name
-       FROM drum_tracks
-       WHERE midi_id = $1
-       ORDER BY id`,
-      [midiId]
-    );
+    let notes = notesRes.rows[0]
+    if (!notes) throw new NotFoundError(`No notes: ${mp3Id}`);
 
 
-    song.nonDrumTrack = nonDrumTrackRes.rows;
-    song.drumTrack = drumTrackRes.rows;
-
-    return song;
+    return { song, notes };
   }
 
   // /** Update song data with `data`.
@@ -168,34 +130,34 @@ class Song {
   //  * This is a "partial update" --- it's fine if data doesn't contain all the
   //  * fields; this only changes provided ones.
   //  *
-  //  * Data can include: {midi_id, title, dir, song_length, bpm}
+  //  * Data can include: {mp3_id, title, dir, song_length, bpm}
   //  *
-  //  * Returns {midi_id, title, dir, song_length, bpm}
+  //  * Returns {mp3_id, title, dir, song_length, bpm}
   //  *
   //  * Throws NotFoundError if not found.
   //  */
 
-  static async update(midiId, data) {
+  static async update(mp3Id, data) {
     const { setCols, values } = sqlForPartialUpdate(
       data,
       {
-        midiId: "midi_id",
+        mp3Id: "mp3_id",
         songLength: "song_length",
       });
-    const midiIdVarIdx = "$" + (values.length + 1);
+    const mp3IdVarIdx = "$" + (values.length + 1);
 
     const querySql = `UPDATE songs 
                       SET ${setCols} 
-                      WHERE midi_id = ${midiIdVarIdx} 
-                      RETURNING midi_id, 
+                      WHERE mp3_id = ${mp3IdVarIdx} 
+                      RETURNING mp3_id, 
                                 title, 
                                 dir,  
                                 song_length,
                                 bpm`;
-    const result = await db.query(querySql, [...values, midiId]);
+    const result = await db.query(querySql, [...values, mp3Id]);
     const song = result.rows[0];
 
-    if (!song) throw new NotFoundError(`No song: ${midiId}`);
+    if (!song) throw new NotFoundError(`No song: ${mp3Id}`);
 
     return song;
   }
@@ -205,16 +167,16 @@ class Song {
   //  * Throws NotFoundError if song not found.
   //  **/
 
-  static async remove(midiId) {
+  static async remove(mp3Id) {
     const result = await db.query(
       `DELETE
            FROM songs
-           WHERE midi_id = $1
-           RETURNING midi_id`,
-      [midiId]);
+           WHERE mp3_id = $1
+           RETURNING mp3_id`,
+      [mp3Id]);
     const song = result.rows[0];
 
-    if (!song) throw new NotFoundError(`No song: ${midiId}`);
+    if (!song) throw new NotFoundError(`No song: ${mp3Id}`);
   }
 }
 
