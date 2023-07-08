@@ -5,6 +5,7 @@
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 const { UnauthorizedError } = require("../expressError");
+const { API_token } = require("../../config");
 
 
 /** Middleware: Authenticate user.
@@ -14,6 +15,21 @@ const { UnauthorizedError } = require("../expressError");
  *
  * It's not an error if no token was provided or if the token is not valid.
  */
+function checkAPIToken(req, res, next) {
+  try {
+    const authHeader = req.headers && req.headers.authorization;
+    if (!authHeader) {
+      throw new UnauthorizedError();
+    }
+    const token = authHeader.replace(/^[Bb]earer /, "").trim();
+    if (token !== API_token) {
+      throw new UnauthorizedError();
+    }
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
 
 function authenticateJWT(req, res, next) {
   try {
@@ -79,8 +95,9 @@ function ensureCorrectUserOrAdmin(req, res, next) {
 
 
 module.exports = {
+  checkAPIToken,
   authenticateJWT,
   ensureLoggedIn,
   ensureAdmin,
-  ensureCorrectUserOrAdmin,
+  ensureCorrectUserOrAdmin
 };

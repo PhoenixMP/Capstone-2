@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "score": {
+      "type": "integer"
+    },
+    "mp3_id": {
+      "type": "string",
+      "enum": [
+        "26498",
+        "27793",
+        "2896",
+        "2079",
+        "1564",
+        "4546",
+        "11459",
+        "849",
+        "9111",
+        "5772",
+        "5879",
+        "3634",
+        "12253",
+        "5860",
+        "4074",
+        "3140",
+        "11196",
+        "16807",
+        "5187",
+        "11543",
+        "11406",
+        "12549",
+        "8109",
+        "8297",
+        "7704",
+        "2933",
+        "8129",
+        "11960",
+        "4094",
+        "1047",
+        "11750",
+        "827",
+        "8112",
+        "9080"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "username",
+    "mp3_id",
+    "score"
+  ]
+}
