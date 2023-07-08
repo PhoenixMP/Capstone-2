@@ -1,90 +1,67 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import GameNote from "./GameNote";
-import LoadingSpinner from "../common/LoadingSpinner";
-import musicContext from "../songs/musicContext";
-import gameContext from "./gameContext";
-import "./Game.css";
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import GameNote from './GameNote';
+import musicContext from '../songs/musicContext';
+import gameContext from './gameContext';
+import './Game.css';
 
 const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopped }) => {
 
-
-
-    const { song, notes } = useContext(musicContext);
-    // const { setKeyA_inPlay, setKeyW_inPlay, setKeyS_inPlay, setKeyE_inPlay, setKeyD_inPlay, setKeyF_inPlay, setKeyT_inPlay, setKeyG_inPlay, setKeyY_inPlay, setKeyH_inPlay, setKeyU_inPlay, setKeyJ_inPlay } = useContext(gameContext);
-
-
-
-    const [streamDistance, setStreamDistance] = useState(0)
-
-
-
-
-
-    const travelDistance = songLength * (10000 / 60)
-    const travelDuration = songLength * 1000; // Specify the desired travel duration in milliseconds
-
-
+    const { notes } = useContext(musicContext);
+    const { songProgress } = useContext(gameContext);
+    const [streamDistance, setStreamDistance] = useState(0);
+    const travelDistance = songLength * (10000 / 60);
 
 
     useEffect(() => {
-
         let animationFrameId;
 
+        const animateStream = () => {
+            const distance = songProgress * travelDistance;
+            setStreamDistance(distance);
 
-        const animateStream = (startTime) => {
-            const currentTime = Date.now();
-            const elapsedTime = currentTime - startTime;
-
-            if (elapsedTime >= travelDuration) {
-                setStreamDistance(travelDistance);
-            } else {
-                const progress = (elapsedTime / travelDuration) * travelDistance;
-                setStreamDistance(progress);
-
-
-                animationFrameId = requestAnimationFrame(() => animateStream(startTime));
+            if (songProgress < 1) {
+                animationFrameId = requestAnimationFrame(animateStream);
             }
         };
 
-        if (isAnimationStarted) {
-            const startTime = Date.now();
-            animateStream(startTime);
-        } else if (isAnimationStopped) {
+        const startAnimation = () => {
+            animationFrameId = requestAnimationFrame(animateStream);
+        };
+
+        const stopAnimation = () => {
             cancelAnimationFrame(animationFrameId);
             setStreamDistance(0);
+        };
+
+        if (isAnimationStarted) {
+            startAnimation();
+        } else if (isAnimationStopped) {
+            stopAnimation();
         }
 
         return () => {
             cancelAnimationFrame(animationFrameId);
         };
-    }, [isAnimationStarted, isAnimationStopped]);
-
+    }, [isAnimationStarted, isAnimationStopped, songProgress, travelDistance]);
 
     return (
         <div
             className="stream-container"
-            style={{ bottom: `calc(50% - ${streamDistance}px)`, height: `${travelDistance}px` }}
+            style={{ bottom: `calc(40% - ${streamDistance}px)`, height: `${travelDistance}px` }}
         >
-            {
-                notes.map((note, idx) => (
-                    <GameNote
-                        key={idx}
-                        idx={idx}
-                        noteStart={note.start}
-                        noteEnd={note.end}
-                        pitch={note.pitch}
-                        songLength={songLength}
-                        bpm={bpm}
-                    />
-                ))
-            }
-
-        </div >
+            {notes.map((note, idx) => (
+                <GameNote
+                    key={idx}
+                    idx={idx}
+                    noteStart={note.start}
+                    noteEnd={note.end}
+                    pitch={note.pitch}
+                    songLength={songLength}
+                    bpm={bpm}
+                />
+            ))}
+        </div>
     );
 };
 
 export default StreamContainer;
-
-
-
-

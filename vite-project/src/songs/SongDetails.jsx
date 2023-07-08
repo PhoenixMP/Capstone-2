@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Melodic2API from "../api/api";
@@ -22,13 +22,12 @@ const SongDetails = () => {
     const navigate = useNavigate();
 
 
-    const { song, setSong, setNotes, encodedData, setEncodedData } = useContext(musicContext);
-    console.log(song)
-    console.log("encodedData", encodedData)
+    const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
 
 
     const navigateGame = () => {
         // navigate to /
+        if (hasRefreshedGame) setHasRefreshedGame(false);
         navigate(`/game/${mp3Id}`);
     };
 
@@ -54,6 +53,7 @@ const SongDetails = () => {
             <h4>{song.title}</h4>
             <br />{song.dir}
             <br /> <button onClick={navigateGame}>Play!</button>
+            <br /> {hasRefreshedGame ? 'Exited Game Early' : ''}
 
 
         </div>

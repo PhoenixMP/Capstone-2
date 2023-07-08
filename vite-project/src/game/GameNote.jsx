@@ -17,14 +17,14 @@ import gameContext from "./gameContext";
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
-    const { removeKeyInPlay, inPlayKeys, addKeyInPlay, accuracyAlert } = useContext(gameContext);
+    const { setInPlayKeys, setOutOfPlayKeys, accuracyAlert } = useContext(gameContext);
 
 
 
 
     const { ref, inView } = useInView({
         /* Optional options */
-        rootMargin: '-50% 0px 0px 0px',
+        rootMargin: '-58% 0px 0px 0px',
         threshold: 0,
     });
 
@@ -35,27 +35,27 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
 
     const StreamContainerHeight = songLength * (10000 / 60)
-    const StreamContainerWidth = 600
+
     const noteLength = noteEnd - noteStart
     const noteHeight = (noteLength / songLength) * StreamContainerHeight
-    const blackNoteWidth = 35; //px
-    const whiteNoteWidth = 70; //px
-    const leftPaddingWidth = 32
+    const blackNoteWidth = 50; //px
+    const whiteNoteWidth = 103; //px
+    const leftPaddingWidth = 15; //pxsssssssss
 
 
     const noteKey = {
         'C': { "width": whiteNoteWidth, "keyboardKey": 'A', "leftPosition": 0 },
-        'C#': { "width": blackNoteWidth, "keyboardKey": 'W', "leftPosition": whiteNoteWidth - (blackNoteWidth / 2) - 20 },
+        'C#': { "width": blackNoteWidth, "keyboardKey": 'W', "leftPosition": whiteNoteWidth - (blackNoteWidth / 2) - 2 },
         'D': { "width": whiteNoteWidth, "keyboardKey": 'S', "leftPosition": whiteNoteWidth },
-        'D#': { "width": blackNoteWidth, "keyboardKey": 'E', "leftPosition": (2 * whiteNoteWidth) - (blackNoteWidth / 2) - 4 },
+        'D#': { "width": blackNoteWidth, "keyboardKey": 'E', "leftPosition": (2 * whiteNoteWidth) - (blackNoteWidth / 2) - 2 },
         'E': { "width": whiteNoteWidth, "keyboardKey": 'D', "leftPosition": (2 * whiteNoteWidth) },
         'F': { "width": whiteNoteWidth, "keyboardKey": 'F', "leftPosition": (3 * whiteNoteWidth) },
-        'F#': { "width": blackNoteWidth, "keyboardKey": 'T', "leftPosition": (4 * whiteNoteWidth) - (blackNoteWidth / 2) - 1 },
+        'F#': { "width": blackNoteWidth, "keyboardKey": 'T', "leftPosition": (4 * whiteNoteWidth) - (blackNoteWidth / 2) - 4 },
         'G': { "width": whiteNoteWidth, "keyboardKey": 'G', "leftPosition": (4 * whiteNoteWidth) },
-        'G#': { "width": blackNoteWidth, "keyboardKey": 'Y', "leftPosition": (5 * whiteNoteWidth) - (blackNoteWidth / 2) },
+        'G#': { "width": blackNoteWidth, "keyboardKey": 'Y', "leftPosition": (5 * whiteNoteWidth) - (blackNoteWidth / 2) - 4 },
         'A': { "width": whiteNoteWidth, "keyboardKey": 'H', "leftPosition": (5 * whiteNoteWidth) },
-        'A#': { "width": blackNoteWidth, "keyboardKey": 'U', "leftPosition": (6 * whiteNoteWidth) - (blackNoteWidth / 2) + 4 },
-        'B': { "width": whiteNoteWidth, "keyboardKey": 'J', "leftPosition": (6 * whiteNoteWidth) + 8 }
+        'A#': { "width": blackNoteWidth, "keyboardKey": 'U', "leftPosition": (6 * whiteNoteWidth) - (blackNoteWidth / 2) - 5 },
+        'B': { "width": whiteNoteWidth, "keyboardKey": 'J', "leftPosition": (6 * whiteNoteWidth) - 4 }
     };
 
     const convertPitchToNote = (pitch) => {
@@ -88,15 +88,32 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
         if (inView) {
             let timeout;
-            const currTime = Date.now();
             const noteLength_ms = noteLength * 1000;
+            const currTime = Date.now();
             const endTime = currTime + noteLength_ms;
-            const isLongNote = noteLength_ms >= wholeNoteLength;
+            setOutOfPlayKeys(prevState => {
+                const newState = { ...prevState };
+                delete newState[letter];
+                return newState;
+            })
 
-            addKeyInPlay(letter, currTime, endTime, isLongNote);
+            setInPlayKeys(prevState => ({
+                ...prevState,
+                [letter]: currTime
+            }));
+
 
             timeout = setTimeout(() => {
-                removeKeyInPlay(letter, endTime);
+                setInPlayKeys(prevState => {
+                    const newState = { ...prevState };
+                    delete newState[letter];
+                    return newState;
+                })
+
+                setOutOfPlayKeys(prevState => ({
+                    ...prevState,
+                    [letter]: endTime
+                }));
             }, noteLength_ms);
         }
 
@@ -106,10 +123,9 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     return (
         <div ref={ref} className=
             {`game-note 
-            ${gameNoteClass}
- 
-            ${inView ? 'accurate' : ''} 
-        `}
+            ${gameNoteClass}            
+${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
+${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} `}
             id={idx} style={noteStyle} >
             <div className='note-name'>{letter}</div>
         </div>
@@ -118,6 +134,6 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 };
 export default GameNote;
 
-// ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
-// ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
+// ${(inView && !accuracyAlert.hasOwnProperty(letter)) ? 'in-play' : ''}    
+
 

@@ -8,19 +8,27 @@ import "../Game.css";
 
 
 function PianoKey({ note, id, className, children, letter }) {
-    const { pressKey, releaseKey, activeKeys, accuracyAlert } = useContext(gameContext);
+    const { setActiveKeys, activeKeys, accuracyAlert, setReleasedKeys } = useContext(gameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
     const isKeyDownRef = useRef(false);
-    const [startTime, setStartTime] = useState(null)
-    let noteStatus = ''
 
 
     const handleKeyDown = (event) => {
+
         if (!isKeyDownRef.current && (event.key === letter || event.key === letter.toLowerCase())) {
             event.preventDefault();
-            const time = Date.now()
-            setStartTime(time)
-            pressKey(letter, time);
+            console.log(event.key)
+            setReleasedKeys(prevState => {
+                const newState = { ...prevState };
+                delete newState[letter];
+                return newState;
+            })
+
+            setActiveKeys(prevState => ({
+                ...prevState,
+                [letter]: Date.now()
+            }));
+
             isKeyDownRef.current = true;
         }
     };
@@ -28,7 +36,18 @@ function PianoKey({ note, id, className, children, letter }) {
     const handleKeyUp = (event) => {
         if (event.key === letter || event.key === letter.toLowerCase()) {
             event.preventDefault();
-            releaseKey(letter, startTime, Date.now());
+
+            setReleasedKeys(prevState => ({
+                ...prevState,
+                [letter]: Date.now()
+            }));
+
+            setActiveKeys(prevState => {
+                const newState = { ...prevState };
+                delete newState[letter];
+                return newState;
+            })
+
             isKeyDownRef.current = false;
         }
     };
@@ -42,7 +61,7 @@ function PianoKey({ note, id, className, children, letter }) {
             // Stop the audio playback
             stop();
         }
-    }, [activeKeys, play, stop]);
+    }, [activeKeys]);
 
 
     useEffect(() => {
@@ -53,7 +72,7 @@ function PianoKey({ note, id, className, children, letter }) {
             document.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('keyup', handleKeyUp);
         };
-    }, [startTime]);
+    }, []);
 
 
 

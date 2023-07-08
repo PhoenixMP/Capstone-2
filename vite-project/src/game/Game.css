@@ -1,6 +1,7 @@
 .game-page-parent {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
 
 .game-page-child-1 {
@@ -21,27 +22,25 @@
 .stream-container {
     position: absolute;
     /* Adjust the value to position the stream container very far up on the page */
-    width: 600px;
-    margin-bottom: 0;
-    padding-bottom: 0;
+    width: 750px;
+    margin: 0;
+    padding: 0;
     background-color: lightblue;
-
-
-
 
 
 }
 
 .piano-container {
     position: fixed;
-    bottom: 50%;
+    top: 60%;
     /* Adjust the value to position the piano container 900px below the top of the page */
-    width: 650px;
-    height: 800px;
+    width: 750px;
+    height: 400px;
     background-color: white;
+    font-size: 20px;
     margin: 0;
     padding-top: 0;
-    transform: translatey(805px);
+
     z-index: 1;
 
 }
@@ -56,6 +55,7 @@
     position: absolute;
     bottom: 10px;
     left: 50%;
+    font-size: 20px;
     transform: translateX(-50%);
 }
 
@@ -80,13 +80,18 @@
 
 .white-game-note.accurate,
 .black-game-note.accurate {
-    background: linear-gradient(to bottom, #fff 0%, #152db5 100%)
+    background: linear-gradient(to bottom, #fff 0%, #1db515 100%)
 }
 
 .white-game-note.inaccurate,
 .black-game-note.inaccurate {
     background: linear-gradient(to bottom, #fff 0%, #b51515 100%)
 }
+
+/* .white-game-note.in-play,
+.black-game-note.in-play {
+    background: linear-gradient(to bottom, #fff 0%, #152db5 100%)
+} */
 
 
 
@@ -106,8 +111,8 @@ li {
 
 .key.white {
     color: black;
-    height: 220px;
-    width: 70px;
+    height: 280px;
+    width: 100px;
     z-index: 1;
     border-left: 1px solid #bbb;
     border-bottom: 1px solid #bbb;
@@ -137,9 +142,9 @@ li {
 
 .key.black {
     color: white;
-    height: 130px;
-    width: 35px;
-    margin: 0 0 0 -17.5px;
+    height: 160px;
+    width: 50px;
+    margin: 0 0 0 -25px;
     z-index: 2;
     border: 1px solid #000;
     border-radius: 0 0 3px 3px;
@@ -159,7 +164,7 @@ li {
 #D,
 #C,
 #E {
-    margin: 0 0 0 -17.5px
+    margin: 0 0 0 -25px
 }
 
 ul li:first-child {
