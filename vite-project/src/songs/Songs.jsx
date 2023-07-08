@@ -16,6 +16,15 @@ import LoadingSpinner from "../common/LoadingSpinner";
 
 const Songs = () => {
     const [songs, setSongs] = useState(null);
+    const genres = [
+        "rock",
+        "alt rock",
+        "tv",
+        "pop",
+        "movie",
+        "disco",
+        "hip hop"
+    ];
 
     useEffect(function getAllSongsOnMount() {
         search();

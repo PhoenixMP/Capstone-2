@@ -52,8 +52,6 @@ class Song {
     let query = `SELECT mp3_id,
                         title,
                         dir,
-                        song_length,
-                        bpm
                  FROM songs`;
     let whereExpressions = [];
     let queryValues = [];
@@ -83,6 +81,21 @@ class Song {
     query += " ORDER BY title";
     const songsRes = await db.query(query, queryValues);
     return songsRes.rows;
+  }
+
+
+
+  static async searchGenre(genre) {
+    const songsRes = await db.query(
+      `SELECT mp3_id,
+                        title,
+                        dir
+                 FROM songs
+                 WHERE genre = $1
+                 ORDER BY title`,
+      [genre]);
+    return songsRes.rows;
+
   }
 
   // /** Given a song, return data about song.

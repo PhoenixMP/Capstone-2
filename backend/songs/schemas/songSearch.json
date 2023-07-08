@@ -10,6 +10,18 @@
     "dir": {
       "type": "string",
       "minLength": 1
+    },
+    "genre": {
+      "type": "string",
+      "enum": [
+        "rock",
+        "alt rock",
+        "tv",
+        "pop",
+        "movie",
+        "disco",
+        "hip hop"
+      ]
     }
   },
   "additionalProperties": false,

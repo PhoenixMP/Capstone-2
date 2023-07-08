@@ -58,6 +58,10 @@ class Melodic2API {
     return res.songs;
   }
 
+  static async searchGenre(data) {
+    let res = await this.request(`songs/genre`, data);
+    return res.songs;
+  }
 
 
   // /** Register New User. */

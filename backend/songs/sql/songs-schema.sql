@@ -2,6 +2,7 @@ CREATE TABLE songs (
   mp3_id INTEGER PRIMARY KEY,
   title TEXT NOT NULL,
   dir TEXT NOT NULL,
+  genre TEXT NOT NULL,
   song_length FLOAT,
   bpm FLOAT
 );

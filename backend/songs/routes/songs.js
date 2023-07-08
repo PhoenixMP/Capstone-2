@@ -45,6 +45,24 @@ router.get("/", checkAPIToken, async function (req, res, next) {
     }
 });
 
+router.get("/genre", checkAPIToken, async function (req, res, next) {
+    const q = req.query;
+    console.log('q', q.genre)
+
+    try {
+        const validator = jsonschema.validate(q, songSearchSchema);
+        if (!validator.valid) {
+            const errs = validator.errors.map(e => e.stack);
+            throw new BadRequestError(errs);
+        }
+
+        const songs = await Song.searchGenre(q.genre);
+        return res.json({ songs });
+    } catch (err) {
+        return next(err);
+    }
+});
+
 
 /** GET /[mp3Id]  =>  { song, mp3Files }
  *
