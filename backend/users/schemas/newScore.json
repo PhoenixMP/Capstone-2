@@ -11,7 +11,7 @@
     "score": {
       "type": "integer"
     },
-    "mp3_id": {
+    "mp3Id": {
       "type": "string",
       "enum": [
         "26498",
@@ -54,7 +54,7 @@
   "additionalProperties": false,
   "required": [
     "username",
-    "mp3_id",
+    "mp3Id",
     "score"
   ]
 }

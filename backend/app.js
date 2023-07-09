@@ -7,19 +7,14 @@ const cors = require("cors");
 
 const { NotFoundError } = require("./expressError");
 
-//put this in later! 
-// const { authenticateJWT } = require("./middleware/auth");
+
+const { authenticateJWT } = require("./middleware/auth");
 
 
 const songsRoutes = require("./songs/routes/songs");
-
-
-
-// const usersAuthRoutes = require("./users/routes/auth");
-// const usersProfileRoutes = require("./users/routes/profile");
-// const usersMelodyRoutes = require("./users/routes/melody");
-// const usersGameScoreRoutes = require("./users/routes/gameScore");
-// const usersGameSongRoutes = require("./users/routes/gameSong");
+const userRoutes = require("./users/routes/users");
+const authRoutes = require("./users/routes/auth");
+const scoreRoutes = require("./users/routes/scores");
 
 
 const morgan = require("morgan");
@@ -29,11 +24,15 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
-// put this in later
-// app.use(authenticateJWT);
+
+app.use(authenticateJWT);
 
 
 app.use("/songs", songsRoutes);
+app.use("/users", userRoutes);
+app.use("/auth", authRoutes);
+app.use("/scores", scoreRoutes);
+
 
 
 

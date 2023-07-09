@@ -29,7 +29,6 @@
     "username",
     "firstName",
     "lastName",
-    "password",
-    "email"
+    "password"
   ]
 }

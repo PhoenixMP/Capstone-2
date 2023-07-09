@@ -5,7 +5,7 @@
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 const { UnauthorizedError } = require("../expressError");
-const { API_token } = require("../../config");
+const { API_token } = require("../config");
 
 
 /** Middleware: Authenticate user.
@@ -17,11 +17,14 @@ const { API_token } = require("../../config");
  */
 function checkAPIToken(req, res, next) {
   try {
-    const authHeader = req.headers && req.headers.authorization;
+    const authHeader = req.headers && req.headers.apiauth;
+
     if (!authHeader) {
+
       throw new UnauthorizedError();
     }
     const token = authHeader.replace(/^[Bb]earer /, "").trim();
+
     if (token !== API_token) {
       throw new UnauthorizedError();
     }
@@ -33,10 +36,12 @@ function checkAPIToken(req, res, next) {
 
 function authenticateJWT(req, res, next) {
   try {
-    const authHeader = req.headers && req.headers.authorization;
+    const authHeader = req.headers && req.headers.userauth;
     if (authHeader) {
+      console.log(req.headers.userauth)
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
       res.locals.user = jwt.verify(token, SECRET_KEY);
+      console.log(res.locals.user)
     }
     return next();
   } catch (err) {
@@ -84,6 +89,7 @@ function ensureAdmin(req, res, next) {
 function ensureCorrectUserOrAdmin(req, res, next) {
   try {
     const user = res.locals.user;
+
     if (!(user && (user.isAdmin || user.username === req.params.username))) {
       throw new UnauthorizedError();
     }

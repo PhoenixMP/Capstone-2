@@ -1,16 +1,17 @@
 "use strict";
 
-const db = userDB;
+const { userDB } = require("../../db");
 const bcrypt = require("bcrypt");
-const { sqlForPartialUpdate } = require("../helpers/sql");
+const { sqlForPartialUpdate } = require("../../helpers/sql");
 const {
   NotFoundError,
   BadRequestError,
   UnauthorizedError,
-} = require("../expressError");
+} = require("../../expressError");
 
-const { BCRYPT_WORK_FACTOR } = require("../config.js");
+const { BCRYPT_WORK_FACTOR } = require("../../config.js");
 
+const db = userDB;
 /** Related functions for users. */
 
 class UserProfile {
@@ -77,14 +78,14 @@ class UserProfile {
             first_name,
             last_name,
             is_admin)
-           VALUES ($1, $2, $3, $4, $5, $6)
+           VALUES ($1, $2, $3, $4, $5)
            RETURNING username, first_name AS "firstName", last_name AS "lastName", is_admin AS "isAdmin"`,
       [
         username,
         hashedPassword,
         firstName,
         lastName,
-        isAdmin,
+        isAdmin
       ]
     );
 
@@ -137,13 +138,12 @@ class UserProfile {
     const userScoreRes = await db.query(
       `SELECT id,
               mp3_id AS "mp3Id",
-              score,
-              
+              score
        FROM user_game_scores
        WHERE username = $1`,
       [username]
     );
-    user.scores = userScoreRes
+    user.scores = userScoreRes.rows
 
     return user;
   }

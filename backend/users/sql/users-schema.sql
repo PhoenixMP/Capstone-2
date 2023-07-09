@@ -12,5 +12,5 @@ CREATE TABLE user_game_scores (
   mp3_id INT NOT NULL,
   username VARCHAR(25) REFERENCES user_profiles(username) ON DELETE CASCADE,
   score INT NOT NULL,
-  score_timestamp TIMESTAMP NOT NULL
+  score_timestamp VARCHAR(25) NOT NULL
 );

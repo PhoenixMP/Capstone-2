@@ -6,7 +6,7 @@ const jsonschema = require("jsonschema");
 const express = require("express");
 
 const { BadRequestError } = require("../../expressError");
-const { ensureAdmin, checkAPIToken } = require("../middleware/auth");
+const { ensureAdmin, checkAPIToken } = require("../../middleware/auth");
 const Song = require("../models/song");
 
 
