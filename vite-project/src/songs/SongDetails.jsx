@@ -5,8 +5,9 @@ import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import musicContext from "./MusicContext";
 import userContext from "../auth/UserContext";
-import ScoreList from "../common/ScoreList"
-import ScoreCard from "../common/ScoreCard";
+import SongScoreList from "../scores/SongScoreList"
+import SongScoreCard from "../scores/SongScoreCard";
+import { Link } from "react-router-dom";
 
 
 
@@ -33,6 +34,7 @@ const SongDetails = () => {
     const { currentUser } = useContext(userContext);
 
 
+
     const navigateGame = () => {
         // navigate to /
         if (hasRefreshedGame) setHasRefreshedGame(false);
@@ -54,7 +56,7 @@ const SongDetails = () => {
 
 
 
-    useEffect(function getSoreInfo() {
+    useEffect(function getScoreInfo() {
         async function getGeneralScores() {
             const topScore = await Melodic2API.getSongTopScore(mp3Id);
 
@@ -62,21 +64,34 @@ const SongDetails = () => {
                 setTopScore(false);
             } else { setTopScore(topScore); }
         }
+
         async function getUserScores() {
-            const topScores = await Melodic2API.getAllTopScores();
-            console.log('topScores', topScores)
-            setScores(topScores);
-            if (topScores.length === 0) setNoTopScoreAlert(true)
+            console.log('getting the user scores mf')
+            const userScores = await Melodic2API.getUserSongScores(mp3Id, currentUser.username);
+            console.log('userScores', userScores)
+            if (userScores.length === 0) {
+                setUserScores(false);
+            } else {
+                setUserScores(prevState => ({
+                    ...prevState,
+                    ['all']: userScores
+                }));
+            }
+        }
+
+        if (currentUser) {
+            getUserScores();
         }
         getGeneralScores();
-    }, []);
+
+    }, [currentUser]);
 
 
 
 
 
-    if (!song || !song === true) return <LoadingSpinner />;
-    // if (!scores || !scores === true) return <LoadingSpinner />;
+    if (!song || !song === true || userScores.all === null) return <LoadingSpinner />;
+
 
 
     return (
@@ -85,12 +100,14 @@ const SongDetails = () => {
             <br />{song.dir}
             <br /> <button onClick={navigateGame}>Play!</button>
             <br /> {hasRefreshedGame ? 'Exited Game Early' : ''}
-            <br />{!topScore ? "No Top Score Yet!" : "Top Score:"
+            <br />{!topScore ? "No Top Score Yet!" : (<SongScoreCard score={topScore.score}
+                username={topScore.username}
+                scoreTimestamp={topScore.scoreTimestamp}
+                isTop={true} />)}
+            <div>{currentUser ?
+                (< SongScoreList scores={userScores.all} />) : (<Link to={`/login`} > Login To See Your Scores</Link>)}
+            </div>
 
-
-
-            }
-            {/* <ScoreList scores={scores} /> */}
 
 
         </div>

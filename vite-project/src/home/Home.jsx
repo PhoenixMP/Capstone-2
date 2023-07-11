@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import ScoreList from "../common/ScoreList";
+import DetailedScoreList from "../scores/DetailedScoreList";
 import LoadingSpinner from "../common/LoadingSpinner";
 import Melodic2API from "../api/api";
 
@@ -30,14 +30,14 @@ const Home = () => {
     }, []);
 
     if (scores === null) return <LoadingSpinner />;
-    console.log('verifying scores', scores)
+
 
     return (
         <div>
             Home
             <br />{!scores ? "no scores recorded" :
 
-                <ScoreList scores={scores} />
+                <DetailedScoreList scores={scores} isUsre={false} />
             }
 
         </div>

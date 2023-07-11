@@ -135,15 +135,7 @@ class UserProfile {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
 
-    const userScoreRes = await db.query(
-      `SELECT id,
-              mp3_id AS "mp3Id",
-              score
-       FROM user_game_scores
-       WHERE username = $1`,
-      [username]
-    );
-    user.scores = userScoreRes.rows
+
 
     return user;
   }

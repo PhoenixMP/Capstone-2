@@ -17,7 +17,7 @@ const LoginForm = () => {
 
     return (
         <div>
-            LoginForm
+            Update User Form
         </div>
     )
 

@@ -28,7 +28,7 @@ import "./routes-nav/Navigation.css";
 
 function App() {
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useLocalStorage("currentUser", null);
   const [song, setSong] = useLocalStorage("song", null);
   const [notes, setNotes] = useLocalStorage("notes", null);
   const [encodedData, setEncodedData] = useState(null);
@@ -36,7 +36,7 @@ function App() {
 
 
 
-  const [token, setToken] = useLocalStorage("tolen", null);
+  const [token, setToken] = useLocalStorage("token", null);
   const [userInfoLoaded, setUserInfoLoaded] = useState(false)
 
 
@@ -45,14 +45,12 @@ function App() {
   async function signup(data) {
     const res = await Melodic2API.registerUser(data);
     setToken(res);
-    setCurrentUser(res)
   }
 
   //Login User
   async function login(data) {
     const res = await Melodic2API.loginUser(data);
     setToken(res);
-    setCurrentUser(res)
   }
 
 
@@ -81,7 +79,6 @@ function App() {
           Melodic2API.userToken = token;
           const user = await Melodic2API.getUser(username);
           setCurrentUser(user);
-          setApplications(user.applications)
 
         } catch (err) {
           console.error("App loadUserInfo: problem loading", err);

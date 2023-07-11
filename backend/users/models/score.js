@@ -50,7 +50,7 @@ class Score {
   static async findAllTopScores(order) {
     if (order !== "score" && order !== "score_timestamp") throw new BadRequestError(`Can't order by: ${order}`)
     const scoreRes = await db.query(
-      `SELECT u.id, u.mp3_id as "mp3Id", u.username, u.score as "topScore", u.score_timestamp as "scoreTimestamp"
+      `SELECT u.id, u.mp3_id as "mp3Id", u.username, u.score, u.score_timestamp as "scoreTimestamp"
       FROM user_game_scores u
       JOIN (
         SELECT mp3_id, MAX(score) AS "max_score"
@@ -178,7 +178,7 @@ class Score {
   static async getUserUndefeatedTopScores(username, order) {
     if (order !== "score" && order !== "score_timestamp") throw new BadRequestError(`Can't order by: ${order}`);
     const scoreRes = await db.query(
-      `SELECT u.id, u.mp3_id, u.username, u.score AS "topScore", u.score_timestamp AS "scoreTimestamp"
+      `SELECT u.id, u.mp3_id, u.username, u.score, u.score_timestamp AS "scoreTimestamp"
       FROM user_game_scores u
       JOIN (
         SELECT mp3_id, MAX(score) AS "max_score"
