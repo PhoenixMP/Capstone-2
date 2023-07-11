@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 import MyRoutes from './routes-nav/MyRoutes'
 import MyNav from './routes-nav/MyNav'
 import UserContext from "./auth/UserContext";
-import musicContext from "./songs/musicContext";
+import musicContext from "./songs/MusicContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Melodic2API from "./api/api";
 import "./routes-nav/Navigation.css";
@@ -36,23 +36,23 @@ function App() {
 
 
 
-  // const [token, setToken] = useLocalStorage(null);
-  // const [userInfoLoaded, setUserInfoLoaded] = useState(false)
+  const [token, setToken] = useLocalStorage("tolen", null);
+  const [userInfoLoaded, setUserInfoLoaded] = useState(false)
 
 
 
   //Register new User
   async function signup(data) {
-    // const res = await JoblyApi.registerUser(data);
-    // setToken(res);
-    // setCurrentUser(res)
+    const res = await Melodic2API.registerUser(data);
+    setToken(res);
+    setCurrentUser(res)
   }
 
   //Login User
   async function login(data) {
-    // const res = await JoblyApi.loginUser(data);
-    // setToken(res);
-    // setCurrentUser(res)
+    const res = await Melodic2API.loginUser(data);
+    setToken(res);
+    setCurrentUser(res)
   }
 
 
@@ -62,40 +62,40 @@ function App() {
     setToken(null);
   }
 
-  // //Update User
-  // async function updateUser(data) {
-  //   const user = await JoblyApi.updateUser(currentUser.username, data)
-  //   setCurrentUser(user)
-  // }
+  //Update User
+  async function updateUser(data) {
+    const user = await Melodic2API.updateUser(currentUser.username, data)
+    setCurrentUser(user)
+  }
 
 
 
-  // // Load user info from API. Until a user is logged in and they have a token,
-  // // this should not run. It only needs to re-run when a user logs out, so
-  // // the value of the token is a dependency for this effect.
-  // useEffect(() => {
-  //   async function checkToken() {
-  //     if (token) {
-  //       try {
-  //         let { username } = jwt_decode(token);
-  //         JoblyApi.token = token;
-  //         const user = await JoblyApi.getUser(username);
-  //         setCurrentUser(user);
-  //         setApplications(user.applications)
+  // Load user info from API. Until a user is logged in and they have a token,
+  // this should not run. It only needs to re-run when a user logs out, so
+  // the value of the token is a dependency for this effect.
+  useEffect(() => {
+    async function checkToken() {
+      if (token) {
+        try {
+          let { username } = jwt_decode(token);
+          Melodic2API.userToken = token;
+          const user = await Melodic2API.getUser(username);
+          setCurrentUser(user);
+          setApplications(user.applications)
 
-  //       } catch (err) {
-  //         console.error("App loadUserInfo: problem loading", err);
-  //         setCurrentUser(null);
-  //       }
+        } catch (err) {
+          console.error("App loadUserInfo: problem loading", err);
+          setCurrentUser(null);
+        }
 
-  //     }
-  //     setUserInfoLoaded(true)
-  //   }
-  //   setUserInfoLoaded(false)
-  //   checkToken();
+      }
+      setUserInfoLoaded(true)
+    }
+    setUserInfoLoaded(false)
+    checkToken();
 
 
-  // }, [token]);
+  }, [token]);
 
 
 
@@ -104,7 +104,7 @@ function App() {
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <UserContext.Provider value={{ currentUser }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <div>
             <MyNav logout={logout} />

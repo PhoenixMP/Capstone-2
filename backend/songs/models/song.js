@@ -52,7 +52,7 @@ class Song {
   static async findAll(searchFilters = {}) {
     let query = `SELECT mp3_id,
                         title,
-                        dir,
+                        dir
                  FROM songs`;
     let whereExpressions = [];
     let queryValues = [];
@@ -74,7 +74,7 @@ class Song {
     }
 
     if (whereExpressions.length > 0) {
-      query += " WHERE " + whereExpressions.join(" AND ");
+      query += " WHERE " + whereExpressions.join(" OR ");
     }
 
     // Finalize query and return results

@@ -5,8 +5,8 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import Mp3Player from "./Mp3Player";
 import StreamContainer from "./StreamContainer";
 import Piano from "./piano/Piano";
-import gameContext from "./gameContext";
-import musicContext from "../songs/musicContext";
+import GameContext from "./GameContext";
+import MusicContext from "../songs/MusicContext";
 import "./Game.css"
 
 
@@ -25,7 +25,7 @@ import "./Game.css"
 const Game = () => {
 
 
-    const { song } = useContext(musicContext);
+    const { song } = useContext(MusicContext);
     const [songProgress, setSongProgress] = useState(0)
 
     const songLength = song.song_length;
@@ -262,10 +262,11 @@ const Game = () => {
             if (prevActiveKeys.hasOwnProperty(key)) {
                 const isActive = activeKeys[key];
                 const wasActive = prevActiveKeys[key];
+            }
 
 
-
-            }, [activeKeys])
+        }
+    }, [activeKeys])
 
     useEffect(function handleInPlayKeys() { }, [inPlayKeys])
 
@@ -290,7 +291,7 @@ const Game = () => {
 
     return (
         <div className="game-page-parent">
-            <gameContext.Provider value={{ activeKeys, setActiveKeys, releasedKeys, setReleasedKeys, outOfPlayKeys, setOutOfPlayKeys, accuracyAlert, inPlayKeys, setInPlayKeys, streakMultiplier, songProgress, setSongProgress }}>
+            <GameContext.Provider value={{ activeKeys, setActiveKeys, releasedKeys, setReleasedKeys, outOfPlayKeys, setOutOfPlayKeys, accuracyAlert, inPlayKeys, setInPlayKeys, streakMultiplier, songProgress, setSongProgress }}>
                 <div className="game-page-child-1">
                     <div>Streak:{streakCount}</div>
                     <div>Score:{totalScore}</div>
@@ -303,7 +304,7 @@ const Game = () => {
                 <div className="game-page-child-2"><StreamContainer songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
                     <div className="piano-container"><Piano /></div>
                 </div>
-            </gameContext.Provider>
+            </GameContext.Provider>
 
         </div>
     )

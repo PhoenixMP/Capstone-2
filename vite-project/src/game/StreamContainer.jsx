@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import GameNote from './GameNote';
-import musicContext from '../songs/musicContext';
-import gameContext from './gameContext';
+import musicContext from '../songs/MusicContext';
+import gameContext from './GameContext';
 import './Game.css';
 
 const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopped }) => {

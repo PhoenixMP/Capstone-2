@@ -16,7 +16,7 @@ const BASE_URL = "http://localhost:3001";
 
 class Melodic2API {
   // the token for interactive with the API will be stored here.
-  static usertoken;
+  static userToken;
 
   static async request(endpoint, data = {}, userAuth = false, method = "get") {
     console.debug("API Call:", endpoint, data, method);
@@ -26,8 +26,8 @@ class Melodic2API {
     const url = `${BASE_URL}/${endpoint}`;
 
     const headers = (!userAuth) ?
-      { Authorization: `Bearer ${API_token}` } :
-      { Authorization: `Bearer ${this.usertoken}` };
+      { apiauth: `Bearer ${API_token}` } :
+      { userauth: `Bearer ${this.userToken}`, apiauth: `Bearer ${API_token}` };
 
     const params = (method === "get")
       ? data
@@ -44,16 +44,17 @@ class Melodic2API {
 
   // Individual API routes
 
-  /** Get details on a song by mp3Id. */
+  /** Get details, notes, and mp3 encoded data for a song by mp3Id. */
 
   static async getSong(mp3Id) {
     let res = await this.request(`songs/${mp3Id}`);
     return res;
   }
 
+
   /** Get all songs. */
 
-  static async getAllsongs(data) {
+  static async getAllSongs(data) {
     let res = await this.request(`songs/`, data);
     return res.songs;
   }
@@ -64,29 +65,87 @@ class Melodic2API {
   }
 
 
-  // /** Register New User. */
+  /** Register New User. */
 
-  // static async registerUser(data) {
-  //   let res = await this.request(`auth/register`, data, 'post');
+  static async registerUser(data) {
+    let res = await this.request(`auth/register`, data, false, 'post');
 
-  //   return res.token;
-  // }
+    return res.token;
+  }
 
-  // /** Login a user. */
+  /** Login a user. */
 
-  // static async loginUser(data) {
-  //   let res = await this.request(`auth/token`, data, 'post');
-  //   return res.token;
-  // }
+  static async loginUser(data) {
+    let res = await this.request(`auth/token`, data, false, 'post');
+    return res.token;
+  }
 
 
-  // /** Patch updated user. */
 
-  // static async updateUser(username, data) {
-  //   let res = await this.request(`users/${username}`, data, 'patch');
-  //   return res.user
-  // }
+  /** Patch updated user. */
 
+  static async updateUser(username) {
+    let res = await this.request(`users/${username}`, data, true, 'patch');
+    return res.user
+  }
+
+  /** Get user info. */
+
+  static async getUser(username, data) {
+    let res = await this.request(`users/${username}`, data, true);
+    return res.user
+  }
+
+
+  static async getAllTopScores(data) {
+    let res = await this.request(`scores/top`, data);
+    return res.scores
+  }
+
+  static async getSongTopScore(midiId) {
+    let res = await this.request(`scores/${midiId}/top`);
+    return res.score
+  }
+
+  static async getUserSongTopScore(midiId, username) {
+    let res = await this.request(`scores/${midiId}/${username}/top`, true);
+    return res.score
+  }
+
+  static async getUserSongScores(midiId, username, data) {
+    let res = await this.request(`scores/${midiId}/${username}/all-scores`, data, true);
+    return res.scores
+  }
+
+  static async getUserAllScores(username, data) {
+    let res = await this.request(`scores/${username}/all-scores`, data, true);
+    return res.scores
+  }
+
+  static async getUserTopScores(username, data) {
+    let res = await this.request(`scores/${username}/top-scores`, data, true);
+    return res.scores
+  }
+
+  static async getUserTopScores(username, data) {
+    let res = await this.request(`scores/${username}/top-scores`, data, true);
+    return res.scores
+  }
+
+  static async getUserTopScores(username, data) {
+    let res = await this.request(`scores/${username}/top-scores`, data, true);
+    return res.scores
+  }
+
+  static async getUserUndefeatedTopScores(username, data) {
+    let res = await this.request(`scores/${username}/undefeated-scores`, data, true);
+    return res.scores
+  }
+
+  static async getUserUndefeatedTopScores(data) {
+    let res = await this.request(`scores/new-score`, data, true, 'post');
+    return res.score
+  }
 
 
 }

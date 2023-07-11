@@ -16,39 +16,54 @@ import LoadingSpinner from "../common/LoadingSpinner";
 
 const Songs = () => {
     const [songs, setSongs] = useState(null);
+    const [genre, setGenre] = useState(null);
     const genres = [
+        "pop",
+        "disco",
         "rock",
         "alt rock",
-        "tv",
-        "pop",
+        "hip hop",
         "movie",
-        "disco",
-        "hip hop"
+        "tv",
+        "video games"
     ];
 
     useEffect(function getAllSongsOnMount() {
-        search();
-
+        searchTitle();
     }, []);
 
 
     /** Triggered by search form submit; reloads songs. */
-    async function search(title) {
-
-        let songs = await Melodic2API.getAllsongs({ title });
+    async function searchTitle(title) {
+        let songs = await Melodic2API.getAllSongs({ title, dir: title });
         setSongs(songs);
     }
+
+
+    /** Triggered by search form submit; reloads songs. */
+    async function searchGenre(genre) {
+        let songs = await Melodic2API.searchGenre({ genre });
+        console.log('genre search', songs)
+        setSongs(songs);
+    }
+
 
     if (!songs) return <LoadingSpinner />;
 
     return (
         <div>
-            <Search searchFor={search} />
-            {songs.length
-                ? <SongCardList songs={songs} />
-                : <p className="lead">Sorry, no results were found!</p>
-            }
-            <Outlet />
+            <Search searchFor={searchTitle} />
+            <div>{genres.map(genre => (
+                <button key={genre} onClick={() => searchGenre(genre)}>{genre}</button>
+            ))}
+            </div>
+            <div>
+                {songs.length
+                    ? <SongCardList songs={songs} />
+                    : <p className="lead">Sorry, no results were found!</p>
+                }
+                <Outlet />
+            </div>
 
         </div>
     )

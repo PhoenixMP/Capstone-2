@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect, useRef, useContext } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import Melodic2API from "../api/api";
-import musicContext from "../songs/musicContext";
-import gameContext from "./gameContext";
+import musicContext from "../songs/MusicContext";
+import gameContext from "./GameContext";
 import lamejs from 'lamejs';
 import base64 from 'react-native-base64';
 

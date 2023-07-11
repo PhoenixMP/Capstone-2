@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute"
@@ -13,6 +13,7 @@ import Game from "../game/Game"
 import LoginForm from "../auth/LoginForm";
 import SignupForm from "../auth/SignupForm";
 import updateUserForm from "../profile/UpdateUserForm";
+import UserContext from "../auth/UserContext";
 
 
 
@@ -25,6 +26,8 @@ import updateUserForm from "../profile/UpdateUserForm";
  */
 
 function MyRoutes({ login, signup }) {
+  const { currentUser } = useContext(UserContext);
+
   console.debug(
     "Routes",
     `login=${typeof login}`,
@@ -37,9 +40,11 @@ function MyRoutes({ login, signup }) {
 
         <Route exact path="/" element={<Home />} />
 
-        <Route exact path="/login" element={<LoginForm login={login} />} />
+        <Route exact path="/login" element={!currentUser ? (<LoginForm login={login} />) : (<Navigate replace to={"/profile"} />)} />
 
-        <Route exact path="/signup" element={<SignupForm signup={signup} />} />
+        <Route exact path="/signup" element={!currentUser ? (<SignupForm signup={signup} />) : (<Navigate replace to={"/profile"} />)} />
+
+        <Route exact path="/profile" element={currentUser ? (<Profile />) : (<Navigate replace to={"/login"} />)} />
 
         <Route exact path="/songs" element={<Songs />} />
 

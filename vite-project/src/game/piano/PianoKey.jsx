@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import gameContext from "../gameContext";
+import GameContext from "../GameContext";
 import { useSound } from 'use-sound';
 
 import "../Game.css";
@@ -8,7 +8,7 @@ import "../Game.css";
 
 
 function PianoKey({ note, id, className, children, letter }) {
-    const { setActiveKeys, activeKeys, accuracyAlert, setReleasedKeys } = useContext(gameContext);
+    const { setActiveKeys, activeKeys, accuracyAlert, setReleasedKeys } = useContext(GameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
     const isKeyDownRef = useRef(false);
 

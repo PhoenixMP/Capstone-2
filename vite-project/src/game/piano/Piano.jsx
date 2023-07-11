@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef } from "react";
 
 import PianoKey from "./PianoKey";
-import gameContext from "../gameContext";
+import gameContext from "../GameContext";
 
 const BASE_URL = window.location.origin;
 import noteC from './notes-mp3/note_C.mp3';

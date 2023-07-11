@@ -2,7 +2,7 @@
 import React, { useEffect, useContext, useRef } from "react";
 import "./Game.css"
 import { useInView } from 'react-intersection-observer';
-import gameContext from "./gameContext";
+import gameContext from "./GameContext";
 
 
 

@@ -2,6 +2,6 @@ import React from "react";
 
 /** Context: provides currentUser object and setter for it throughout app. */
 
-const musicContext = React.createContext();
+const MusicContext = React.createContext();
 
-export default musicContext;
+export default MusicContext;
