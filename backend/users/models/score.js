@@ -77,7 +77,11 @@ class Score {
       [mp3_id]
     );
 
-    const maxScore = scoreRes.rows[0];
+    let maxScore;
+    if (scoreRes.rows[0]) {
+      maxScore = scoreRes.rows[0];
+    } else { maxScore = [] }
+
 
     return maxScore;
   }

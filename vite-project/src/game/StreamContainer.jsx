@@ -4,7 +4,7 @@ import musicContext from '../songs/MusicContext';
 import gameContext from './GameContext';
 import './Game.css';
 
-const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopped }) => {
+const StreamContainer = ({ setGameOver, songLength, bpm, isAnimationStarted, isAnimationStopped }) => {
 
     const { notes } = useContext(musicContext);
     const { songProgress } = useContext(gameContext);
@@ -21,6 +21,9 @@ const StreamContainer = ({ songLength, bpm, isAnimationStarted, isAnimationStopp
 
             if (songProgress < 1) {
                 animationFrameId = requestAnimationFrame(animateStream);
+            }
+            if (songProgress === 1) {
+                setGameOver(true);
             }
         };
 

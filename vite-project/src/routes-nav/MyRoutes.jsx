@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
-import PrivateRoute from "./PrivateRoute"
+
 import Home from "../home/Home";
 import Songs from "../songs/Songs";
 import SongDetails from "../songs/SongDetails";

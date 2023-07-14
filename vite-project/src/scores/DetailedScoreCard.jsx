@@ -6,20 +6,20 @@ import { Link } from "react-router-dom";
 
 function DetailedScoreCard(props) {
 
+
   function checkIfUser() {
     if (props.isUser) {
       return (
         <div>
-          <p>Top Score: {props.score}</p>
-          <p>{props.scoreTimestamp}</p>
+          <p><b>Top Score: {props.score}</b> {props.scoreTimestamp}</p>
         </div>
       )
     } else {
       return (
         <div>
-          <p>Top Score: {props.score}</p>
+          <p><b>Top Score: {props.score}</b> {props.scoreTimestamp}</p>
           <p>User: {props.username}</p>
-          <p>{props.scoreTimestamp}</p>
+
         </div>
       )
     }

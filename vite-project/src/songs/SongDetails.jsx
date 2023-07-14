@@ -24,16 +24,18 @@ const SongDetails = () => {
 
     const { mp3Id } = useParams();
     const navigate = useNavigate();
-    const [userScores, setUserScores] = useState({ top: null, all: null })
-    const [topScore, setTopScore] = useState(null)
+    const [userScores, setUserScores] = useState(null)
+
 
 
 
 
     const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
-    const { currentUser } = useContext(userContext);
+    const { currentUser, userBestScore, setUserBestScore, topScore, setTopScore } = useContext(userContext);
+    const [userHasTop, setUserHasTop] = useState(false);
 
 
+    console.log('currentUser', currentUser)
 
     const navigateGame = () => {
         // navigate to /
@@ -62,20 +64,23 @@ const SongDetails = () => {
 
             if (topScore.length === 0) {
                 setTopScore(false);
-            } else { setTopScore(topScore); }
+            } else {
+                setTopScore(topScore);
+
+            }
         }
 
         async function getUserScores() {
-            console.log('getting the user scores mf')
+
             const userScores = await Melodic2API.getUserSongScores(mp3Id, currentUser.username);
-            console.log('userScores', userScores)
+
             if (userScores.length === 0) {
                 setUserScores(false);
             } else {
-                setUserScores(prevState => ({
-                    ...prevState,
-                    ['all']: userScores
-                }));
+                const userTopScore = userScores.shift()
+                setUserScores(userScores);
+                setUserBestScore(userTopScore)
+                if (topScore.username === currentUser.username) setUserHasTop(true);
             }
         }
 
@@ -90,22 +95,25 @@ const SongDetails = () => {
 
 
 
-    if (!song || !song === true || userScores.all === null) return <LoadingSpinner />;
+    if (!song || !song === true || (currentUser && userScores === null)) return <LoadingSpinner />;
+
 
 
 
     return (
         <div>
-            <h4>{song.title}</h4>
-            <br />{song.dir}
+            <h4>{song.title}, {song.dir}</h4>
             <br /> <button onClick={navigateGame}>Play!</button>
             <br /> {hasRefreshedGame ? 'Exited Game Early' : ''}
             <br />{!topScore ? "No Top Score Yet!" : (<SongScoreCard score={topScore.score}
                 username={topScore.username}
                 scoreTimestamp={topScore.scoreTimestamp}
-                isTop={true} />)}
-            <div>{currentUser ?
-                (< SongScoreList scores={userScores.all} />) : (<Link to={`/login`} > Login To See Your Scores</Link>)}
+                isTop={true}
+                userHasTop={userHasTop} />)}
+            <div> {(currentUser && userScores !== false) ?
+                (< SongScoreList userHasTop={userHasTop} allScores={userScores} userTopScore={userBestScore} />) : ""}
+                {(currentUser && topScore && userScores === false) ? "You don't have any scores yet" : ""}
+                {!currentUser ? (<Link to={`/login`} > Login To See Your Scores</Link>) : ""}
             </div>
 
 

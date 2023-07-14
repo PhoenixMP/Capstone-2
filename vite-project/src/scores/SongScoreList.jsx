@@ -7,14 +7,23 @@ import { Link } from "react-router-dom";
 
 
 
-function SongScoreList({ scores }) {
+function SongScoreList({ allScores, userTopScore, userHasTop }) {
 
+  function topScoreJSX() {
+    return (<SongScoreCard
+      key={userTopScore.id}
+      score={userTopScore.score}
+      scoreTimestamp={userTopScore.scoreTimestamp}
+      usersBest={true}
+    />
+    )
+  }
 
 
   return (
-    <div>
-
-      {scores.map((score) => (
+    <div> Your Past Scores:
+      {userHasTop ? '' : topScoreJSX()}
+      {allScores.map((score) => (
         <SongScoreCard
           key={score.id}
           score={score.score}

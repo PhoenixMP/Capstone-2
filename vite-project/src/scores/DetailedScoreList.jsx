@@ -51,7 +51,7 @@ function ScoreList(props) {
           title={score.songTitle}
           dir={score.songDir}
           scoreTimestamp={score.scoreTimestamp}
-          DetailedScoreCard={props.isUser}
+          isUser={props.isUser}
         />
       ))}
     </div>

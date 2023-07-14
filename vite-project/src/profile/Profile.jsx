@@ -6,7 +6,7 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import userContext from "../auth/UserContext";
 import UpdateUserForm from "./UpdateUserForm";
 import DetailedScoreList from "../scores/DetailedScoreList";
-import UserScoreList from "../scores/DetailedScoreList"
+import UserScoreList from "../scores/UserScoreList"
 import { Link } from "react-router-dom";
 
 
@@ -28,10 +28,8 @@ const Profile = () => {
     const [undefeatedScores, setUndefeatedScores] = useState(null)
     const [toggleScore, setToggleScore] = useState("top")
 
-    const { currentUser } = useContext(userContext);
-    console.log("topScores", topScores)
-    console.log("userScores", userScores)
-    console.log("undefeatedScores", undefeatedScores)
+    const { currentUser, onHoldScore, addScore } = useContext(userContext);
+
 
 
     useEffect(function getScores() {
@@ -115,7 +113,7 @@ const Profile = () => {
             <div> <UpdateUserForm /></div>
             <div>
                 <h3>Your Scores</h3>
-                <button onClick={() => toggleToTop()}>Top Scores</button>
+                <button onClick={() => toggleToTop()}>Your Top Scores</button>
                 <button onClick={() => toggleToAll()}>All Scores</button>
                 <button onClick={() => toggleToUndefeated()}>Undefeated Scores</button>
                 {toggleView()}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
-import UserScoreCard from "./GeneralUserScoreCard";
+import UserScoreCard from "./UserScoreCard";
 import LoadingSpinner from "../common/LoadingSpinner";
 import Melodic2API from "../api/api";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 function UserScoreList({ scores }) {
   const [scoreInfo, setScoreInfo] = useState([])
+
 
   useEffect(() => {
 
@@ -41,31 +42,14 @@ function UserScoreList({ scores }) {
 
 
   return (
-
     <div>
-      {scoreInfo.map((song) => {
-        return (
-          <div key={song.mp3Id}>
-            <Link to={`/song/${song.mp3Id}`}>
-              <h6 className="card-title">{song.title}</h6>
-              <p>{song.dir}</p>
-            </Link>
-
-            {song.scores.map((score) => (
-              <UserScoreCard
-                key={score.id}
-                score={score.Score}
-                scoreTimestamp={score.scoreTimestamp}
-              />
-            ))}
-          </div>
-        );
-      })}
+      {scoreInfo.map((song) => (
+        <UserScoreCard key={song.mp3Id} song={song} />
+      ))}
     </div>
   );
 
 }
-
 
 
 

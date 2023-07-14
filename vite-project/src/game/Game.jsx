@@ -5,6 +5,8 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import Mp3Player from "./Mp3Player";
 import StreamContainer from "./StreamContainer";
 import Piano from "./piano/Piano";
+import ScoreDisplay from "./ScoreDisplay";
+import SaveScore from "./SaveScore";
 import GameContext from "./GameContext";
 import MusicContext from "../songs/MusicContext";
 import "./Game.css"
@@ -52,6 +54,7 @@ const Game = () => {
     const [noteScore, setNoteScore] = useState({})
     const [scoreQueue, setScoreQueue] = useState([])
     const [totalScore, setTotalScore] = useState(0);
+    const [gameOver, setGameOver] = useState(false)
 
     const maxDelay = 5000;
 
@@ -293,6 +296,9 @@ const Game = () => {
         <div className="game-page-parent">
             <GameContext.Provider value={{ activeKeys, setActiveKeys, releasedKeys, setReleasedKeys, outOfPlayKeys, setOutOfPlayKeys, accuracyAlert, inPlayKeys, setInPlayKeys, streakMultiplier, songProgress, setSongProgress }}>
                 <div className="game-page-child-1">
+                    <div>{song.title}, {song.dir}</div>
+                    {gameOver ? <SaveScore score={totalScore} /> : ""}
+                    <ScoreDisplay />
                     <div>Streak:{streakCount}</div>
                     <div>Score:{totalScore}</div>
 
@@ -301,7 +307,7 @@ const Game = () => {
                 </div>
 
 
-                <div className="game-page-child-2"><StreamContainer songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
+                <div className="game-page-child-2"><StreamContainer setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
                     <div className="piano-container"><Piano /></div>
                 </div>
             </GameContext.Provider>

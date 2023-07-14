@@ -127,22 +127,14 @@ class Melodic2API {
     return res.scores
   }
 
-  static async getUserTopScores(username, data) {
-    let res = await this.request(`scores/${username}/top-scores`, data, true);
-    return res.scores
-  }
 
-  static async getUserTopScores(username, data) {
-    let res = await this.request(`scores/${username}/top-scores`, data, true);
-    return res.scores
-  }
 
   static async getUserUndefeatedTopScores(username, data) {
     let res = await this.request(`scores/${username}/undefeated-scores`, data, true);
     return res.scores
   }
 
-  static async getUserUndefeatedTopScores(data) {
+  static async newScore(data) {
     let res = await this.request(`scores/new-score`, data, true, 'post');
     return res.score
   }

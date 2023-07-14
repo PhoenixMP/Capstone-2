@@ -19,9 +19,9 @@ function SongCard({ mp3Id, title, dir }) {
         <div className="SongCard card">
             <div className="card-body">
                 <Link to={`/song/${mp3Id}`} key={mp3Id}>
-                    <h6 className="card-title">{title}</h6>
-                    <p>{dir}</p>
-                    <p>{mp3Id}</p>
+                    <h4 className="card-title">{title} </h4>
+                    <h4> {dir}</h4>
+
                 </Link>
             </div>
         </div>

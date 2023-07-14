@@ -6,20 +6,34 @@ import { Link } from "react-router-dom";
 
 function SongScoreCard(props) {
 
-  function checkIfTopScore() {
-    if (props.isTop) {
+
+  function checkScoreType() {
+    if (props.isTop && !props.userHasTop) {
       return (
         <div className="card-body song-score">
-          <p>Top Score: {props.score}</p>
-          <p>user: {props.username}</p>
-          <p>{props.scoreTimestamp}</p>
+          <p><b>Top Score held by {props.username}: {props.score}</b> {props.scoreTimestamp}</p>
+
         </div>
       );
+    } else if (props.isTop && props.userHasTop) {
+      return (
+        <div className="card-body song-score">
+          <h4>Your Top Score is Undefeatd!</h4>
+          <p><b>Top Score held by {props.username}: {props.score}</b> {props.scoreTimestamp}</p>
+        </div>
+      );
+
+    } else if (props.usersBest) {
+      return (
+        <div className="card-body song-score">
+          <p><b>Your Best Score: {props.score}</b> {props.scoreTimestamp}</p>
+        </div>
+      );
+
     } else {
       return (
         <div className="card-body song-score">
-          <p>Score: {props.score}</p>
-          <p>{props.scoreTimestamp}</p>
+          <p><b>Score: {props.score}</b> {props.scoreTimestamp}</p>
         </div>
       );
 
@@ -28,7 +42,7 @@ function SongScoreCard(props) {
 
   return (
     <div>
-      {checkIfTopScore()}
+      {checkScoreType()}
 
     </div>
   );
