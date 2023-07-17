@@ -44,6 +44,15 @@ function App() {
   const [token, setToken] = useLocalStorage("token", null);
   const [userInfoLoaded, setUserInfoLoaded] = useState(false)
 
+  async function addScore(data) {
+    await Melodic2API.newSccore(data)
+  }
+
+  async function addOnHoldScore(username, data) {
+    addScore({ mp3Id: data.mp3Id, username, score: data.score })
+    setOnHoldScore(null)
+  }
+
 
 
   //Register new User
@@ -76,15 +85,7 @@ function App() {
     setCurrentUser(user)
   }
 
-  async function addOnHoldScore(username, data) {
-    addScore({ mp3Id: data.mp3Id, username, score: data.score })
-    setOnHoldScore(null)
-  }
 
-  async function addScore(data) {
-    await Melodic2API.saveSccore(data)
-
-  }
 
 
   // Load user info from API. Until a user is logged in and they have a token,
@@ -127,11 +128,11 @@ function App() {
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ addScore, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
+      <UserContext.Provider value={{ currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <div>
             <MyNav logout={logout} />
-            <MyRoutes login={login} signup={signup} />
+            <MyRoutes login={login} signup={signup} addScore={addScore} />
           </div>
         </musicContext.Provider>
       </UserContext.Provider >

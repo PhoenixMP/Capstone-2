@@ -8,26 +8,26 @@ import "../Game.css";
 
 
 function PianoKey({ note, id, className, children, letter }) {
-    const { setActiveKeys, activeKeys, accuracyAlert, setReleasedKeys } = useContext(GameContext);
+    const { setActiveKeys, activeKeys, checkPressedKey, checkReleasedKey, accuracyAlert } = useContext(GameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
-    const isKeyDownRef = useRef(false);
+    const [isActive, setIsActive] = useState(null)
+    const initialRenderRef = useRef(true);
+
+    const isKeyDownRef = useRef(null);
 
 
     const handleKeyDown = (event) => {
 
         if (!isKeyDownRef.current && (event.key === letter || event.key === letter.toLowerCase())) {
             event.preventDefault();
-            console.log(event.key)
-            setReleasedKeys(prevState => {
-                const newState = { ...prevState };
-                delete newState[letter];
-                return newState;
-            })
+            const currTime = Date.now()
+
 
             setActiveKeys(prevState => ({
                 ...prevState,
-                [letter]: Date.now()
+                [letter]: currTime
             }));
+
 
             isKeyDownRef.current = true;
         }
@@ -37,16 +37,13 @@ function PianoKey({ note, id, className, children, letter }) {
         if (event.key === letter || event.key === letter.toLowerCase()) {
             event.preventDefault();
 
-            setReleasedKeys(prevState => ({
-                ...prevState,
-                [letter]: Date.now()
-            }));
 
             setActiveKeys(prevState => {
                 const newState = { ...prevState };
                 delete newState[letter];
                 return newState;
             })
+
 
             isKeyDownRef.current = false;
         }
@@ -63,6 +60,17 @@ function PianoKey({ note, id, className, children, letter }) {
         }
     }, [activeKeys]);
 
+
+    useEffect(() => {
+        if (isKeyDownRef.current !== null) {
+            const currTime = Date.now()
+            if (isKeyDownRef.current) {
+                checkPressedKey(letter, currTime)
+            } else {
+                checkReleasedKey(letter, currTime)
+            }
+        }
+    }, [isKeyDownRef.current]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);

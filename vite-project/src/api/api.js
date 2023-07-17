@@ -134,7 +134,7 @@ class Melodic2API {
     return res.scores
   }
 
-  static async newScore(data) {
+  static async saveScore(data) {
     let res = await this.request(`scores/new-score`, data, true, 'post');
     return res.score
   }

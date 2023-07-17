@@ -6,10 +6,13 @@ import gameContext from "./GameContext";
 import lamejs from 'lamejs';
 import base64 from 'react-native-base64';
 
-const Mp3Player = ({ handleStartAnimation, handleStopAnimation }) => {
+const Mp3Player = ({ handleStartAnimation, handleStopAnimation, isAnimationStarted }) => {
     const { mp3Id } = useParams();
-    const { setEncodedData, encodedData, setHasRefreshedGame } = useContext(musicContext);
-    const { setSongProgress } = useContext(gameContext);
+    const { setEncodedData, encodedData, setHasRefreshedGame, handleRestartGame } = useContext(musicContext);
+    const { setSongProgress, gameOver } = useContext(gameContext);
+    const [resetPrompt, setResetPrompt] = useState(false);
+    const [exitPrompt, setExitPrompt] = useState(false);
+
     const audioRef = useRef(null);
     const navigate = useNavigate();
 
@@ -73,10 +76,29 @@ const Mp3Player = ({ handleStartAnimation, handleStopAnimation }) => {
         }
     };
 
+
+    const handleRestartPrompt = () => {
+        handleStop();
+        setResetPrompt(true)
+    }
+
+    const handleExitPrompt = () => {
+        setExitPrompt(true)
+
+    }
+    const handleExit = () => {
+        navigate(`/song/${mp3Id}`);
+
+    }
+
+
     return (
         <div>
-            <button onClick={handlePlay}>Play</button>
-            <button onClick={handleStop}>Stop</button>
+            {(!isAnimationStarted && !gameOver) ? (<button onClick={handlePlay}>Start Game</button>) : ""}
+            {(!exitPrompt && isAnimationStarted && !gameOver) ? (<button onClick={handleExitPrompt}>Exit Game</button>) : ""}
+            {exitPrompt ? (<button onClick={handleExit}>Are You Sure You Want to Exit?</button>) : ""}
+            {(isAnimationStarted && !resetPrompt) ? (<button onClick={handleRestartPrompt}>Restart Game</button>) : ""}
+            {resetPrompt ? (<button onClick={handleRestartGame}>Are You Sure You Want to Restart?</button>) : ""}
         </div>
     );
 };

@@ -17,7 +17,7 @@ import gameContext from "./GameContext";
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
-    const { setInPlayKeys, setOutOfPlayKeys, accuracyAlert } = useContext(gameContext);
+    const { setInPlayKeys, accuracyAlert, checkKeyInPlay, checkKeyOutOfPlay } = useContext(gameContext);
 
 
 
@@ -91,29 +91,17 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
             const noteLength_ms = noteLength * 1000;
             const currTime = Date.now();
             const endTime = currTime + noteLength_ms;
-            setOutOfPlayKeys(prevState => {
-                const newState = { ...prevState };
-                delete newState[letter];
-                return newState;
-            })
+
 
             setInPlayKeys(prevState => ({
                 ...prevState,
-                [letter]: currTime
+                [letter]: { startTime: currTime, endTime }
             }));
 
+            checkKeyInPlay(letter, currTime, endTime);
 
             timeout = setTimeout(() => {
-                setInPlayKeys(prevState => {
-                    const newState = { ...prevState };
-                    delete newState[letter];
-                    return newState;
-                })
-
-                setOutOfPlayKeys(prevState => ({
-                    ...prevState,
-                    [letter]: endTime
-                }));
+                checkKeyOutOfPlay(letter);
             }, noteLength_ms);
         }
 
