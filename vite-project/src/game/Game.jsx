@@ -58,9 +58,8 @@ const Game = () => {
     const [maxStreak, setMaxStreak] = useState(0)
     const [gameOver, setGameOver] = useState(false);
 
-    console.log(accuracyAlert)
 
-    const maxDelay = 500;
+    const maxDelay = 300;
 
     const handleRestartGame = () => {
         setIsAnimationStarted(false);
@@ -116,11 +115,11 @@ const Game = () => {
             score = 0;
 
         } else {
-            if ((timeDelay >= 300) && (timeDelay < maxDelay)) {
+            if ((timeDelay >= 200) && (timeDelay < maxDelay)) {
                 phrase = 'Good!'
                 score = 1;
 
-            } else if (timeDelay >= 100 && timeDelay < 300) {
+            } else if (timeDelay >= 100 && timeDelay < 200) {
                 phrase = 'Great!'
                 score = 2;
 
@@ -257,6 +256,32 @@ const Game = () => {
 
 
 
+    useEffect(function cleanUpNoteAccuracy() {
+        const notes = ["A",
+            "W",
+            "S",
+            "E",
+            "D",
+            "F",
+            "T",
+            "G",
+            "Y",
+            "H",
+            "U",
+            "J"]
+
+        notes.forEach(note => {
+            if (!activeKeys.hasOwnProperty(note)) {
+                setAccuracyAlert(prevState => {
+                    const newState = { ...prevState };
+                    delete newState[note];
+                    return newState;
+
+                })
+            }
+        })
+
+    }, [activeKeys])
 
 
 
@@ -313,13 +338,13 @@ const Game = () => {
 
     return (
         <div className="game-page-parent">
-            <GameContext.Provider value={{ handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
+            <GameContext.Provider value={{ streakMultiplier, noteScore, handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
                 <div className="game-page-child-1">
                     {(!gameOver && !isAnimationStarted) ? (<div><b>Get Ready!</b></div>) : ""}
                     <div>{song.title}, {song.dir}</div>
 
                     {!gameOver
-                        ? (<LiveStats score={totalScore} streakCount={streakCount} songLength={songLength} songProgress={songProgress} />)
+                        ? (<LiveStats multiplier={streakMultiplier} score={totalScore} streakCount={streakCount} songLength={songLength} songProgress={songProgress} />)
                         : (<GameOver score={totalScore} maxStreak={maxStreak} />)}
                     <GameControl handleStartAnimation={handleStartAnimation} isAnimationStarted={isAnimationStarted} handleStopAnimation={handleStopAnimation} /></div>
 

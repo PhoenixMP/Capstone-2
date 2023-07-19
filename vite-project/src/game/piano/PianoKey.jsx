@@ -8,7 +8,7 @@ import "../Game.css";
 
 
 function PianoKey({ note, id, className, children, letter }) {
-    const { setActiveKeys, activeKeys, checkPressedKey, checkReleasedKey, accuracyAlert, setAccuracyAlert } = useContext(GameContext);
+    const { noteScore, setActiveKeys, activeKeys, checkPressedKey, checkReleasedKey, accuracyAlert, setAccuracyAlert } = useContext(GameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
     const isKeyDownRef = useRef(null);
 
@@ -41,18 +41,12 @@ function PianoKey({ note, id, className, children, letter }) {
                 return newState;
             })
 
-            setAccuracyAlert(prevState => {
-                const newState = { ...prevState };
-                delete newState[letter];
-                return newState;
-            })
-
-
             isKeyDownRef.current = false;
         }
     };
 
     useEffect(() => {
+
 
         if (activeKeys.hasOwnProperty(letter)) {
             // Play the audio file associated with the key
@@ -92,15 +86,25 @@ function PianoKey({ note, id, className, children, letter }) {
 
 
 
-    return (
+    return (<div>
         <li id={id} className={
             `${className} 
-            ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
-            ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
-            ${activeKeys.hasOwnProperty(letter) ? 'active' : ''} `}>
+             ${activeKeys.hasOwnProperty(letter) ? 'active' : ''} 
+${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
+ ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} `}>
+
+
             {children}
+            <div className="note-accuracy">
+                {accuracyAlert.hasOwnProperty(letter) ? accuracyAlert[letter] : ""}
+                <br />{noteScore.hasOwnProperty(letter) ? `+${noteScore[letter]}` : ""}
+            </div>
         </li>
+    </div>
     );
 }
 
 export default PianoKey;
+// ${activeKeys.hasOwnProperty(letter) ? 'active' : ''} `}>
+// ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
+// ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
