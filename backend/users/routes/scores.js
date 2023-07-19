@@ -153,7 +153,7 @@ router.get("/:username/undefeated-scores", checkAPIToken, ensureCorrectUserOrAdm
 
 
 
-router.post("/new-score", checkAPIToken, ensureCorrectUserOrAdmin, async function (req, res, next) {
+router.post("/new-score", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
         const validator = jsonschema.validate(req.body, newScoreSchema);
         if (!validator.valid) {

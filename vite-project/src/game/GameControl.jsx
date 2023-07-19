@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useLayoutEffect, useRef, useContext } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import Melodic2API from "../api/api";
 import musicContext from "../songs/MusicContext";
 import gameContext from "./GameContext";
-import lamejs from 'lamejs';
 import base64 from 'react-native-base64';
 
-const Mp3Player = ({ handleStartAnimation, handleStopAnimation, isAnimationStarted }) => {
+const GameControl = ({ handleStartAnimation, handleStopAnimation, isAnimationStarted }) => {
     const { mp3Id } = useParams();
-    const { setEncodedData, encodedData, setHasRefreshedGame, handleRestartGame } = useContext(musicContext);
-    const { setSongProgress, gameOver } = useContext(gameContext);
+    const { encodedData, setHasRefreshedGame } = useContext(musicContext);
+    const { handleRestartGame, setSongProgress, gameOver } = useContext(gameContext);
     const [resetPrompt, setResetPrompt] = useState(false);
     const [exitPrompt, setExitPrompt] = useState(false);
+
 
     const audioRef = useRef(null);
     const navigate = useNavigate();
@@ -38,8 +37,13 @@ const Mp3Player = ({ handleStartAnimation, handleStopAnimation, isAnimationStart
         };
     }, [encodedData]);
 
+
+
     useEffect(() => {
         let animationFrameId;
+
+        handlePlay()
+
 
         const updateProgress = () => {
             const currentTime = audioRef.current.currentTime;
@@ -62,8 +66,10 @@ const Mp3Player = ({ handleStartAnimation, handleStopAnimation, isAnimationStart
 
     const handlePlay = () => {
         if (audioRef.current) {
-            audioRef.current.play();
-            handleStartAnimation();
+            setTimeout(() => {
+                audioRef.current.play();
+                handleStartAnimation();;
+            }, 2000);
         }
     };
 
@@ -78,8 +84,14 @@ const Mp3Player = ({ handleStartAnimation, handleStopAnimation, isAnimationStart
 
 
     const handleRestartPrompt = () => {
-        handleStop();
         setResetPrompt(true)
+    }
+
+    const handleRestart = () => {
+        handleStop();
+        handleRestartGame();
+        setResetPrompt(false)
+        handlePlay();
     }
 
     const handleExitPrompt = () => {
@@ -94,13 +106,14 @@ const Mp3Player = ({ handleStartAnimation, handleStopAnimation, isAnimationStart
 
     return (
         <div>
-            {(!isAnimationStarted && !gameOver) ? (<button onClick={handlePlay}>Start Game</button>) : ""}
-            {(!exitPrompt && isAnimationStarted && !gameOver) ? (<button onClick={handleExitPrompt}>Exit Game</button>) : ""}
+
+            {(!resetPrompt && !exitPrompt && isAnimationStarted) ? (<button onClick={handleRestartPrompt}>Restart Game</button>) : ""}
+            {resetPrompt ? (<button onClick={handleRestart}>Are You Sure You Want to Restart?</button>) : ""}
+            {(!exitPrompt && !resetPrompt && isAnimationStarted && !gameOver) ? (<button onClick={handleExitPrompt}>Exit Game</button>) : ""}
             {exitPrompt ? (<button onClick={handleExit}>Are You Sure You Want to Exit?</button>) : ""}
-            {(isAnimationStarted && !resetPrompt) ? (<button onClick={handleRestartPrompt}>Restart Game</button>) : ""}
-            {resetPrompt ? (<button onClick={handleRestartGame}>Are You Sure You Want to Restart?</button>) : ""}
+
         </div>
     );
 };
 
-export default Mp3Player;
+export default GameControl;

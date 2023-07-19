@@ -38,10 +38,10 @@ function authenticateJWT(req, res, next) {
   try {
     const authHeader = req.headers && req.headers.userauth;
     if (authHeader) {
-      console.log(req.headers.userauth)
+
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
       res.locals.user = jwt.verify(token, SECRET_KEY);
-      console.log(res.locals.user)
+
     }
     return next();
   } catch (err) {
@@ -90,7 +90,7 @@ function ensureCorrectUserOrAdmin(req, res, next) {
   try {
     const user = res.locals.user;
 
-    if (!(user && (user.isAdmin || user.username === req.params.username))) {
+    if (!(user && (user.isAdmin || ((user.username === req.body.username) || (user.username === req.params.username))))) {
       throw new UnauthorizedError();
     }
     return next();

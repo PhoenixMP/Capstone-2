@@ -2,14 +2,17 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import LoadingSpinner from "../common/LoadingSpinner";
-import Mp3Player from "./Mp3Player";
+import GameControl from "./GameControl";
 import StreamContainer from "./StreamContainer";
 import Piano from "./piano/Piano";
-import ScoreDisplay from "./ScoreDisplay";
+import GeneralScoreDisplay from "./GeneralScoreDisplay";
+import LiveStats from "./LiveStats";
+import GameOver from "./GameOver";
 import SaveScore from "./SaveScore";
 import GameContext from "./GameContext";
 import MusicContext from "../songs/MusicContext";
 import "./Game.css"
+
 
 
 
@@ -35,7 +38,6 @@ const Game = () => {
 
 
 
-
     const [isAnimationStarted, setIsAnimationStarted] = useState(false);
     const [isAnimationStopped, setIsAnimationStopped] = useState(false);
 
@@ -56,7 +58,9 @@ const Game = () => {
     const [maxStreak, setMaxStreak] = useState(0)
     const [gameOver, setGameOver] = useState(false);
 
-    const maxDelay = 1000;
+    console.log(accuracyAlert)
+
+    const maxDelay = 500;
 
     const handleRestartGame = () => {
         setIsAnimationStarted(false);
@@ -78,9 +82,7 @@ const Game = () => {
 
 
     const handleRightTiming = (keyLetter, phrase, score) => {
-        console.log('played note right:', keyLetter)
         const totalNoteScore = score * streakMultiplier;
-        console.log('noteScore for:', keyLetter, totalNoteScore)
 
         setAccuracyAlert(prevState => ({
             ...prevState,
@@ -96,7 +98,6 @@ const Game = () => {
 
 
     const handleWrongTiming = (keyLetter) => {
-        console.log('played note wrong:', keyLetter)
         if (streakCount !== 0) setStreakCount(0);
 
         setAccuracyAlert(prevState => ({
@@ -115,11 +116,11 @@ const Game = () => {
             score = 0;
 
         } else {
-            if ((timeDelay >= 500) && (timeDelay < maxDelay)) {
+            if ((timeDelay >= 300) && (timeDelay < maxDelay)) {
                 phrase = 'Good!'
                 score = 1;
 
-            } else if (timeDelay >= 100 && timeDelay < 500) {
+            } else if (timeDelay >= 100 && timeDelay < 300) {
                 phrase = 'Great!'
                 score = 2;
 
@@ -134,7 +135,7 @@ const Game = () => {
     const checkScore = (keyLetter) => {
         if (noteScore.hasOwnProperty(keyLetter)) {
             const score = noteScore[keyLetter]
-            console.log('score added to que,', keyLetter, score)
+
             setScoreQueue(prevState => [...prevState, score])
 
             setNoteScore(prevState => {
@@ -147,19 +148,9 @@ const Game = () => {
     }
 
 
-    const handleNoteRelease = (keyLetter,) => {
-        console.log('handleNoteRelease', keyLetter
-        )
-        setAccuracyAlert(prevState => {
-            const newState = { ...prevState };
-            delete newState[keyLetter];
-            return newState;
-        });
-        checkScore(keyLetter)
-    }
 
     const handleNeverPressedKey = (keyLetter) => {
-        console.log("key never played", keyLetter)
+
         if (streakCount !== 0) setStreakCount(0);
         setPotentialMissedNote((prevSet) => {
             const updatedSet = new Set(prevSet);
@@ -191,7 +182,7 @@ const Game = () => {
             const inPlayKeyEnd = inPlayKeys[keyLetter]['endTime']
             if (inPlayKeyEnd > startTime) {
                 //if note is currently in-play
-                console.log('you pressed a note that is in-play:', keyLetter)
+
                 setPotentialMissedNote((prevSet) => {
                     const updatedSet = new Set(prevSet);
                     updatedSet.delete(keyLetter);
@@ -225,11 +216,10 @@ const Game = () => {
             const timeout = setTimeout(() => {
                 clearTimeout(timeoutId[keyLetter]);
                 if (!compareToInPlayKey(keyLetter, startTime)) {
-                    console.log('you pressed the note too early:', keyLetter)
                     handleWrongTiming(keyLetter);
                 }
 
-            }, 500);
+            }, 100);
 
             setTimeoutId(prevState => ({
                 ...prevState,
@@ -240,8 +230,7 @@ const Game = () => {
 
     //piano note released
     const checkReleasedKey = (keyLetter) => {
-        console.log('going to handle the note release')
-        handleNoteRelease(keyLetter);
+        checkScore(keyLetter)
     }
 
 
@@ -281,9 +270,7 @@ const Game = () => {
             setTotalScore(prevState => prevState + noteTotal)
             setScoreQueue([])
             if ((streakCount + 1) > maxStreak) setMaxStreak(streakCount + 1)
-            console.log('new max streak:', streakCount + 1)
             setStreakCount(prevState => prevState + 1)
-
         }
 
     }, [scoreQueue])
@@ -326,20 +313,15 @@ const Game = () => {
 
     return (
         <div className="game-page-parent">
-            <GameContext.Provider value={{ handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
+            <GameContext.Provider value={{ handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
                 <div className="game-page-child-1">
+                    {(!gameOver && !isAnimationStarted) ? (<div><b>Get Ready!</b></div>) : ""}
                     <div>{song.title}, {song.dir}</div>
-                    <ScoreDisplay />
 
-                    {gameOver ? <SaveScore score={totalScore} /> : ""}
-                    <div>Score:{totalScore}</div>
-                    {!gameOver ? (<div>Streak:{streakCount}</div>) : (<div> Your Max Streak:{maxStreak}</div>)}
-                    {(isAnimationStarted && !gameOver) ? (<div>Time Left: {Math.floor(songLength - (songProgress * songLength))}</div>) : ""}
-
-
-                    <div><Mp3Player handleStartAnimation={handleStartAnimation} isAnimationStarted={isAnimationStarted} handleStopAnimation={handleStopAnimation} /></div>
-                </div>
-
+                    {!gameOver
+                        ? (<LiveStats score={totalScore} streakCount={streakCount} songLength={songLength} songProgress={songProgress} />)
+                        : (<GameOver score={totalScore} maxStreak={maxStreak} />)}
+                    <GameControl handleStartAnimation={handleStartAnimation} isAnimationStarted={isAnimationStarted} handleStopAnimation={handleStopAnimation} /></div>
 
                 <div className="game-page-child-2"><StreamContainer setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
                     <div className="piano-container"><Piano /></div>

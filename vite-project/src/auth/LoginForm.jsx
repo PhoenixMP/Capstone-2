@@ -27,7 +27,7 @@ const LoginForm = ({ login }) => {
         evt.preventDefault();
         login(formData)
         setFormData(INITIAL_STATE);
-        navigate(`/`);
+        navigate(`/profile`);
     };
 
     /** Update form data field */

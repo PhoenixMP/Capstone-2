@@ -8,11 +8,8 @@ import "../Game.css";
 
 
 function PianoKey({ note, id, className, children, letter }) {
-    const { setActiveKeys, activeKeys, checkPressedKey, checkReleasedKey, accuracyAlert } = useContext(GameContext);
+    const { setActiveKeys, activeKeys, checkPressedKey, checkReleasedKey, accuracyAlert, setAccuracyAlert } = useContext(GameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
-    const [isActive, setIsActive] = useState(null)
-    const initialRenderRef = useRef(true);
-
     const isKeyDownRef = useRef(null);
 
 
@@ -44,6 +41,12 @@ function PianoKey({ note, id, className, children, letter }) {
                 return newState;
             })
 
+            setAccuracyAlert(prevState => {
+                const newState = { ...prevState };
+                delete newState[letter];
+                return newState;
+            })
+
 
             isKeyDownRef.current = false;
         }
@@ -67,6 +70,11 @@ function PianoKey({ note, id, className, children, letter }) {
             if (isKeyDownRef.current) {
                 checkPressedKey(letter, currTime)
             } else {
+                setAccuracyAlert(prevState => {
+                    const newState = { ...prevState };
+                    delete newState[letter];
+                    return newState;
+                })
                 checkReleasedKey(letter, currTime)
             }
         }

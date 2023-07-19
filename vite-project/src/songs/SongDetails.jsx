@@ -35,7 +35,6 @@ const SongDetails = () => {
     const [userHasTop, setUserHasTop] = useState(false);
 
 
-    console.log('currentUser', currentUser)
 
     const navigateGame = () => {
         // navigate to /

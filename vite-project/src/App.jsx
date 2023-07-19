@@ -45,11 +45,11 @@ function App() {
   const [userInfoLoaded, setUserInfoLoaded] = useState(false)
 
   async function addScore(data) {
-    await Melodic2API.newSccore(data)
+    await Melodic2API.saveScore(data)
   }
 
   async function addOnHoldScore(username, data) {
-    addScore({ mp3Id: data.mp3Id, username, score: data.score })
+    addScore({ mp3Id: `${data.mp3Id}`, username, score: data.score })
     setOnHoldScore(null)
   }
 
@@ -93,7 +93,6 @@ function App() {
   // the value of the token is a dependency for this effect.
   useEffect(() => {
     async function checkToken() {
-      console.log('token', token)
       if (token) {
         try {
           let { username } = jwt_decode(token);
@@ -132,7 +131,7 @@ function App() {
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <div>
             <MyNav logout={logout} />
-            <MyRoutes login={login} signup={signup} addScore={addScore} />
+            <MyRoutes login={login} signup={signup} />
           </div>
         </musicContext.Provider>
       </UserContext.Provider >
