@@ -24,7 +24,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
     const { ref, inView } = useInView({
         /* Optional options */
-        rootMargin: '-58% 0px 0px 0px',
+        rootMargin: '-56% 0px 0px 0px',
         threshold: 0,
     });
 
@@ -40,7 +40,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     const noteHeight = (noteLength / songLength) * StreamContainerHeight
     const blackNoteWidth = 50; //px
     const whiteNoteWidth = 103; //px
-    const leftPaddingWidth = 15; //pxsssssssss
+    const leftPaddingWidth = 15; //px
 
 
     const noteKey = {
@@ -57,6 +57,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
         'A#': { "width": blackNoteWidth, "keyboardKey": 'U', "leftPosition": (6 * whiteNoteWidth) - (blackNoteWidth / 2) - 5 },
         'B': { "width": whiteNoteWidth, "keyboardKey": 'J', "leftPosition": (6 * whiteNoteWidth) - 4 }
     };
+
 
     const convertPitchToNote = (pitch) => {
         const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -111,9 +112,10 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     return (
         <div ref={ref} className=
             {`game-note 
-            ${gameNoteClass}            
-${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
-${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} `}
+            ${gameNoteClass}  
+            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
+            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''}     
+      `}
             id={idx} style={noteStyle} >
             <div className='note-name'>{letter}</div>
         </div>
@@ -122,6 +124,10 @@ ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== '
 };
 export default GameNote;
 
-// ${(inView && !accuracyAlert.hasOwnProperty(letter)) ? 'in-play' : ''}    
+// ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
+// ${ (inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : '' }      
+// ${ (inView) ? 'in-play' : '' } 
+
+
 
 

@@ -129,10 +129,8 @@ function App() {
     <BrowserRouter>
       <UserContext.Provider value={{ currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
-          <div>
-            <MyNav logout={logout} />
-            <MyRoutes login={login} signup={signup} />
-          </div>
+          <MyNav logout={logout} />
+          <MyRoutes login={login} signup={signup} />
         </musicContext.Provider>
       </UserContext.Provider >
     </BrowserRouter>

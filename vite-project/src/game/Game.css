@@ -2,25 +2,19 @@ body.game-page-parent {
     overflow: hidden;
 }
 
-.game-page-parent {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-}
 
-.game-page-child-1 {
-    flex: 0 0 10px;
-    /* Adjust the width as needed */
-    /* Other styles for game-page-child-1 */
-}
-
+/* Adjust the width as needed */
+/* Other styles for game-page-child-1 */
 .game-page-child-2 {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    justify-content: flex-end;
+    position: absolute;
+    width: 750px;
+    margin: 0;
+    padding: 0;
 
+}
+
+#song-name {
+    text-align: center;
 }
 
 .stream-container {
@@ -32,19 +26,18 @@ body.game-page-parent {
     background-color: lightblue;
 
 
+
 }
 
 .piano-container {
     position: fixed;
-    top: 60%;
+    top: 58%;
     /* Adjust the value to position the piano container 900px below the top of the page */
     width: 750px;
     height: 400px;
     background-color: white;
     font-size: 20px;
-    margin: 0;
     padding-top: 0;
-
     z-index: 1;
 
 }
@@ -53,6 +46,10 @@ body.game-page-parent {
 
 .game-note {
     position: absolute;
+}
+
+.in-play {
+    color: blue;
 }
 
 .note-name {
@@ -89,6 +86,11 @@ body.game-page-parent {
 
 .white-game-note.inaccurate,
 .black-game-note.inaccurate {
+    background: linear-gradient(to bottom, #fff 0%, #b51515 100%)
+}
+
+.white-game-note.in-play,
+.black-game-note.in-play {
     background: linear-gradient(to bottom, #fff 0%, #b51515 100%)
 }
 

@@ -59,7 +59,7 @@ const Game = () => {
     const [gameOver, setGameOver] = useState(false);
 
 
-    const maxDelay = 300;
+    const maxDelay = 400;
 
     const handleRestartGame = () => {
         setIsAnimationStarted(false);
@@ -218,7 +218,7 @@ const Game = () => {
                     handleWrongTiming(keyLetter);
                 }
 
-            }, 100);
+            }, 300);
 
             setTimeoutId(prevState => ({
                 ...prevState,
@@ -340,21 +340,27 @@ const Game = () => {
         <div className="game-page-parent">
             <GameContext.Provider value={{ streakMultiplier, noteScore, handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
                 <div className="game-page-child-1">
-                    {(!gameOver && !isAnimationStarted) ? (<div><b>Get Ready!</b></div>) : ""}
-                    <div>{song.title}, {song.dir}</div>
+                    <StreamContainer setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
+                    <div className="piano-container"><Piano /></div>
+                </div>
+
+                <div className="game-page-child-2">
+                    <div id="song-name">{song.title}, {song.dir}</div>
 
                     {!gameOver
                         ? (<LiveStats multiplier={streakMultiplier} score={totalScore} streakCount={streakCount} songLength={songLength} songProgress={songProgress} />)
                         : (<GameOver score={totalScore} maxStreak={maxStreak} />)}
-                    <GameControl handleStartAnimation={handleStartAnimation} isAnimationStarted={isAnimationStarted} handleStopAnimation={handleStopAnimation} /></div>
-
-                <div className="game-page-child-2"><StreamContainer setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
-                    <div className="piano-container"><Piano /></div>
+                    {(!gameOver && !isAnimationStarted) ? (<div ClassName="get-ready-alert"><b>Get Ready!</b></div>) : (<div id="game-timer">Time Left: {Math.floor(songLength - (songProgress * songLength))}</div>)}
+                    <GameControl handleStartAnimation={handleStartAnimation} isAnimationStarted={isAnimationStarted} handleStopAnimation={handleStopAnimation} />
                 </div>
-            </GameContext.Provider>
 
-        </div>
+
+            </GameContext.Provider >
+
+        </div >
     )
 
 };
 export default Game;
+
+

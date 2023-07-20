@@ -35,7 +35,7 @@ function MyRoutes({ login, signup }) {
   );
 
   return (
-    <div className="pt-5">
+    <div>
       <Routes>
 
         <Route exact path="/" element={<Home />} />

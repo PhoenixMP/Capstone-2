@@ -105,6 +105,3 @@ ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? '
 }
 
 export default PianoKey;
-// ${activeKeys.hasOwnProperty(letter) ? 'active' : ''} `}>
-// ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
-// ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} 
