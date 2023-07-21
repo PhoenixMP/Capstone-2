@@ -1,17 +1,39 @@
-body.game-page-parent {
+.game-page-parent {
     overflow: hidden;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+
 }
 
+video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Use "contain" to center the video with black edges */
+    transform: translate(-50%, -50%);
+    z-index: -1;
+
+}
 
 /* Adjust the width as needed */
 /* Other styles for game-page-child-1 */
 .game-page-child-2 {
     position: absolute;
-    width: 750px;
+    top: 0;
+    left: 50%;
     margin: 0;
     padding: 0;
-
+    background-color: rgba(234, 231, 231, 0.51);
 }
+
+
 
 #song-name {
     text-align: center;
@@ -19,25 +41,27 @@ body.game-page-parent {
 
 .stream-container {
     position: absolute;
+    left: 0%;
     /* Adjust the value to position the stream container very far up on the page */
     width: 750px;
     margin: 0;
     padding: 0;
-    background-color: lightblue;
-
 
 
 }
 
 .piano-container {
     position: fixed;
+    left: 0%;
+
     top: 58%;
     /* Adjust the value to position the piano container 900px below the top of the page */
     width: 750px;
     height: 400px;
-    background-color: white;
+    background-color: rgb(71, 127, 187);
     font-size: 20px;
-    padding-top: 0;
+    padding-top: 2px;
+    text-align: center;
     z-index: 1;
 
 }
@@ -46,6 +70,7 @@ body.game-page-parent {
 
 .game-note {
     position: absolute;
+    z-index: 1;
 }
 
 .in-play {
@@ -102,6 +127,7 @@ body.game-page-parent {
 
 
 ul {
+    margin-left: 8px;
     margin-top: 0;
     padding-top: 0;
 }
@@ -168,8 +194,10 @@ div .note-accuracy {
 #D,
 #C,
 #E {
-    margin: 0 0 0 -25px
+    margin: 0 0 0 -27px
 }
+
+
 
 ul li:first-child {
     border-radius: 5px 0 5px 5px

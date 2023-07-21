@@ -1,6 +1,7 @@
 
 import React from "react";
 import SongCard from "./SongCard";
+import "./SongCard.css"
 
 
 /** Homepage of site.
@@ -15,15 +16,17 @@ import SongCard from "./SongCard";
 const SongCardList = ({ songs }) => {
 
 
-
     return (
-        <div>
+        <div className="cards">
             {songs.map(song => (
                 <SongCard
                     key={song.mp3_id}
                     mp3Id={song.mp3_id}
                     title={song.title}
-                    dir={song.dir} />
+                    dir={song.dir}
+                    topScore={song.topScore}
+
+                />
             ))}
         </div>
     )

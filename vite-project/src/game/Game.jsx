@@ -11,6 +11,7 @@ import GameOver from "./GameOver";
 import SaveScore from "./SaveScore";
 import GameContext from "./GameContext";
 import MusicContext from "../songs/MusicContext";
+import video from './Video1.mp4'
 import "./Game.css"
 
 
@@ -339,6 +340,9 @@ const Game = () => {
     return (
         <div className="game-page-parent">
             <GameContext.Provider value={{ streakMultiplier, noteScore, handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
+                <video autoPlay loop id="bgvid">
+                    <source src={video} type="video/mp4" />
+                </video>
                 <div className="game-page-child-1">
                     <StreamContainer setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
                     <div className="piano-container"><Piano /></div>

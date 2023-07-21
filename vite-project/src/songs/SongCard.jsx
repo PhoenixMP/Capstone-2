@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./SongCard.css"
 
 
 
@@ -12,19 +13,38 @@ import { Link } from "react-router-dom";
  * JobCardList -> JobCard
  */
 
-function SongCard({ mp3Id, title, dir }) {
+function SongCard({ mp3Id, title, dir, topScore }) {
 
+    const checkIfTopScore = () => {
+        if (topScore.length > 0) {
+
+            return (
+                <Link to={`/song/${mp3Id}`} key={mp3Id}>
+                    <div className="card red">
+                        <p className="card-title">{title} </p>
+                        <p className="card-title"> {dir} </p>
+                        <p className="card-score">TopScore:{topScore.score} </p>
+                        <p className="card-score">by {topScore.username} at {topScore.scoreTimestamp} </p>
+
+                    </div>
+                </Link>
+            )
+
+        } else {
+
+            return (<Link to={`/song/${mp3Id}`} key={mp3Id}>
+                <div className="card red">
+                    <p className="card-title">{title} </p>
+                    <p className="card-title"> {dir} </p>
+                    <p className="card-score">No TopScore Recorded Yet </p>
+                </div>
+            </Link>
+            )
+        }
+    }
 
     return (
-        <div className="SongCard card">
-            <div className="card-body">
-                <Link to={`/song/${mp3Id}`} key={mp3Id}>
-                    <h4 className="card-title">{title} </h4>
-                    <h4> {dir}</h4>
-
-                </Link>
-            </div>
-        </div>
+        <div>{checkIfTopScore()}</div>
     );
 }
 

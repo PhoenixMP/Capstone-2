@@ -1,5 +1,3 @@
-
-import './App.css';
 import React, { useState, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import jwt_decode from "jwt-decode";
@@ -10,7 +8,8 @@ import UserContext from "./auth/UserContext";
 import musicContext from "./songs/MusicContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Melodic2API from "./api/api";
-import "./routes-nav/Navigation.css";
+import './index.css'
+
 
 
 /** Jobly application.
@@ -36,6 +35,8 @@ function App() {
   const [userBestScore, setUserBestScore] = useLocalStorage("UserBestScore", false);
   const [topScore, setTopScore] = useLocalStorage("topScore", null);
   const [onHoldScore, setOnHoldScore] = useLocalStorage("onHoldScore", null);
+  const [showLogin, setShowLogin] = useState(false)
+  const [showSignup, setShowSignup] = useState(false)
 
 
 
@@ -60,6 +61,8 @@ function App() {
     const res = await Melodic2API.registerUser(data);
     setToken(res);
     if (onHoldScore) addOnHoldScore(data.username);
+    setShowLogin(false)
+    setShowSignup(false)
   }
 
 
@@ -67,6 +70,8 @@ function App() {
   async function login(data) {
     const res = await Melodic2API.loginUser(data);
     setToken(res);
+    setShowLogin(false)
+    setShowSignup(false)
 
   }
 
@@ -83,6 +88,18 @@ function App() {
   async function updateUser(data) {
     const user = await Melodic2API.updateUser(currentUser.username, data)
     setCurrentUser(user)
+  }
+
+  function toggleLoginForm() {
+    setShowLogin(prevState => !prevState)
+    setShowSignup(false)
+
+
+  }
+  function toggleSignupForm() {
+    setShowSignup(prevState => !prevState)
+    setShowLogin(false)
+
   }
 
 
@@ -127,10 +144,10 @@ function App() {
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
+      <UserContext.Provider value={{ toggleSignupForm, toggleLoginForm, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <MyNav logout={logout} />
-          <MyRoutes login={login} signup={signup} />
+          <MyRoutes login={login} signup={signup} updateUser={updateUser} />
         </musicContext.Provider>
       </UserContext.Provider >
     </BrowserRouter>

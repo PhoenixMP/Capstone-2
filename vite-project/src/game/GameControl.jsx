@@ -105,7 +105,7 @@ const GameControl = ({ handleStartAnimation, handleStopAnimation, isAnimationSta
 
 
     return (
-        <div>
+        <div className="game-control">
 
             {(!resetPrompt && !exitPrompt && isAnimationStarted) ? (<button onClick={handleRestartPrompt}>Restart Game</button>) : ""}
             {resetPrompt ? (<button onClick={handleRestart}>Are You Sure You Want to Restart?</button>) : ""}

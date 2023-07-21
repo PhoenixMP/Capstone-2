@@ -13,61 +13,65 @@ import "./Navigation.css";
  */
 
 function MyNav({ logout }) {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
+
 
 
   function loggedInNav() {
     return (
-      <ul className="navbar-nav ml-auto">
-        <li className="nav-item mr-4">
-          <NavLink className="nav-link" to="/songs">
+      <ul className="nav-link">
+
+        <li className="nav-link">
+          <NavLink style={{ textDecoration: 'none' }} to="/songs">
             Songs
           </NavLink>
-        </li>
 
-        <li className="nav-item mr-4">
-          <NavLink className="nav-link" to="/profile">
+          <NavLink style={{ textDecoration: 'none' }} to="/profile">
             Profile
           </NavLink>
         </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/" onClick={logout}>
-            Log out {currentUser.first_name || currentUser.username}
-          </Link>
-        </li>
+        <div className="login-register">
+          <button style={{ textDecoration: 'none' }} className="button" onClick={logout}>
+            Logout {currentUser.first_name || currentUser.username}
+          </button>
+        </div>
       </ul>
     );
   }
 
   function loggedOutNav() {
     return (
-      <ul className="navbar-nav ml-auto">
-        <li className="nav-item mr-4">
-          <NavLink className="nav-link" to="/songs">
+      <ul className="nav-link">
+
+        <li className="nav-item">
+          <NavLink style={{ textDecoration: 'none' }} to="/songs">
             Songs
           </NavLink>
         </li>
-        <li className="nav-item mr-4">
-          <NavLink className="nav-link" to="/login">
+
+        <div className="login-register">
+          <button className="button" onClick={toggleLoginForm}>
             Login
-          </NavLink>
-        </li>
-        <li className="nav-item mr-4">
-          <NavLink className="nav-link" to="/signup">
-            Sign Up
-          </NavLink>
-        </li>
+          </button>
+          <button style={{ textDecoration: 'none' }} className="button" onClick={toggleSignupForm}>
+            Signup
+          </button>
+        </div>
+
       </ul>
     );
   }
 
   return (
-    <nav className="Navigation navbar navbar-expand-md">
-      <Link className="navbar-brand" to="/">
-        Melodic2
-      </Link>
+    <div className="navbar-container">
+      <div className="logo-container">
+        <Link style={{ textDecoration: 'none' }} className="navbar-brand" to="/">
+          MelodicNotes
+        </Link >
+      </div>
+
       {currentUser ? loggedInNav() : loggedOutNav()}
-    </nav>
+    </div>
   );
 }
 

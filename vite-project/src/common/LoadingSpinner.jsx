@@ -5,9 +5,8 @@ import "./LoadingSpinner.css";
 
 function LoadingSpinner() {
   return (
-    <div className="LoadingSpinner">
-      Loading ...
-    </div>
+    <div className="loader"></div>
+
   );
 }
 

@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import userContext from "../auth/UserContext";
 import UpdateUserForm from "./UpdateUserForm";
-import DetailedScoreList from "../scores/DetailedScoreList";
-import UserScoreList from "../scores/UserScoreList"
-import { Link } from "react-router-dom";
+import TopScoreList from "./scores/TopScoreList";
+import UserScoreList from "./scores/UserScoreList"
+import './Profile.css'
+
 
 
 /** Homepage of site.
@@ -27,6 +28,7 @@ const Profile = () => {
     const [topScores, setTopScores] = useState(null)
     const [undefeatedScores, setUndefeatedScores] = useState(null)
     const [toggleScore, setToggleScore] = useState("top")
+    const [editProfile, setEditProfile] = useState(false)
 
     const { currentUser, onHoldScore, addScore } = useContext(userContext);
 
@@ -59,7 +61,7 @@ const Profile = () => {
         return (
             <div> Top Scores:
                 <br />{topScores === false ? "You have no scores yet" :
-                    (< DetailedScoreList scores={topScores} isUser={true} />)}
+                    (< TopScoreList scores={topScores} />)}
             </div>
         )
     }
@@ -77,7 +79,7 @@ const Profile = () => {
         return (
             <div> Undefeated Scores:
                 <br />{undefeatedScores === false ? "You have no undefeated scores yet" :
-                    (< DetailedScoreList scores={undefeatedScores} isUser={true} />)}
+                    (< TopScoreList scores={undefeatedScores} />)}
             </div>
         )
     }
@@ -102,19 +104,25 @@ const Profile = () => {
         setToggleScore("undefeated");
     };
 
-
+    function toggleEditProfile() {
+        setEditProfile(prevState => !prevState);
+    }
 
     if (userScores === null || topScores === null || undefeatedScores === null) return <LoadingSpinner />;
 
 
 
     return (
-        <div>
-            <div> <UpdateUserForm /></div>
-            <div>
+        <div className="profile-page">
+            <div className="edit-profile">
+                <button onClick={() => toggleEditProfile()}>Update Profile</button>
+                {editProfile ? (<div> <UpdateUserForm /></div>) : ""}
+            </div>
+
+            <div className="profile-scores">
                 <h3>Your Scores</h3>
-                <button onClick={() => toggleToTop()}>Your Top Scores</button>
                 <button onClick={() => toggleToAll()}>All Scores</button>
+                <button onClick={() => toggleToTop()}>Top Scores</button>
                 <button onClick={() => toggleToUndefeated()}>Undefeated Scores</button>
                 {toggleView()}
             </div>

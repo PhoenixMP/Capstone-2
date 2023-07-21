@@ -25,7 +25,7 @@ import UserContext from "../auth/UserContext";
  * Visiting a non-existant route redirects to the homepage.
  */
 
-function MyRoutes({ login, signup }) {
+function MyRoutes({ login, signup, updateUser }) {
   const { currentUser } = useContext(UserContext);
 
   console.debug(
@@ -38,13 +38,10 @@ function MyRoutes({ login, signup }) {
     <div>
       <Routes>
 
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<Home login={login} signup={signup} />} />
 
-        <Route exact path="/login" element={!currentUser ? (<LoginForm login={login} />) : (<Navigate replace to={"/profile"} />)} />
 
-        <Route exact path="/signup" element={!currentUser ? (<SignupForm signup={signup} />) : (<Navigate replace to={"/profile"} />)} />
-
-        <Route exact path="/profile" element={currentUser ? (<Profile />) : (<Navigate replace to={"/login"} />)} />
+        <Route exact path="/profile" element={currentUser ? (<Profile updateUser={updateUser} />) : (<Navigate replace to={"/login"} />)} />
 
         <Route exact path="/songs" element={<Songs />} />
 

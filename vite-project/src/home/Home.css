@@ -1,0 +1,971 @@
+.Home-page {
+    position: relative;
+    height: 100vh;
+    background-image: url("../images/home.jpg");
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: row;
+    z-index: 50;
+    justify-content: space-evenly;
+}
+
+.home-scores-list {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: spaces-between;
+    flex-wrap: wrap;
+}
+
+.falling-notes {
+
+    top: 0;
+    left: 0;
+    z-index: -1;
+    font-size: 60px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.471);
+    overflow: hidden;
+}
+
+.falling-notes span {
+    position: absolute;
+    transform: translateY(-100px);
+    z-index: 1;
+    animation: rotating-and-falling-anim 10s linear infinite;
+}
+
+/* animation */
+@keyframes rotating-and-falling-anim {
+    0% {
+        transform: translateY(-100px) rotate(0);
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(600deg);
+    }
+}
+
+/* side position and delay */
+.falling-notes span:nth-child(1) {
+    left: 5%;
+    animation-delay: 2.6s;
+}
+
+.falling-notes span:nth-child(2) {
+    left: 15%;
+    animation-delay: 2.2s;
+}
+
+.falling-notes span:nth-child(3) {
+    left: 25%;
+    animation-delay: 4s;
+}
+
+.falling-notes span:nth-child(4) {
+    left: 35%;
+    animation-delay: 5.1s;
+}
+
+.falling-notes span:nth-child(5) {
+    left: 45%;
+    animation-delay: 4.4s;
+}
+
+.falling-notes span:nth-child(6) {
+    left: 55%;
+    animation-delay: 1s;
+}
+
+.falling-notes span:nth-child(7) {
+    left: 65%;
+    animation-delay: 0s;
+}
+
+.falling-notes span:nth-child(8) {
+    left: 75%;
+    animation-delay: 3.1s;
+}
+
+.falling-notes span:nth-child(9) {
+    left: 85%;
+    animation-delay: 1.3s;
+}
+
+.falling-notes span:nth-child(10) {
+    left: 95%;
+    animation-delay: 3.3s;
+}
+
+
+
+
+.lights-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+
+}
+
+.light-1 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 0.365s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bfba40;
+}
+
+.light-2 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.38s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf4740;
+}
+
+.light-3 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.66s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf45;
+}
+
+.light-4 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.63s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #8040bf;
+}
+
+.light-5 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.215s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #4063bf;
+}
+
+.light-6 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.175s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bfb0;
+}
+
+.light-7 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.905s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf99;
+}
+
+.light-8 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.3s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bfb8;
+}
+
+.light-9 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.365s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #42bf40;
+}
+
+.light-10 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 0.155s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bfa340;
+}
+
+.light-11 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.075s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf7540;
+}
+
+.light-12 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.63s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf73;
+}
+
+.light-13 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.41s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #80bf40;
+}
+
+.light-14 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.78s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #a640bf;
+}
+
+.light-15 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.81s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf5c;
+}
+
+.light-16 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.385s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf7a;
+}
+
+.light-17 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.02s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf63;
+}
+
+.light-18 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.8s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #69bf40;
+}
+
+.light-19 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.48s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf99;
+}
+
+.light-20 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.76s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #7040bf;
+}
+
+.light-21 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.63s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf40a3;
+}
+
+.light-22 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.715s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #6140bf;
+}
+
+.light-23 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.305s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf40b3;
+}
+
+.light-24 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.05s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #5940bf;
+}
+
+.light-25 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.125s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40a1bf;
+}
+
+.light-26 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 0.915s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bdbf40;
+}
+
+.light-27 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.705s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #4091bf;
+}
+
+.light-28 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.725s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #6140bf;
+}
+
+.light-29 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 0.74s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf63;
+}
+
+.light-30 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.4s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf40a3;
+}
+
+.light-31 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.085s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf5740;
+}
+
+.light-32 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.55s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf4094;
+}
+
+.light-33 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.135s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #8040bf;
+}
+
+.light-34 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.46s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf4740;
+}
+
+.light-35 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.56s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf8c40;
+}
+
+.light-36 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.725s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf8540;
+}
+
+.light-37 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.57s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #6140bf;
+}
+
+.light-38 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.665s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #87bf40;
+}
+
+.light-39 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.99s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf63;
+}
+
+.light-40 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.56s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #59bf40;
+}
+
+.light-41 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.7s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf5740;
+}
+
+.light-42 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.615s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf82;
+}
+
+.light-43 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.075s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #9ebf40;
+}
+
+.light-44 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.335s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #5240bf;
+}
+
+.light-45 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.87s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40b0bf;
+}
+
+.light-46 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.235s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #4054bf;
+}
+
+.light-47 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.255s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf73;
+}
+
+.light-48 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.16s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf4047;
+}
+
+.light-49 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.775s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #70bf40;
+}
+
+.light-50 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 2.7s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf4f40;
+}
+
+.light-51 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.54s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #ad40bf;
+}
+
+.light-52 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.765s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf409c;
+}
+
+.light-53 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.74s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf405e;
+}
+
+.light-54 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 3.475s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40bf4d;
+}
+
+.light-55 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 1.825s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #bf6640;
+}
+
+.light-56 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 0.82s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #9e40bf;
+}
+
+.light-57 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.565s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #4082bf;
+}
+
+.light-58 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 4.095s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #4063bf;
+}
+
+.light-59 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 0.415s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #40a8bf;
+}
+
+.light-60 {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    animation: light 4s linear infinite;
+    animation-delay: 0.89s;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.5), 0 0 50px 40px #6140bf;
+}
+
+@keyframes light {
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0.5;
+    }
+
+    70% {
+        opacity: 0;
+    }
+}

@@ -1,0 +1,15 @@
+.profile-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.edit-profile {
+
+    order: 2
+}
+
+.profile-scores {
+    order: 1
+}

@@ -12,7 +12,6 @@ function LiveStats({ multiplier, score, streakCount, songLength, songProgress })
             <div>Multiplier:x{multiplier}</div>
             <div>Score:{score}</div>
 
-
         </div>
     )
 
