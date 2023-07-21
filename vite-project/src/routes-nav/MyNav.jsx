@@ -50,12 +50,14 @@ function MyNav({ logout }) {
         </li>
 
         <div className="login-register">
-          <button className="button" onClick={toggleLoginForm}>
-            Login
-          </button>
-          <button style={{ textDecoration: 'none' }} className="button" onClick={toggleSignupForm}>
-            Signup
-          </button>
+          <NavLink style={{ textDecoration: 'none' }} to="/">
+            <button className="button" onClick={toggleLoginForm}>
+              Login
+            </button>
+            <button style={{ textDecoration: 'none' }} className="button" onClick={toggleSignupForm}>
+              Signup
+            </button>
+          </NavLink>
         </div>
 
       </ul>

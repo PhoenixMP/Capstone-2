@@ -12,7 +12,6 @@ function HomeScoreCard(props) {
     const saturation = '60%'; // You can adjust this value to control the saturation
     const lightness = '60%';
     const hue = (props.order * (360 / props.cardNumber)) % 360;
-    console.log(props.order, hue)
     return `hsl(${hue}, ${saturation}, ${lightness})`;
 
   }

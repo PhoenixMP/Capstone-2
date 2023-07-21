@@ -41,7 +41,7 @@ function MyRoutes({ login, signup, updateUser }) {
         <Route exact path="/" element={<Home login={login} signup={signup} />} />
 
 
-        <Route exact path="/profile" element={currentUser ? (<Profile updateUser={updateUser} />) : (<Navigate replace to={"/login"} />)} />
+        <Route exact path="/profile" element={currentUser ? (<Profile updateUser={updateUser} />) : (<Navigate replace to={"/"} />)} />
 
         <Route exact path="/songs" element={<Songs />} />
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-
+import { BrowserRouter } from "react-router-dom";
 import MyRoutes from './routes-nav/MyRoutes'
 import MyNav from './routes-nav/MyNav'
 import UserContext from "./auth/UserContext";
@@ -40,10 +39,10 @@ function App() {
 
 
 
-
-
   const [token, setToken] = useLocalStorage("token", null);
-  const [userInfoLoaded, setUserInfoLoaded] = useState(false)
+
+
+
 
   async function addScore(data) {
     await Melodic2API.saveScore(data)
@@ -128,10 +127,10 @@ function App() {
         setUserBestScore(null);
         setOnHoldScore(null);
       }
-      setUserInfoLoaded(true)
+
 
     }
-    setUserInfoLoaded(false)
+
     checkToken();
 
 

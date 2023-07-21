@@ -40,7 +40,8 @@ class Score {
       `SELECT id, username,
       score, score_timestamp as "scoreTimestamp"
            FROM user_game_scores
-           WHERE mp3_id = $1`,
+           WHERE mp3_id = $1
+           ORDER BY score DESC`,
       [mp3_id]
     );
     return scoreRes.rows;

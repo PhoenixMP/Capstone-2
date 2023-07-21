@@ -1,5 +1,6 @@
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 import LoadingSpinner from "../common/LoadingSpinner";
 import GameControl from "./GameControl";
@@ -11,8 +12,15 @@ import GameOver from "./GameOver";
 import SaveScore from "./SaveScore";
 import GameContext from "./GameContext";
 import MusicContext from "../songs/MusicContext";
-import video from './Video1.mp4'
 import "./Game.css"
+import video1 from './backgrounds/Video1.mp4'
+import video2 from './backgrounds/Video2.mp4'
+import video3 from './backgrounds/Video3.mp4'
+import video4 from './backgrounds/Video4.mp4'
+import video5 from './backgrounds/Video5.mp4'
+import video6 from './backgrounds/Video6.mp4'
+import UserContext from "../auth/UserContext";
+
 
 
 
@@ -32,6 +40,8 @@ const Game = () => {
 
 
     const { song } = useContext(MusicContext);
+    const { mp3Id } = useParams()
+
     const [songProgress, setSongProgress] = useState(0)
 
     const songLength = song.song_length;
@@ -41,7 +51,7 @@ const Game = () => {
 
     const [isAnimationStarted, setIsAnimationStarted] = useState(false);
     const [isAnimationStopped, setIsAnimationStopped] = useState(false);
-
+    const [video, setVideo] = useState(null)
     const [timeoutId, setTimeoutId] = useState({});
 
     const [activeKeys, setActiveKeys] = useState({});
@@ -59,8 +69,37 @@ const Game = () => {
     const [maxStreak, setMaxStreak] = useState(0)
     const [gameOver, setGameOver] = useState(false);
 
+    const isMountedRef = useRef(false);
 
     const maxDelay = 400;
+
+
+
+
+    useEffect(() => {
+        if (!isMountedRef.current) {
+
+            if (Number(mp3Id) === 1564) {
+                setVideo(6)
+            } else if (Number(mp3Id) === 5772) {
+
+                setVideo(5)
+            } else {
+                const videoNumbers = [1, 2, 3, 4]
+                const randomIndex = Math.floor(Math.random() * videoNumbers.length);
+
+                if (videoNumbers[randomIndex] === 1) { setVideo(1) }
+                else if (videoNumbers[randomIndex] === 2) { setVideo(2) }
+                else if (videoNumbers[randomIndex] === 3) { setVideo(3) }
+                else if (videoNumbers[randomIndex] === 4) { setVideo(4) }
+
+            }
+            isMountedRef.current = true;
+        }
+
+    }, [mp3Id])
+
+
 
     const handleRestartGame = () => {
         setIsAnimationStarted(false);
@@ -334,14 +373,18 @@ const Game = () => {
         setIsAnimationStarted(false);
     };
 
-
-
+    if (video === null) return <LoadingSpinner />;
 
     return (
         <div className="game-page-parent">
             <GameContext.Provider value={{ streakMultiplier, noteScore, handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
                 <video autoPlay loop id="bgvid">
-                    <source src={video} type="video/mp4" />
+                    {(video === 1) ? (<source src={video1} type="video/mp4" />) : ""}
+                    {(video === 2) ? (<source src={video2} type="video/mp4" />) : ""}
+                    {(video === 3) ? (<source src={video3} type="video/mp4" />) : ""}
+                    {(video === 4) ? (<source src={video4} type="video/mp4" />) : ""}
+                    {(video === 5) ? (<source src={video5} type="video/mp4" />) : ""}
+                    {(video === 6) ? (<source src={video6} type="video/mp4" />) : ""}
                 </video>
                 <div className="game-page-child-1">
                     <StreamContainer setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
