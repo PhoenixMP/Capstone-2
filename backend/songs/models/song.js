@@ -52,7 +52,7 @@ class Song {
   static async findAll(searchFilters = {}) {
     let query = `SELECT mp3_id,
                         title,
-                        dir
+                        dir, genre
                  FROM songs`;
     let whereExpressions = [];
     let queryValues = [];
@@ -91,7 +91,7 @@ class Song {
       `SELECT mp3_id,
                         title,
                         dir
-                 FROM songs
+                 FROM songs, genre
                  WHERE genre = $1
                  ORDER BY title`,
       [genre]);
@@ -113,7 +113,7 @@ class Song {
     const songRes = await db.query(
       `SELECT mp3_id,
           title,
-          dir,
+          dir, genre,
           song_length,
           bpm
           FROM songs

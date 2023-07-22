@@ -1,12 +1,9 @@
-.nav-link {
-  text-decoration: none;
-}
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@600;700&family=Poppins:wght@500&display=swap');
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 100px;
   padding: 0 2rem;
   width: 100%;
   height: 70px;
@@ -14,11 +11,12 @@
   color: #DAFFFB;
   position: fixed;
   top: 0;
-  text-decoration: none;
-  z-index: 100;
+  z-index: 10000;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif
 }
 
-.navbar-container .logo-container a {
+.navbar-container .logo-container {
   font-size: 1.5rem;
   font-weight: 500;
   font-family: 'Kanit', sans-serif;
@@ -27,7 +25,7 @@
   color: #DAFFFB;
 }
 
-.navbar-container .logo-container a:hover {
+.navbar-container .logo-container :hover {
   opacity: 0.8;
 }
 
@@ -36,9 +34,10 @@
   align-items: center;
   gap: 3rem;
   list-style: none;
+
 }
 
-.navbar-container .nav-items .nav-link a {
+.navbar-container .nav-items .nav-link {
   color: #DAFFFB;
   padding: 10px;
   text-transform: uppercase;
@@ -79,9 +78,13 @@
   gap: 1rem;
 }
 
-.navbar-container .nav-items .login-register .button {
+#login,
+#signup,
+#logout {
+
   color: #DAFFFB;
   border: 2px solid #DAFFFB;
+  background: #176B87;
   padding: 5px 20px;
   text-transform: uppercase;
   border-radius: 3px;
@@ -96,89 +99,9 @@
   -o-transition: all ease-in 0.3s;
 }
 
-.navbar-container .nav-items .login-register .button:hover {
+#login:hover,
+#signup:hover,
+#logout:hover {
   background: #DAFFFB;
   color: #176B87;
 }
-
-
-
-.main {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #DAFFFB;
-  font-size: 3rem;
-  text-align: center;
-  padding: 1rem;
-}
-
-
-
-@media(max-width: 1000px) {
-  .navbar-container {
-    padding: 0 1rem;
-  }
-
-  .navbar-container .nav-items {
-    gap: 0.1rem;
-  }
-
-  .navbar-container .nav-items .nav-link a,
-  .navbar-container .nav-items .login-register .button {
-    font-size: 0.9rem;
-  }
-}
-
-@media(max-width: 700px) {
-  .navbar-container .nav-items {
-    flex-direction: column;
-    position: fixed;
-    top: 70px;
-    right: -100%;
-    width: 100vw;
-    height: 100vh;
-    padding: 1rem 0;
-    z-index: 99;
-    background: #2590B5;
-    transition: 0.2s ease-in;
-    -webkit-transition: 0.2s ease-in;
-    -moz-transition: 0.2s ease-in;
-    -ms-transition: 0.2s ease-in;
-    -o-transition: 0.2s ease-in;
-  }
-
-  .bars {
-    width: 22px;
-    height: auto;
-    cursor: pointer;
-  }
-
-  .bars .bar {
-    width: 100%;
-    height: 2px;
-    background: #DAFFFB;
-    margin: 5px;
-  }
-
-  .navbar-container .nav-items {
-    gap: 3rem;
-  }
-
-  .navbar-container .nav-items .login-register {
-    width: 50%;
-    text-align: center;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .navbar-container .nav-items .login-register .button {
-    padding: 1rem 0;
-  }
-
-
-
-  .navbar-container .nav-items.active {
-    right: 0;
-  }

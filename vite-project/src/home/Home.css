@@ -1,21 +1,12 @@
-.Home-page {
-    position: relative;
-    height: 100vh;
-    background-image: url("../images/home.jpg");
-    background-position: center;
-    background-size: cover;
-    overflow: hidden;
-}
-
 .content-container {
     display: flex;
     flex-direction: row;
     z-index: 50;
-    justify-content: space-evenly;
+    justify-content: between;
 }
 
 .home-scores-list {
-    margin-top: 100px;
+    margin-top: 50px;
     display: flex;
     flex-direction: row;
     justify-content: spaces-between;

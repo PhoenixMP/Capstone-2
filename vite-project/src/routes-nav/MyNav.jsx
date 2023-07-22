@@ -19,19 +19,20 @@ function MyNav({ logout }) {
 
   function loggedInNav() {
     return (
-      <ul className="nav-link">
+      <ul className="nav-items">
 
         <li className="nav-link">
-          <NavLink style={{ textDecoration: 'none' }} to="/songs">
-            Songs
+          <NavLink style={{ textDecoration: 'none', color: "white" }} to="/songs">
+            Song Search
           </NavLink>
-
-          <NavLink style={{ textDecoration: 'none' }} to="/profile">
+        </li>
+        <li className="nav-link">
+          <NavLink style={{ textDecoration: 'none', color: "white" }} to="/profile">
             Profile
           </NavLink>
         </li>
         <div className="login-register">
-          <button style={{ textDecoration: 'none' }} className="button" onClick={logout}>
+          <button id="logout" className="button" onClick={logout}>
             Logout {currentUser.first_name || currentUser.username}
           </button>
         </div>
@@ -41,33 +42,35 @@ function MyNav({ logout }) {
 
   function loggedOutNav() {
     return (
-      <ul className="nav-link">
+      <ul className="nav-items">
 
-        <li className="nav-item">
-          <NavLink style={{ textDecoration: 'none' }} to="/songs">
-            Songs
+        <li className="nav-link">
+          <NavLink style={{ textDecoration: 'none', color: "white" }} to="/songs">
+            Song Search
           </NavLink>
         </li>
 
-        <div className="login-register">
-          <NavLink style={{ textDecoration: 'none' }} to="/">
-            <button className="button" onClick={toggleLoginForm}>
+
+        <NavLink style={{ textDecoration: 'none' }} to="/">
+          <div className="login-register">
+            <button id="login" className="button" onClick={toggleLoginForm}>
               Login
             </button>
-            <button style={{ textDecoration: 'none' }} className="button" onClick={toggleSignupForm}>
+            <button id="signup" className="button" onClick={toggleSignupForm}>
               Signup
             </button>
-          </NavLink>
-        </div>
+          </div>
+        </NavLink>
 
-      </ul>
+
+      </ul >
     );
   }
 
   return (
     <div className="navbar-container">
       <div className="logo-container">
-        <Link style={{ textDecoration: 'none' }} className="navbar-brand" to="/">
+        <Link style={{ textDecoration: 'none', color: "white" }} className="navbar-brand" to="/">
           MelodicNotes
         </Link >
       </div>

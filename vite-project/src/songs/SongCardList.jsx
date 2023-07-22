@@ -2,6 +2,7 @@
 import React from "react";
 import SongCard from "./SongCard";
 import "./SongCard.css"
+import { ScrollRestoration } from "react-router-dom";
 
 
 /** Homepage of site.
@@ -15,9 +16,9 @@ import "./SongCard.css"
 
 const SongCardList = ({ songs }) => {
 
-
+    console.log(songs)
     return (
-        <div className="cards">
+        <div className="song-card-list">
             {songs.map(song => (
                 <SongCard
                     key={song.mp3_id}
@@ -25,6 +26,7 @@ const SongCardList = ({ songs }) => {
                     title={song.title}
                     dir={song.dir}
                     topScore={song.topScore}
+                    genre={song.genre}
 
                 />
             ))}

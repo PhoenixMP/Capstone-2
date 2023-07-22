@@ -8,6 +8,7 @@ import musicContext from "./songs/MusicContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Melodic2API from "./api/api";
 import './index.css'
+import './App.css'
 
 
 
