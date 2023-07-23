@@ -4,7 +4,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 import Home from "../home/Home";
 import Songs from "../songs/Songs";
-import SongDetails from "../songs/SongDetails";
+import SongDetails from "../song-details/SongDetails";
 
 import Profile from "../profile/Profile"
 import Game from "../game/Game"

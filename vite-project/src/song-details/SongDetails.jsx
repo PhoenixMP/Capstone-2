@@ -3,15 +3,17 @@ import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
-import musicContext from "./MusicContext";
+import musicContext from "../songs/MusicContext";
 import userContext from "../auth/UserContext";
 import SongScoreList from "../scores/SongScoreList"
 import SongScoreCard from "../scores/SongScoreCard";
+import LoginForm from "../auth/LoginForm"
+import SignupForm from "../auth/SignupForm"
 
 import Leaderboard from "./Leaderboard";
 import TopScoreOnly from "./TopScoreOnly";
 import './Leaderboard.css'
-
+import './recordPlayer.css'
 
 
 /** Homepage of site.
@@ -31,7 +33,7 @@ const SongDetails = () => {
 
 
     const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
-    const { currentUser, userBestScore, setUserBestScore, topScore, setTopScore } = useContext(userContext);
+    const { currentUser, userBestScore, setUserBestScore, topScore, setTopScore, showLogin, showSignup, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup } = useContext(userContext);
     const [userHasTop, setUserHasTop] = useState(false);
     const [runnerUpScores, setRunnerUpScores] = useState(null);
 
@@ -54,6 +56,8 @@ const SongDetails = () => {
     console.log('runnerUpScores', runnerUpScores)
 
     useEffect(function getSongInfo() {
+        setShowLogin(false);
+        setShowSignup(false);
         async function getSong() {
             const newSong = await Melodic2API.getSong(mp3Id);
             setSong(newSong.song);
@@ -114,7 +118,10 @@ const SongDetails = () => {
 
         <div >
 
-
+            <div class="record">
+                <div class="inner"></div>
+                <button className="play-button" onClick={navigateGame} />
+            </div>
 
             {(topScore && runnerUpScores.length > 0) ?
                 (<Leaderboard topScore={topScore} runnerUpScores={runnerUpScores} navigateGame={navigateGame} navigateSongs={navigateSongs} song={song} />)
@@ -123,7 +130,14 @@ const SongDetails = () => {
                 (<TopScoreOnly topScore={topScore} />)
                 : ""}
 
+            <div className="form-container">
+                {showLogin ?
 
+                    <LoginForm login={login} toggleSignupForm={toggleSignupForm} /> : ""}
+                {showSignup ?
+                    <SignupForm signup={signup} toggleLoginForm={toggleLoginForm} /> : ""}
+
+            </div>
         </div>
 
 

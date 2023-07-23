@@ -81,7 +81,7 @@ class Score {
     let maxScore;
     if (scoreRes.rows[0]) {
       maxScore = scoreRes.rows[0];
-    } else { maxScore = [] }
+    } else { maxScore = null }
 
 
     return maxScore;

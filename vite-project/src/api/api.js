@@ -114,10 +114,8 @@ class Melodic2API {
   }
 
 
-
-
-  static async getUserSongTopScore(mp3Id, username) {
-    let res = await this.request(`scores/${mp3Id}/${username}/top`, true);
+  static async getUserSongTopScore(mp3Id, username, data) {
+    let res = await this.request(`scores/${mp3Id}/${username}/top`, data, true);
     return res.score
   }
 

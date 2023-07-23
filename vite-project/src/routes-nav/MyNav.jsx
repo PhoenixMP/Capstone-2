@@ -23,7 +23,7 @@ function MyNav({ logout }) {
 
         <li className="nav-link">
           <NavLink style={{ textDecoration: 'none', color: "white" }} to="/songs">
-            Song Search
+            Search Songs
           </NavLink>
         </li>
         <li className="nav-link">
@@ -46,21 +46,21 @@ function MyNav({ logout }) {
 
         <li className="nav-link">
           <NavLink style={{ textDecoration: 'none', color: "white" }} to="/songs">
-            Song Search
+            Search Songs
           </NavLink>
         </li>
 
 
-        <NavLink style={{ textDecoration: 'none' }} to="/">
-          <div className="login-register">
-            <button id="login" className="button" onClick={toggleLoginForm}>
-              Login
-            </button>
-            <button id="signup" className="button" onClick={toggleSignupForm}>
-              Signup
-            </button>
-          </div>
-        </NavLink>
+
+        <div className="login-register">
+          <button id="login" className="button" onClick={toggleLoginForm}>
+            Login
+          </button>
+          <button id="signup" className="button" onClick={toggleSignupForm}>
+            Signup
+          </button>
+        </div>
+
 
 
       </ul >

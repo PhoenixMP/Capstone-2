@@ -24,9 +24,7 @@ function Leaderboard({ topScore, runnerUpScores, navigateGame, navigateSongs, so
         <div className="leaderboard">
             <div id="header">
                 <h1>{song.title}, {song.dir}</h1>
-                <div id="buttons">
-                    <button className="continue" onClick={navigateGame}>Play!</button>
-                </div>
+
             </div>
             <div id="leaderboard">
                 <div className="ribbon"></div>

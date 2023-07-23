@@ -20,7 +20,7 @@ import UserContext from "../auth/UserContext";
  */
 
 const Home = ({ login, signup }) => {
-    const { showLogin, showSignup, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
+    const { showLogin, showSignup, setShowLogin, setShowSignup, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
     const [scores, setScores] = useState(null)
 
 
@@ -32,7 +32,8 @@ const Home = ({ login, signup }) => {
                 setScores(false);
             } else { setScores(topScores) }
         }
-
+        setShowLogin(false);
+        setShowSignup(false);
         getAllTopScores();
     }, []);
 

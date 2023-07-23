@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Outlet } from 'react-router-dom'
 import Search from "../common/SearchForm";
 import Melodic2API from "../api/api";
 import SongCardList from "./SongCardList";
 import LoadingSpinner from "../common/LoadingSpinner";
+import UserContext from "../auth/UserContext";
+import LoginForm from "../auth/LoginForm"
+import SignupForm from "../auth/SignupForm"
 import "./Songs.css"
 
 
@@ -19,6 +22,8 @@ import "./Songs.css"
 const Songs = () => {
     const [songs, setSongs] = useState(null);
     const [songsScores, setSongsScores] = useState(null);
+    const [genreButton, setGenreButton] = useState(null)
+    const { showLogin, showSignup, setShowLogin, setShowSignup, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
 
     const genres = [
         "pop",
@@ -28,10 +33,12 @@ const Songs = () => {
         "hip hop",
         "movie",
         "tv",
-        "video games"
+        "video game"
     ];
 
     useEffect(function getAllSongsOnMount() {
+        setShowLogin(false);
+        setShowSignup(false);
         searchTitle();
     }, []);
 
@@ -55,6 +62,7 @@ const Songs = () => {
         }
     }, [songs]);
 
+    console.log(songsScores)
 
     /** Triggered by search form submit; reloads songs. */
     async function searchTitle(title) {
@@ -68,7 +76,7 @@ const Songs = () => {
     async function searchGenre(genre) {
         let songs = await Melodic2API.searchGenre({ genre });
 
-        console.log('genre search', songs)
+        setGenreButton(genre)
         setSongs(songs);
     }
 
@@ -78,25 +86,38 @@ const Songs = () => {
     }
 
 
-    if (!songsScores) return <LoadingSpinner />;
+
+
+    if (!songsScores || !songs) return <LoadingSpinner />;
 
     return (
-        <div>
-            <Search searchFor={searchTitle} />
-            <div className="radio-inputs">
-                {genres.map(genre => (
-                    <label className="radio">
-                        <button onClick={() => searchGenre(genre)}>{genre}</button>
-                    </label>
-                ))}
 
+        <div className="content-container">
+            <div className="songs-container">
+                <div className="search-container">
+                    <Search searchFor={searchTitle} />
+                    <div className="genre-buttons">
+                        {genres.map(genre => (
+
+                            <button className={`genre-button ${(genreButton === genre) ? "active" : ""}`} onClick={() => searchGenre(genre)}>{genre}</button>
+                        ))}
+
+                    </div>
+                </div>
+                {songs.length
+                    ? <SongCardList songs={songsScores} />
+                    : <p className="lead">Sorry, no results were found!</p>
+                }
             </div>
 
-            {songs.length
-                ? <SongCardList songs={songsScores} />
-                : <p className="lead">Sorry, no results were found!</p>
-            }
-            <Outlet />
+            <div className="form-container">
+                {showLogin ?
+
+                    <LoginForm login={login} toggleSignupForm={toggleSignupForm} /> : ""}
+                {showSignup ?
+                    <SignupForm signup={signup} toggleLoginForm={toggleLoginForm} /> : ""}
+
+            </div>
         </div>
 
 
@@ -104,3 +125,4 @@ const Songs = () => {
 
 };
 export default Songs;
+

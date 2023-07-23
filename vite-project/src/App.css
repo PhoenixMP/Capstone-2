@@ -5,6 +5,7 @@ body {
   background-image: url("./images/records.jpg");
   background-position: center;
   background-size: cover;
-  overflow: hidden;
+  background-repeat: no-repeat;
   margin-top: 70px;
+  background-attachment: fixed;
 }

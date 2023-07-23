@@ -144,7 +144,7 @@ function App() {
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ toggleSignupForm, toggleLoginForm, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
+      <UserContext.Provider value={{ toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <MyNav logout={logout} />
           <MyRoutes login={login} signup={signup} updateUser={updateUser} />

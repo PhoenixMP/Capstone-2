@@ -12,7 +12,7 @@ import React from "react";
  * JobCardList -> JobCard
  */
 
-function TopScoreOnly({ topScore }) {
+function TopScoreOnly({ topScore, navigateGame }) {
 
 
 
@@ -22,6 +22,9 @@ function TopScoreOnly({ topScore }) {
     return (
         <div>
             <div class="ribbon"></div>
+            <div id="buttons">
+
+            </div>
             <table>
                 <tr>
                     <td className="number">1</td>

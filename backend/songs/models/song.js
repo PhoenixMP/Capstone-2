@@ -90,8 +90,8 @@ class Song {
     const songsRes = await db.query(
       `SELECT mp3_id,
                         title,
-                        dir
-                 FROM songs, genre
+                        dir, genre
+                 FROM songs
                  WHERE genre = $1
                  ORDER BY title`,
       [genre]);

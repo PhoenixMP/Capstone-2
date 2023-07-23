@@ -164,48 +164,9 @@ td {
     z-index: -1;
 }
 
-#buttons {
-    width: 100%;
-    margin-top: 3rem;
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-}
 
-.exit {
-    width: 11rem;
-    height: 3rem;
-    font-family: "Rubik", sans-serif;
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    color: #7e7f86;
-    border: 0;
-    background-color: #fff;
-    border-radius: 2rem;
-    cursor: pointer;
-}
 
-.exit:hover {
-    border: 0.1rem solid #5c5be5;
-}
 
-.continue {
-    width: 11rem;
-    height: 3rem;
-    font-family: "Rubik", sans-serif;
-    font-size: 1.3rem;
-    color: #fff;
-    text-transform: uppercase;
-    background-color: #5c5be5;
-    border: 0;
-    border-bottom: 0.2rem solid #3838b8;
-    border-radius: 2rem;
-    cursor: pointer;
-}
-
-.continue:active {
-    border-bottom: 0;
-}
 
 @media (max-width: 740px) {
     * {
