@@ -174,7 +174,11 @@ class Score {
       [mp3_id, username]
     );
 
-    const maxScore = scoreRes.rows[0];
+    let maxScore;
+    if (scoreRes.rows[0]) {
+      maxScore = scoreRes.rows[0];
+    } else { maxScore = null }
+
 
     return maxScore;
   }

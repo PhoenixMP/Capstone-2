@@ -1,5 +1,5 @@
-.play-button {
-    border: none;
-    outline: none;
-    background: none;
+.song-details-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }

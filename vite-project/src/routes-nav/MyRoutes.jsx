@@ -9,10 +9,6 @@ import SongDetails from "../song-details/SongDetails";
 import Profile from "../profile/Profile"
 import Game from "../game/Game"
 
-
-import LoginForm from "../auth/LoginForm";
-import SignupForm from "../auth/SignupForm";
-import updateUserForm from "../profile/UpdateUserForm";
 import UserContext from "../auth/UserContext";
 
 
@@ -41,11 +37,11 @@ function MyRoutes({ login, signup, updateUser }) {
         <Route exact path="/" element={<Home login={login} signup={signup} />} />
 
 
-        <Route exact path="/profile" element={currentUser ? (<Profile updateUser={updateUser} />) : (<Navigate replace to={"/"} />)} />
+        <Route exact path="/profile" element={currentUser ? (<Profile />) : (<Navigate replace to={"/"} />)} />
 
-        <Route exact path="/songs" element={<Songs />} />
+        <Route exact path="/songs" element={<Songs login={login} signup={signup} />} />
 
-        <Route exact path="/song/:mp3Id" element={<SongDetails />} />
+        <Route exact path="/song/:mp3Id" element={<SongDetails login={login} signup={signup} />} />
 
         <Route exact path="/game/:mp3Id" element={<Game />} />
 

@@ -5,7 +5,7 @@
     justify-content: space-around;
 }
 
-.home-scores-list {
+.scores-list {
     margin-top: 50px;
     display: flex;
     flex-direction: row;

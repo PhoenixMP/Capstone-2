@@ -4,6 +4,7 @@ import Search from "../common/SearchForm";
 import Melodic2API from "../api/api";
 import SongCardList from "./SongCardList";
 import LoadingSpinner from "../common/LoadingSpinner";
+import FallingNotes from "../common/FallingNotes";
 import UserContext from "../auth/UserContext";
 import LoginForm from "../auth/LoginForm"
 import SignupForm from "../auth/SignupForm"
@@ -19,11 +20,21 @@ import "./Songs.css"
  * MyRoutes -> Homepage
  */
 
-const Songs = () => {
+const Songs = ({ login, signup }) => {
     const [songs, setSongs] = useState(null);
     const [songsScores, setSongsScores] = useState(null);
     const [genreButton, setGenreButton] = useState(null)
     const { showLogin, showSignup, setShowLogin, setShowSignup, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
+
+    const getFormJSX = () => {
+        if (showLogin) {
+            return (
+                <LoginForm login={login} toggleSignupForm={toggleSignupForm} />)
+
+        } else if (showSignup) {
+            return (<SignupForm signup={signup} toggleLoginForm={toggleLoginForm} />)
+        }
+    }
 
     const genres = [
         "pop",
@@ -62,7 +73,7 @@ const Songs = () => {
         }
     }, [songs]);
 
-    console.log(songsScores)
+
 
     /** Triggered by search form submit; reloads songs. */
     async function searchTitle(title) {
@@ -93,6 +104,7 @@ const Songs = () => {
     return (
 
         <div className="content-container">
+            <FallingNotes />
             <div className="songs-container">
                 <div className="search-container">
                     <Search searchFor={searchTitle} />
@@ -111,12 +123,7 @@ const Songs = () => {
             </div>
 
             <div className="form-container">
-                {showLogin ?
-
-                    <LoginForm login={login} toggleSignupForm={toggleSignupForm} /> : ""}
-                {showSignup ?
-                    <SignupForm signup={signup} toggleLoginForm={toggleLoginForm} /> : ""}
-
+                {getFormJSX()}
             </div>
         </div>
 

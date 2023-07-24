@@ -41,7 +41,7 @@ function HomeScoreList(props) {
 
 
   return (
-    <div className="home-scores-list">
+    <div className="scores-list">
       {scoreInfo.map((score, index) => (
         <HomeScoreCard
           key={score.id}

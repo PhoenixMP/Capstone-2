@@ -31,10 +31,13 @@ function App() {
   const [song, setSong] = useLocalStorage("song", null);
   const [notes, setNotes] = useLocalStorage("notes", null);
   const [encodedData, setEncodedData] = useState(null);
+
   const [hasRefreshedGame, setHasRefreshedGame] = useState(false);
   const [userBestScore, setUserBestScore] = useLocalStorage("UserBestScore", false);
   const [topScore, setTopScore] = useLocalStorage("topScore", null);
+  const [userHasTop, setUserHasTop] = useLocalStorage("userHasTop", null);
   const [onHoldScore, setOnHoldScore] = useLocalStorage("onHoldScore", null);
+
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
 
@@ -72,7 +75,6 @@ function App() {
     setToken(res);
     setShowLogin(false)
     setShowSignup(false)
-
   }
 
 
@@ -81,14 +83,12 @@ function App() {
     console.log('logging out')
     setCurrentUser(null);
     setToken(null);
+    setUserBestScore(null);
+    setUserHasTop(null);
 
   }
 
-  //Update User
-  async function updateUser(data) {
-    const user = await Melodic2API.updateUser(currentUser.username, data)
-    setCurrentUser(user)
-  }
+
 
   function toggleLoginForm() {
     setShowLogin(prevState => !prevState)
@@ -144,10 +144,10 @@ function App() {
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
+      <UserContext.Provider value={{ userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <MyNav logout={logout} />
-          <MyRoutes login={login} signup={signup} updateUser={updateUser} />
+          <MyRoutes login={login} signup={signup} />
         </musicContext.Provider>
       </UserContext.Provider >
     </BrowserRouter>

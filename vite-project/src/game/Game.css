@@ -126,13 +126,13 @@ video {
 
 
 
-ul {
-    margin-left: 8px;
+ul.piano {
+    margin-left: 15px;
     margin-top: 0;
     padding-top: 0;
 }
 
-li {
+li.piano-key {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -140,11 +140,7 @@ li {
     float: left
 }
 
-div .note-accuracy {
-    color: black;
-    margin-top: 250px;
 
-}
 
 
 .key.white {
@@ -199,11 +195,11 @@ div .note-accuracy {
 
 
 
-ul li:first-child {
+ul li.piano-key:first-child {
     border-radius: 5px 0 5px 5px
 }
 
-ul li:last-child {
+ul li.piano-key:last-child {
     border-radius: 0 5px 5px 5px
 }
 

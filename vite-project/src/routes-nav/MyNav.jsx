@@ -28,7 +28,7 @@ function MyNav({ logout }) {
         </li>
         <li className="nav-link">
           <NavLink style={{ textDecoration: 'none', color: "white" }} to="/profile">
-            Profile
+            Your Scores
           </NavLink>
         </li>
         <div className="login-register">
@@ -69,12 +69,14 @@ function MyNav({ logout }) {
 
   return (
     <div className="navbar-container">
-      <div className="logo-container">
-        <Link style={{ textDecoration: 'none', color: "white" }} className="navbar-brand" to="/">
-          MelodicNotes
-        </Link >
+      <div className="left-side-nav">
+        <div className="logo-container">
+          <Link style={{ textDecoration: 'none', color: "white" }} className="navbar-brand" to="/">
+            MelodicNotes
+          </Link >
+        </div>
+        {currentUser ? (<div className="welcome-nav"> Sup, {currentUser.firstName || currentUser.username}?</div>) : ""}
       </div>
-
       {currentUser ? loggedInNav() : loggedOutNav()}
     </div>
   );

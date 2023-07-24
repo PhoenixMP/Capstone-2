@@ -88,7 +88,7 @@ function PianoKey({ note, id, className, children, letter }) {
 
     return (<div>
         <li id={id} className={
-            `${className} 
+            `${className} piano-key
              ${activeKeys.hasOwnProperty(letter) ? 'active' : ''} 
 ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
  ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} `}>

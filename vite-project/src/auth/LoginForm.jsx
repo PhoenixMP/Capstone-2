@@ -29,7 +29,6 @@ const LoginForm = ({ login, toggleSignupForm }) => {
         evt.preventDefault();
         login(formData)
         setFormData(INITIAL_STATE);
-        navigate(`/profile`);
     };
 
     /** Update form data field */

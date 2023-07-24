@@ -1,15 +1,9 @@
-* {
-    font-size: 62, 5%;
-    box-sizing: border-box;
-    margin: 0;
-}
-
-.leaderboard {
-    margin-top: 100px;
+.leaderboard-container {
+    margin-top: 50px;
     margin-left: 50px;
     width: 40rem;
-    height: 43rem;
-    background-color: #ffffff;
+
+    background-color: #e6d6c2be;
     -webkit-box-shadow: 0px 5px 15px 8px #e4e7fb;
     box-shadow: 0px 5px 15px 8px #e4e7fb;
     display: flex;
@@ -18,47 +12,52 @@
     border-radius: 0.5rem;
 }
 
-#header {
+
+
+
+
+
+
+
+.header-container {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 2.5rem 2rem;
-}
-
-.share {
-    width: 4.5rem;
-    height: 3rem;
-    background-color: #f55e77;
-    border: 0;
-    border-bottom: 0.2rem solid #c0506a;
-    border-radius: 2rem;
-    cursor: pointer;
-}
-
-.share:active {
-    border-bottom: 0;
-}
-
-.share i {
-    color: #fff;
-    font-size: 2rem;
-}
-
-h1 {
     font-family: "Rubik", sans-serif;
-    font-size: 1.7rem;
+    font-size: 1rem;
     color: #141a39;
     text-transform: uppercase;
-    cursor: default;
+
 }
 
-#leaderboard {
+.leaderboard-message {
+    margin-bottom: 30px;
+    font-size: 20px;
+    color: white;
+}
+
+.song-details-login-button {
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    color: white;
+    font-size: 20px;
+}
+
+.leaderboard {
     width: 100%;
     position: relative;
 }
 
-table {
+.leaderboard-header {
+    margin-left: 20px;
+    color: rgb(192, 68, 83)
+}
+
+.leaderboard-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
@@ -66,34 +65,69 @@ table {
     cursor: default;
 }
 
-tr {
-    transition: all 0.2s ease-in-out;
-    border-radius: 0.2rem;
+
+.no-scores-div {
+    height: 5rem;
+    font-family: "Rubik", sans-serif;
+    font-size: 1.4rem;
+    padding: 1rem 2rem;
+    position: relative;
+    text-align: center;
+    color: white;
+    margin-top: 10px;
+}
+
+.no-score-login-button {
+
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    font-size: 1.4rem;
+    font-size: 20px;
+    color: white;
 
 }
 
-tr:not(:first-child):hover {
-    background-color: #fff;
+.tr {
+    transition: all 0.2s ease-in-out;
+    border-radius: 0.2rem;
+}
+
+.tr.first-place {
+    color: #fff;
+    transform: translateY(-15px);
+}
+
+
+.tr.runner-ups:nth-child(odd) {
+    background-color: #f9f9f9a0;
+
+}
+
+.tr.runner-ups {
+    transform: translateY(-30px);
+}
+
+.tr.runner-ups:hover {
+    background-color: #ffffffa4;
     transform: scale(1.1);
     -webkit-box-shadow: 0px 5px 15px 8px #e4e7fb;
     box-shadow: 0px 5px 15px 8px #e4e7fb;
+    transform: translateY(-30px);
+
 }
 
-tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
 
-tr:nth-child(1) {
-    color: #fff;
-}
-
-td {
+.td {
     height: 5rem;
     font-family: "Rubik", sans-serif;
     font-size: 1.4rem;
     padding: 1rem 2rem;
     position: relative;
 }
+
+
 
 .number {
     width: 1rem;
@@ -131,9 +165,9 @@ td {
 
 .ribbon {
     width: 42rem;
-    height: 5.5rem;
+    height: 5.9rem;
     top: -0.5rem;
-    background-color: #5c5be5;
+    background-color: #15adba;
     position: absolute;
     left: -1rem;
     -webkit-box-shadow: 0px 15px 11px -6px #7a7a7d;
@@ -162,26 +196,4 @@ td {
     background-color: #5c5be5;
     position: absolute;
     z-index: -1;
-}
-
-
-
-
-
-@media (max-width: 740px) {
-    * {
-        font-size: 70%;
-    }
-}
-
-@media (max-width: 500px) {
-    * {
-        font-size: 55%;
-    }
-}
-
-@media (max-width: 390px) {
-    * {
-        font-size: 45%;
-    }
 }

@@ -5,15 +5,16 @@ import Melodic2API from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import musicContext from "../songs/MusicContext";
 import userContext from "../auth/UserContext";
-import SongScoreList from "../scores/SongScoreList"
-import SongScoreCard from "../scores/SongScoreCard";
+import FallingNotes from "../common/FallingNotes";
+
 import LoginForm from "../auth/LoginForm"
 import SignupForm from "../auth/SignupForm"
-
+import ScorelessLeaderboard from "./ScorelessLeaderboard";
 import Leaderboard from "./Leaderboard";
-import TopScoreOnly from "./TopScoreOnly";
+
 import './Leaderboard.css'
 import './recordPlayer.css'
+import './SongDetails.css'
 
 
 /** Homepage of site.
@@ -25,7 +26,7 @@ import './recordPlayer.css'
  * MyRoutes -> Homepage
  */
 
-const SongDetails = () => {
+const SongDetails = ({ login, signup }) => {
 
     const { mp3Id } = useParams();
     const navigate = useNavigate();
@@ -33,8 +34,7 @@ const SongDetails = () => {
 
 
     const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
-    const { currentUser, userBestScore, setUserBestScore, topScore, setTopScore, showLogin, showSignup, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup } = useContext(userContext);
-    const [userHasTop, setUserHasTop] = useState(false);
+    const { setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, showLogin, showSignup, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup } = useContext(userContext);
     const [runnerUpScores, setRunnerUpScores] = useState(null);
 
 
@@ -47,13 +47,26 @@ const SongDetails = () => {
     };
 
 
-    const navigateSongs = () => {
-        navigate(`/songs`);
-    };
+    const getFormJSX = () => {
+        if (showLogin) {
+            return (
+                <LoginForm login={login} toggleSignupForm={toggleSignupForm} />)
+
+        } else if (showSignup) {
+            return (<SignupForm signup={signup} toggleLoginForm={toggleLoginForm} />)
+        }
+    }
 
 
-    console.log('topScore', topScore)
-    console.log('runnerUpScores', runnerUpScores)
+    const getLeaderboardJSX = () => {
+        if (topScore) {
+            return (<Leaderboard topScore={topScore} runnerUpScores={runnerUpScores} navigateGame={navigateGame} song={song} />)
+        } else if (!topScore && !runnerUpScores) {
+            return (<ScorelessLeaderboard song={song} navigateGame={navigateGame} />)
+        }
+    }
+
+
 
     useEffect(function getSongInfo() {
         setShowLogin(false);
@@ -73,34 +86,42 @@ const SongDetails = () => {
 
 
     useEffect(function getScoreInfo() {
+
+        async function getUserBestScore() {
+            const score = await Melodic2API.getUserSongTopScore(mp3Id, currentUser.username);
+            console.log('userbestscore', score)
+            if (score === null) {
+                setUserBestScore(false);
+            } else {
+                setUserBestScore(score);
+            }
+        }
+
         async function getGeneralScores() {
             const scores = await Melodic2API.getSongAllScores(mp3Id);
-            console.log("scores", scores)
 
             if (scores.length === 0) {
                 setTopScore(false);
+                setUserHasTop(false);
+                setUserBestScore(false);
                 setRunnerUpScores(false);
             } else {
+                if (currentUser) {
+
+                    if (scores[0].username === currentUser.username) {
+                        setUserHasTop(true)
+                        setUserBestScore(false)
+                    } else {
+                        getUserBestScore();
+                    }
+
+                }
                 setTopScore(scores[0]);
                 scores.shift()
                 setRunnerUpScores(scores)
             }
         }
-        async function getUserBestScore() {
-            const score = await Melodic2API.getUserSongTopScore(mp3Id, currentUser.username);
 
-            if (score.length === 0) {
-                setUserBestScore(false);
-            } else {
-                setUserBestScore(score);
-                console.log("userBestScore", userBestScore)
-
-            }
-        }
-
-        if (currentUser) {
-            getUserBestScore();
-        }
         getGeneralScores();
 
     }, [currentUser]);
@@ -109,51 +130,25 @@ const SongDetails = () => {
 
 
 
+
+
     if (!song || !song === true || (currentUser && userBestScore === null) || runnerUpScores === null) return <LoadingSpinner />;
 
 
-
-
     return (
-
-        <div >
-
-            <div class="record">
-                <div class="inner"></div>
-                <button className="play-button" onClick={navigateGame} />
-            </div>
-
-            {(topScore && runnerUpScores.length > 0) ?
-                (<Leaderboard topScore={topScore} runnerUpScores={runnerUpScores} navigateGame={navigateGame} navigateSongs={navigateSongs} song={song} />)
-                : ""}
-            {(topScore && runnerUpScores.length === 0) ?
-                (<TopScoreOnly topScore={topScore} />)
-                : ""}
-
+        <div className="song-details-container">
+            <FallingNotes />
+            {getLeaderboardJSX()}
             <div className="form-container">
-                {showLogin ?
-
-                    <LoginForm login={login} toggleSignupForm={toggleSignupForm} /> : ""}
-                {showSignup ?
-                    <SignupForm signup={signup} toggleLoginForm={toggleLoginForm} /> : ""}
-
+                {getFormJSX()}
             </div>
         </div>
-
-
-
-
-
     )
 
 };
 export default SongDetails;
 
 
-{/* 
-            <h4>{song.title}, {song.dir}</h4>
-            <br /> <button onClick={navigateGame}>Play!</button>
-            <br /> {hasRefreshedGame ? 'Exited Game Early' : ''}
-            <br />{!topScore ? "No Top Score Yet!" : `TopScore:${topScore.score}`}
 
- */}
+
+

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import HomeScoreList from "./scores/HomeScoreList";
 import LoadingSpinner from "../common/LoadingSpinner";
 import Melodic2API from "../api/api";
+import FallingNotes from "../common/FallingNotes";
 import "./Home.css"
 import LoginForm from "../auth/LoginForm";
 import SignupForm from "../auth/SignupForm";
@@ -23,7 +24,15 @@ const Home = ({ login, signup }) => {
     const { showLogin, showSignup, setShowLogin, setShowSignup, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
     const [scores, setScores] = useState(null)
 
+    const getFormJSX = () => {
+        if (showLogin) {
+            return (
+                <LoginForm login={login} toggleSignupForm={toggleSignupForm} />)
 
+        } else if (showSignup) {
+            return (<SignupForm signup={signup} toggleLoginForm={toggleLoginForm} />)
+        }
+    }
 
     useEffect(() => {
         async function getAllTopScores() {
@@ -46,31 +55,13 @@ const Home = ({ login, signup }) => {
 
     return (
         <div className="Home-page">
-
-
-
-            <div className="falling-notes">
-                <span>♩</span>
-                <span>♪</span>
-                <span>♭</span>
-                <span>♫</span>
-                <span>♩</span>
-                <span>♬</span>
-                <span>♪</span>
-                <span>♯</span>
-                <span>♩</span>
-                <span>♬</span>
-            </div>
+            <FallingNotes />
             <div className="content-container">
                 {!scores ? "no scores recorded" :
                     <HomeScoreList scores={scores} />
                 }
                 <div className="form-container">
-                    {showLogin ?
-
-                        <LoginForm login={login} toggleSignupForm={toggleSignupForm} /> : ""}
-                    {showSignup ?
-                        <SignupForm signup={signup} toggleLoginForm={toggleLoginForm} /> : ""}
+                    {getFormJSX()}
 
                 </div>
 

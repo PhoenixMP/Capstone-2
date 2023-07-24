@@ -1,14 +1,13 @@
-.card-link {
+.score-card-link {
     text-decoration: none;
-    color: #000000;
+
     text-shadow: 1px 3px 3px rgba(141, 140, 140, 0.7);
 }
 
-.home-card {
+.score-card {
     font-family: 'Roboto', sans-serif;
     width: 430px;
-    height: 350px;
-    float: left;
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -20,7 +19,6 @@
     /*Set both inset and outset box shadow using CSS, separated by , */
     box-shadow: inset -10px -10px 80px 1px rgba(0, 0, 0, 0.3),
         10px 20px 50px 10px rgba(0, 0, 0, 0.5);
-    font-family: 'Roboto', sans-serif;
     font-size: 1.5rem;
     font-weight: 900;
     text-transform: uppercase;
@@ -32,7 +30,7 @@
 
 
 /* ALL CARD HOVER */
-.home-card:hover {
+.score-card:hover {
 
     animation: hoverBend 1s forwards;
     box-shadow: 0 0 50px 15px #eaeaea;
@@ -71,31 +69,38 @@
 
 .img-section {
     text-align: center;
+    margin-top: 15px;
 }
 
-.card:hover .img-section {
+.img {
+    height: 90px;
+
+}
+
+.score-card:hover .img-section {
     transform: translateY(-2em);
 
 }
 
-.home-card-header {
+.score-card-header {
     margin: 20px;
-    display: flex;
-    align-items: center;
-    width: 100%;
+
+
     text-align: center;
 }
 
 
-.home-card-title {
+.score-card-title {
     flex: 1;
     font-size: 1em;
     font-weight: 800;
+
 }
 
 
-.home-card-score {
+.score-card-score {
     margin-top: 10px;
     font-size: .8em;
     font-weight: 550;
+    color: white;
 }

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
-import TopScoreCard from "./TopScoreCard";
-import LoadingSpinner from "../../common/LoadingSpinner";
+import ProfileScoreCard from "./ProfileScoreCard";
 import Melodic2API from "../../api/api";
+import './ProfileScoreCard'
 
 
 
 
 
-function TopScoreList(props) {
+function ProfileScoreList(props) {
   const [scoreInfo, setScoreInfo] = useState([])
 
   useEffect(() => {
@@ -22,6 +22,7 @@ function TopScoreList(props) {
         }
         return score;
       })
+
       return scoreDetails;
     }
 
@@ -29,21 +30,24 @@ function TopScoreList(props) {
     async function getAllSongs() {
       const songs = await Melodic2API.getAllSongs();
 
+
       const scoreDetails = compareArrays(props.scores, songs)
       setScoreInfo(scoreDetails)
     }
 
     getAllSongs();
 
-  }, [props.scores]);
+  }, [props.toggleScore]);
+
 
   if (!scoreInfo || !scoreInfo === true) return <LoadingSpinner />;
 
 
+
   return (
-    <div >
-      {scoreInfo.map(score => (
-        <TopScoreCard
+    <div className="scores-list">
+      {scoreInfo.map((score, index) => (
+        <ProfileScoreCard
           key={score.id}
           mp3Id={score.mp3Id}
           username={score.username}
@@ -51,7 +55,10 @@ function TopScoreList(props) {
           title={score.songTitle}
           dir={score.songDir}
           scoreTimestamp={score.scoreTimestamp}
-          isUser={props.isUser}
+          order={index + 1}
+          cardNumber={scoreInfo.length}
+          undefeated={props.undefeated}
+
         />
       ))}
     </div>
@@ -60,4 +67,4 @@ function TopScoreList(props) {
 
 }
 
-export default TopScoreList;
+export default ProfileScoreList;
