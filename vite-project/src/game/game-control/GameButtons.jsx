@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useLayoutEffect, useRef, useContext } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import musicContext from "../songs/MusicContext";
-import gameContext from "./GameContext";
+import musicContext from "../../songs/MusicContext";
+import gameContext from "../GameContext";
 import base64 from 'react-native-base64';
 
-const GameControl = ({ handleStartAnimation, handleStopAnimation, isAnimationStarted }) => {
+const GameButtons = ({ handleStartAnimation, handleStopAnimation, isAnimationStarted }) => {
     const { mp3Id } = useParams();
     const { encodedData, setHasRefreshedGame } = useContext(musicContext);
     const { handleRestartGame, setSongProgress, gameOver } = useContext(gameContext);
@@ -51,7 +51,6 @@ const GameControl = ({ handleStartAnimation, handleStopAnimation, isAnimationSta
             const progress = currentTime / duration;
 
             setSongProgress(progress);
-
             animationFrameId = requestAnimationFrame(updateProgress);
         };
 
@@ -105,8 +104,7 @@ const GameControl = ({ handleStartAnimation, handleStopAnimation, isAnimationSta
 
 
     return (
-        <div className="game-control">
-
+        <div id="game-buttons">
             {(!resetPrompt && !exitPrompt && isAnimationStarted) ? (<button onClick={handleRestartPrompt}>Restart Game</button>) : ""}
             {resetPrompt ? (<button onClick={handleRestart}>Are You Sure You Want to Restart?</button>) : ""}
             {(!exitPrompt && !resetPrompt && isAnimationStarted && !gameOver) ? (<button onClick={handleExitPrompt}>Exit Game</button>) : ""}
@@ -116,4 +114,4 @@ const GameControl = ({ handleStartAnimation, handleStopAnimation, isAnimationSta
     );
 };
 
-export default GameControl;
+export default GameButtons;

@@ -13,7 +13,7 @@ import "./Navigation.css";
  */
 
 function MyNav({ logout }) {
-  const { currentUser, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
+  const { onGamePage, currentUser, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
 
 
 
@@ -53,6 +53,7 @@ function MyNav({ logout }) {
 
 
         <div className="login-register">
+
           <button id="login" className="button" onClick={toggleLoginForm}>
             Login
           </button>
@@ -67,17 +68,30 @@ function MyNav({ logout }) {
     );
   }
 
-  return (
-    <div className="navbar-container">
-      <div className="left-side-nav">
-        <div className="logo-container">
-          <Link style={{ textDecoration: 'none', color: "white" }} className="navbar-brand" to="/">
-            MelodicNotes
-          </Link >
+  const getNav = () => {
+    if (onGamePage) {
+      return
+    } else {
+      return (
+        <div className="navbar-container">
+          <div className="left-side-nav">
+            <div className="logo-container">
+              <Link style={{ textDecoration: 'none', color: "white" }} className="navbar-brand" to="/">
+                Note-Worthy
+              </Link >
+            </div>
+            {currentUser ? (<div className="welcome-nav"> Sup, {currentUser.firstName || currentUser.username}?</div>) : ""}
+          </div>
+          {currentUser ? loggedInNav() : loggedOutNav()}
         </div>
-        {currentUser ? (<div className="welcome-nav"> Sup, {currentUser.firstName || currentUser.username}?</div>) : ""}
-      </div>
-      {currentUser ? loggedInNav() : loggedOutNav()}
+      );
+    }
+
+  }
+
+  return (
+    <div>
+      {getNav()}
     </div>
   );
 }

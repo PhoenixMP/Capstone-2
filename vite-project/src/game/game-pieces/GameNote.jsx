@@ -1,8 +1,7 @@
 
-import React, { useEffect, useContext, useRef } from "react";
-import "./Game.css"
+import React, { useEffect, useContext, useState, useRef } from "react";
 import { useInView } from 'react-intersection-observer';
-import gameContext from "./GameContext";
+import gameContext from "../GameContext";
 
 
 
@@ -17,21 +16,20 @@ import gameContext from "./GameContext";
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
-    const { setInPlayKeys, accuracyAlert, checkKeyInPlay, checkKeyOutOfPlay } = useContext(gameContext);
-
-
+    const { viewHeight, setInPlayKeys, accuracyAlert, checkKeyInPlay, checkKeyOutOfPlay } = useContext(gameContext);
+    const distanceFromTop = viewHeight - 259;
+    const rootMarginSpecs = `${-distanceFromTop}px 0px 0px 0px`
 
 
     const { ref, inView } = useInView({
         /* Optional options */
-        rootMargin: '-56% 0px 0px 0px',
-        threshold: 0,
+        rootMargin: rootMarginSpecs,
+        threshold: 0
     });
 
 
     const beatsPerSecond = bpm / 60
     const miliSecondsPerBeat = 1000 / (beatsPerSecond)
-    const wholeNoteLength = 4 * miliSecondsPerBeat
 
 
     const StreamContainerHeight = songLength * (10000 / 60)
@@ -109,12 +107,15 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     }, [inView, ref]);
 
 
+
     return (
         <div ref={ref} className=
             {`game-note 
             ${gameNoteClass}  
             ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
-            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''}     
+            ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''}   
+
+  
       `}
             id={idx} style={noteStyle} >
             <div className='note-name'>{letter}</div>

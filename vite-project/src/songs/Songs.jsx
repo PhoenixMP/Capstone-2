@@ -24,17 +24,8 @@ const Songs = ({ login, signup }) => {
     const [songs, setSongs] = useState(null);
     const [songsScores, setSongsScores] = useState(null);
     const [genreButton, setGenreButton] = useState(null)
-    const { showLogin, showSignup, setShowLogin, setShowSignup, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
+    const { getFormJSX, setOnGamePage, setShowLogin, setShowSignup } = useContext(UserContext);
 
-    const getFormJSX = () => {
-        if (showLogin) {
-            return (
-                <LoginForm login={login} toggleSignupForm={toggleSignupForm} />)
-
-        } else if (showSignup) {
-            return (<SignupForm signup={signup} toggleLoginForm={toggleLoginForm} />)
-        }
-    }
 
     const genres = [
         "pop",
@@ -48,6 +39,7 @@ const Songs = ({ login, signup }) => {
     ];
 
     useEffect(function getAllSongsOnMount() {
+        setOnGamePage(false)
         setShowLogin(false);
         setShowSignup(false);
         searchTitle();
@@ -103,7 +95,7 @@ const Songs = ({ login, signup }) => {
 
     return (
 
-        <div className="content-container">
+        <div className="songs-content-container common-background">
             <FallingNotes />
             <div className="songs-container">
                 <div className="search-container">

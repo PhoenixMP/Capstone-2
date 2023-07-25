@@ -1,21 +1,36 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import GameNote from './GameNote';
-import musicContext from '../songs/MusicContext';
-import gameContext from './GameContext';
-import './Game.css';
+import musicContext from '../../songs/MusicContext';
+import gameContext from '../GameContext';
 
-const StreamContainer = ({ setGameOver, songLength, bpm, isAnimationStarted, isAnimationStopped }) => {
+
+const Stream = ({ setGameOver, songLength, bpm, isAnimationStarted, isAnimationStopped }) => {
 
     const { notes } = useContext(musicContext);
-    const { songProgress } = useContext(gameContext);
+    const { setTimer, songProgress } = useContext(gameContext);
     const [streamDistance, setStreamDistance] = useState(0);
+
+
     const travelDistance = songLength * (10000 / 60);
+
+
+
 
 
     useEffect(() => {
         let animationFrameId;
+        function formatSeconds(seconds) {
+            return String(seconds).padStart(2, '0');
+        }
 
         const animateStream = () => {
+            const timeLeft = Math.floor(songLength - (songProgress * songLength))
+            const minutes = Math.floor(timeLeft / 60)
+            const seconds = formatSeconds(timeLeft - (minutes * 60))
+
+            setTimer(`${minutes}:${seconds}`)
+
+
             const distance = songProgress * travelDistance;
             setStreamDistance(distance);
 
@@ -47,10 +62,13 @@ const StreamContainer = ({ setGameOver, songLength, bpm, isAnimationStarted, isA
         };
     }, [isAnimationStarted, isAnimationStopped, songProgress, travelDistance]);
 
+
+
     return (
+
         <div
-            className="stream-container"
-            style={{ bottom: `calc(40% - ${streamDistance}px)`, height: `${travelDistance}px` }}
+            className="stream"
+            style={{ bottom: `calc(210px - ${streamDistance}px)`, height: `${travelDistance}px` }}
         >
             {notes.map((note, idx) => (
                 <GameNote
@@ -61,10 +79,13 @@ const StreamContainer = ({ setGameOver, songLength, bpm, isAnimationStarted, isA
                     pitch={note.pitch}
                     songLength={songLength}
                     bpm={bpm}
+
+
                 />
             ))}
         </div>
+
     );
 };
 
-export default StreamContainer;
+export default Stream;

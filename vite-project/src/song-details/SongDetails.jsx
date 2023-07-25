@@ -34,7 +34,7 @@ const SongDetails = ({ login, signup }) => {
 
 
     const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
-    const { setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, showLogin, showSignup, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup } = useContext(userContext);
+    const { getFormJSX, setOnGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
     const [runnerUpScores, setRunnerUpScores] = useState(null);
 
 
@@ -46,16 +46,6 @@ const SongDetails = ({ login, signup }) => {
         navigate(`/game/${mp3Id}`);
     };
 
-
-    const getFormJSX = () => {
-        if (showLogin) {
-            return (
-                <LoginForm login={login} toggleSignupForm={toggleSignupForm} />)
-
-        } else if (showSignup) {
-            return (<SignupForm signup={signup} toggleLoginForm={toggleLoginForm} />)
-        }
-    }
 
 
     const getLeaderboardJSX = () => {
@@ -69,6 +59,7 @@ const SongDetails = ({ login, signup }) => {
 
 
     useEffect(function getSongInfo() {
+        setOnGamePage(false)
         setShowLogin(false);
         setShowSignup(false);
         async function getSong() {
@@ -136,7 +127,7 @@ const SongDetails = ({ login, signup }) => {
 
 
     return (
-        <div className="song-details-container">
+        <div className="song-details-container common-background">
             <FallingNotes />
             {getLeaderboardJSX()}
             <div className="form-container">

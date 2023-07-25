@@ -1,5 +1,5 @@
 
-import SaveScore from "./SaveScore";
+import SaveScore from "../game-control/SaveScore";
 
 
 

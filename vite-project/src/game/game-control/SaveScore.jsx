@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import userContext from "../auth/UserContext";
-import Melodic2API from "../api/api";
+import userContext from "../../auth/UserContext";
+import Melodic2API from "../../api/api";
 
 
 

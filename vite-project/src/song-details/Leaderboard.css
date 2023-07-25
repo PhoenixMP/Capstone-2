@@ -96,7 +96,6 @@
 
 .tr.first-place {
     color: #fff;
-    transform: translateY(-15px);
 }
 
 
@@ -105,9 +104,6 @@
 
 }
 
-.tr.runner-ups {
-    transform: translateY(-30px);
-}
 
 .tr.runner-ups:hover {
     background-color: #ffffffa4;

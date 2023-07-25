@@ -5,6 +5,7 @@ import FallingNotes from "../common/FallingNotes";
 import userContext from "../auth/UserContext";
 
 import ProfileScoreList from "./scores/ProfileScoreList"
+
 import './Profile.css'
 
 
@@ -25,11 +26,12 @@ const Profile = () => {
     const [undefeatedScores, setUndefeatedScores] = useState(null)
     const [toggleScore, setToggleScore] = useState("top")
 
-    const { currentUser, onHoldScore, addScore } = useContext(userContext);
+    const { setOnGamePage, currentUser, onHoldScore, addScore } = useContext(userContext);
 
 
 
     useEffect(function getScores() {
+        setOnGamePage(false)
         async function getUserScores() {
 
             const top = await Melodic2API.getUserTopScores(currentUser.username);
@@ -91,7 +93,7 @@ const Profile = () => {
 
 
     return (
-        <div className="profile-page">
+        <div className="profile-page common-background">
             <FallingNotes />
             <h3 className="profile-heading">View Your Scores</h3>
             <div className="profile-buttons">

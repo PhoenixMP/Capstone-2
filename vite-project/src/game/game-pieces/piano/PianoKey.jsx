@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import GameContext from "../GameContext";
+import GameContext from "../../GameContext";
 import { useSound } from 'use-sound';
 
-import "../Game.css";
+
 
 
 

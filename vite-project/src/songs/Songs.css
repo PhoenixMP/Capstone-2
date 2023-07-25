@@ -1,16 +1,35 @@
-.content-container {
+.songs-content-container {
+    position: relative;
     display: flex;
     flex-direction: row;
     z-index: 50;
     justify-content: space-between;
+    overflow: hidden;
+    min-height: 100vh;
+    /* Set the minimum height to full viewport height */
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    justify-content: space-between;
+    overflow: hidden;
 }
 
 .song-card-list {
-
+    position: relative;
+    /* Set .song-card-list to relative positioning */
+    flex: 1;
+    /* Make .song-card-list take up all available vertical space */
     display: flex;
     flex-direction: row;
-    justify-content: spaces-between;
+    justify-content: space-between;
     flex-wrap: wrap;
+    overflow-y: auto;
+    /* Enable vertical scrolling when content overflows */
+    height: 100vh;
+    /* Set the height to full viewport height */
 }
 
 .genre-buttons {

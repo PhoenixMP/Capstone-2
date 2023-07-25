@@ -36,9 +36,10 @@ function SearchForm({ searchFor }) {
 
   return (
     <div className="wrap">
-      <form className="search" onSubmit={handleSubmit}>
+      <form id="search-form" onSubmit={handleSubmit}>
         <input
-          className="searchTerm"
+
+          id="song-search"
           name="searchTerm"
           placeholder="Search..."
           value={searchTerm}

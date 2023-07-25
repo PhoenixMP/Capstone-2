@@ -1,70 +1,166 @@
-.game-page-parent {
-    overflow: hidden;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+.game-forms {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    z-index: 9999;
 
+}
 
+.covering-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 550px, rgb(0, 0, 0) 150px);
+    z-index: -1;
 }
 
 video {
     position: absolute;
-    top: 50%;
+    bottom: 230px;
     left: 50%;
-    width: 100%;
     height: 100%;
+    transform: translate(-50%);
     object-fit: cover;
-    /* Use "contain" to center the video with black edges */
-    transform: translate(-50%, -50%);
+    background-color: black;
     z-index: -1;
 
+
 }
 
-/* Adjust the width as needed */
-/* Other styles for game-page-child-1 */
-.game-page-child-2 {
+
+.game-header {
+    height: 70px;
+    font-size: 50px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.471);
+    z-index: 9000;
+    text-align: center;
+
+}
+
+.game-get-ready {
     position: absolute;
-    top: 0;
+    top: 30%;
     left: 50%;
-    margin: 0;
-    padding: 0;
-    background-color: rgba(234, 231, 231, 0.51);
+    height: 70px;
+    font-size: 50px;
+    color: white;
+    z-index: 9000;
+    transform: translateX(-50%);
+
 }
 
+#game-timer {
+    position: absolute;
+    height: 70px;
+    width: 50px;
+    color: white;
+    font-size: 90px;
+    z-index: 9000;
+    left: 50%;
+    bottom: 90px;
+    transform: translate(-560px, 0);
+}
 
+#game-buttons {
+    position: absolute;
+    display: flex;
+    height: 100px;
+    width: 50px;
+    color: white;
+    font-size: 50px;
+    z-index: 9000;
+    left: 50%;
+    bottom: 90px;
+    transform: translate(520px, 0);
+}
 
 #song-name {
     text-align: center;
 }
 
-.stream-container {
+
+.score-bar {
     position: absolute;
-    left: 0%;
-    /* Adjust the value to position the stream container very far up on the page */
+    width: 780px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: right;
+    color: White;
+    padding-right: 5px;
+    font-size: 20px;
+}
+
+.score-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 10px;
+    background-color: blue;
+    text-align: right;
+    color: White;
+    padding-right: 5px;
+    box-shadow: 0 0 20px 15px #eaeaea;
+}
+
+.stream {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 750px;
     margin: 0;
     padding: 0;
 
+}
+
+.bottom-container {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 230px;
+    background-color: rgb(0, 0, 0);
 
 }
 
-.piano-container {
-    position: fixed;
-    left: 0%;
 
-    top: 58%;
-    /* Adjust the value to position the piano container 900px below the top of the page */
+.piano-container {
+    margin-left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 0);
     width: 750px;
-    height: 400px;
-    background-color: rgb(71, 127, 187);
+    height: 230px;
+    background-color: #176B87;
+
     font-size: 20px;
     padding-top: 2px;
     text-align: center;
     z-index: 1;
 
 }
+
+#piano {
+    margin-left: 55px;
+    margin-top: 0;
+    padding-top: 0;
+
+
+
+
+}
+
+li.piano-key {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    float: left
+}
+
 
 
 
@@ -106,7 +202,8 @@ video {
 
 .white-game-note.accurate,
 .black-game-note.accurate {
-    background: linear-gradient(to bottom, #fff 0%, #1db515 100%)
+    background: linear-gradient(to bottom, #fff 0%, #1db515 100%);
+    box-shadow: 0 0 50px 15px #eaeaea;
 }
 
 .white-game-note.inaccurate,
@@ -126,26 +223,11 @@ video {
 
 
 
-ul.piano {
-    margin-left: 15px;
-    margin-top: 0;
-    padding-top: 0;
-}
-
-li.piano-key {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    position: relative;
-    float: left
-}
-
-
 
 
 .key.white {
     color: black;
-    height: 280px;
+    height: 180px;
     width: 100px;
     z-index: 1;
     border-left: 1px solid #bbb;
@@ -168,7 +250,7 @@ li.piano-key {
 
 .key.black {
     color: white;
-    height: 160px;
+    height: 100px;
     width: 50px;
     margin: 0 0 0 -25px;
     z-index: 2;

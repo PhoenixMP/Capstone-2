@@ -7,6 +7,8 @@ import UserContext from "./auth/UserContext";
 import musicContext from "./songs/MusicContext";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Melodic2API from "./api/api";
+import LoginForm from "./auth/LoginForm";
+import SignupForm from "./auth/SignupForm";
 import './index.css'
 import './App.css'
 
@@ -40,6 +42,7 @@ function App() {
 
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
+  const [onGamePage, setOnGamePage] = useState(false)
 
 
 
@@ -138,15 +141,24 @@ function App() {
   }, [token]);
 
 
+  const getFormJSX = () => {
+    if (showLogin) {
+      return (
+        <LoginForm login={login} toggleSignupForm={toggleSignupForm} />)
+
+    } else if (showSignup) {
+      return (<SignupForm signup={signup} toggleLoginForm={toggleLoginForm} />)
+    }
+  }
 
 
 
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
+      <UserContext.Provider value={{ onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
-          <MyNav logout={logout} />
+          <MyNav logout={logout} onGamePage={onGamePage} />
           <MyRoutes login={login} signup={signup} />
         </musicContext.Provider>
       </UserContext.Provider >

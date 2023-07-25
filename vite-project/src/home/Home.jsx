@@ -5,8 +5,7 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import Melodic2API from "../api/api";
 import FallingNotes from "../common/FallingNotes";
 import "./Home.css"
-import LoginForm from "../auth/LoginForm";
-import SignupForm from "../auth/SignupForm";
+
 import UserContext from "../auth/UserContext";
 
 
@@ -21,18 +20,10 @@ import UserContext from "../auth/UserContext";
  */
 
 const Home = ({ login, signup }) => {
-    const { showLogin, showSignup, setShowLogin, setShowSignup, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
+    const { setOnGamePage, getFormJSX, setShowLogin, setShowSignup } = useContext(UserContext);
     const [scores, setScores] = useState(null)
 
-    const getFormJSX = () => {
-        if (showLogin) {
-            return (
-                <LoginForm login={login} toggleSignupForm={toggleSignupForm} />)
 
-        } else if (showSignup) {
-            return (<SignupForm signup={signup} toggleLoginForm={toggleLoginForm} />)
-        }
-    }
 
     useEffect(() => {
         async function getAllTopScores() {
@@ -41,6 +32,7 @@ const Home = ({ login, signup }) => {
                 setScores(false);
             } else { setScores(topScores) }
         }
+        setOnGamePage(false)
         setShowLogin(false);
         setShowSignup(false);
         getAllTopScores();
@@ -54,7 +46,7 @@ const Home = ({ login, signup }) => {
 
 
     return (
-        <div className="Home-page">
+        <div className="Home-page common-background" >
             <FallingNotes />
             <div className="content-container">
                 {!scores ? "no scores recorded" :

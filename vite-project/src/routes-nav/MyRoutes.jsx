@@ -1,14 +1,10 @@
 import React, { useContext } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-
-
 import Home from "../home/Home";
 import Songs from "../songs/Songs";
 import SongDetails from "../song-details/SongDetails";
-
 import Profile from "../profile/Profile"
 import Game from "../game/Game"
-
 import UserContext from "../auth/UserContext";
 
 

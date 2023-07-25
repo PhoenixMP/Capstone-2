@@ -3,13 +3,14 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import LoadingSpinner from "../common/LoadingSpinner";
-import GameControl from "./GameControl";
-import StreamContainer from "./StreamContainer";
-import Piano from "./piano/Piano";
-import GeneralScoreDisplay from "./GeneralScoreDisplay";
-import LiveStats from "./LiveStats";
-import GameOver from "./GameOver";
-import SaveScore from "./SaveScore";
+import GameButtons from "./game-control/GameButtons";
+import Stream from "./game-pieces/Stream";
+import Piano from "./game-pieces/piano/Piano";
+
+import LiveStats from "./game-alerts/LiveStats";
+import GameOver from "./game-alerts/GameOver";
+import SaveScore from "./game-control/SaveScore";
+import ScoreBar from "./game-alerts/ScoreBar"
 import GameContext from "./GameContext";
 import MusicContext from "../songs/MusicContext";
 import "./Game.css"
@@ -40,17 +41,22 @@ const Game = () => {
 
 
     const { song } = useContext(MusicContext);
+    const { getFormJSX, setOnGamePage } = useContext(UserContext)
     const { mp3Id } = useParams()
 
-    const [songProgress, setSongProgress] = useState(0)
+
 
     const songLength = song.song_length;
     const bpm = song.bpm;
 
 
-
+    const [songProgress, setSongProgress] = useState(0)
+    const [timer, setTimer] = useState(0)
     const [isAnimationStarted, setIsAnimationStarted] = useState(false);
     const [isAnimationStopped, setIsAnimationStopped] = useState(false);
+
+    const [viewHeight, setViewHeight] = useState(0);
+    const [videoHeight, setVideoHeight] = useState(0)
     const [video, setVideo] = useState(null)
     const [timeoutId, setTimeoutId] = useState({});
 
@@ -361,7 +367,27 @@ const Game = () => {
 
 
 
+    useEffect(() => {
+        // Function to update the view height
+        setOnGamePage(true)
+        const updateViewHeight = () => {
+            setViewHeight(window.innerHeight);
+        };
 
+        const updateVideoHeight = () => {
+            setVideoHeight(window.innerHeight - 220);
+        };
+        // Initial view height
+        updateViewHeight();
+        updateVideoHeight();
+        // Event listener for window resize to update view height on resize
+        window.addEventListener('resize', updateViewHeight);
+
+        // Clean up the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('resize', updateViewHeight);
+        };
+    }, []);
 
     //handling stream animation
     const handleStartAnimation = () => {
@@ -373,34 +399,43 @@ const Game = () => {
         setIsAnimationStarted(false);
     };
 
+    const getVideo = () => {
+        if (video === 1) { return (<source src={video1} type="video/mp4" />) }
+        else if (video === 2) { return (<source src={video2} type="video/mp4" />) }
+        else if (video === 3) { return (<source src={video3} type="video/mp4" />) }
+        else if (video === 4) { return (<source src={video4} type="video/mp4" />) }
+        else if (video === 5) { return (<source src={video5} type="video/mp4" />) }
+        else if (video === 6) { return (<source src={video6} type="video/mp4" />) }
+    }
+
+
+
     if (video === null) return <LoadingSpinner />;
 
     return (
-        <div className="game-page-parent">
-            <GameContext.Provider value={{ streakMultiplier, noteScore, handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
-                <video autoPlay loop id="bgvid">
-                    {(video === 1) ? (<source src={video1} type="video/mp4" />) : ""}
-                    {(video === 2) ? (<source src={video2} type="video/mp4" />) : ""}
-                    {(video === 3) ? (<source src={video3} type="video/mp4" />) : ""}
-                    {(video === 4) ? (<source src={video4} type="video/mp4" />) : ""}
-                    {(video === 5) ? (<source src={video5} type="video/mp4" />) : ""}
-                    {(video === 6) ? (<source src={video6} type="video/mp4" />) : ""}
+        <div className="game-page">
+            <GameContext.Provider value={{ totalScore, setTimer, viewHeight, streakMultiplier, noteScore, handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
+
+                <div className="game-header">{song.title}, {song.dir}</div>
+                {!isAnimationStarted ? (<div className="game-get-ready">Get Ready!</div>) : (<div id="game-timer"> {timer}</div>)}
+                <ScoreBar />
+
+
+
+                <video autoPlay loop id="bgvid" style={{ height: videoHeight }}>
+                    {getVideo()}
                 </video>
-                <div className="game-page-child-1">
-                    <StreamContainer setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
-                    <div className="piano-container"><Piano /></div>
+
+                <div className="game-login-forms">
+                    {getFormJSX()}
                 </div>
 
-                <div className="game-page-child-2">
-                    <div id="song-name">{song.title}, {song.dir}</div>
 
-                    {!gameOver
-                        ? (<LiveStats multiplier={streakMultiplier} score={totalScore} streakCount={streakCount} songLength={songLength} songProgress={songProgress} />)
-                        : (<GameOver score={totalScore} maxStreak={maxStreak} />)}
-                    {(!gameOver && !isAnimationStarted) ? (<div ClassName="get-ready-alert"><b>Get Ready!</b></div>) : (<div id="game-timer">Time Left: {Math.floor(songLength - (songProgress * songLength))}</div>)}
-                    <GameControl handleStartAnimation={handleStartAnimation} isAnimationStarted={isAnimationStarted} handleStopAnimation={handleStopAnimation} />
-                </div>
+                <Stream setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
+                <div className="bottom-container"><Piano /></div>
 
+                <div className="covering-div"></div>
+                <GameButtons handleStartAnimation={handleStartAnimation} handleStopAnimation={handleStopAnimation} isAnimationStarted={isAnimationStarted} />
 
             </GameContext.Provider >
 
