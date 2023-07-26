@@ -1,48 +1,41 @@
 
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import base64 from 'react-native-base64';
 
-import LoadingSpinner from "../common/LoadingSpinner";
-import GameButtons from "./game-control/GameButtons";
+
+
 import Stream from "./game-pieces/Stream";
 import Piano from "./game-pieces/piano/Piano";
+import BackgroundVideo from "./game-pieces/BackgroundVideo";
 
-import LiveStats from "./game-alerts/LiveStats";
-import GameOver from "./game-alerts/GameOver";
-import SaveScore from "./game-control/SaveScore";
-import ScoreBar from "./game-alerts/ScoreBar"
+import LeftStats from "./game-info/LeftStats"
+import RightStats from "./game-info/RightStats"
+import ScoreBar from "./game-info/ScoreBar"
+
+import Streamers from "./game-info/Streamers";
+import NewScorePage from "./game-info/NewScorePage";
+import NoScorePage from "./game-info/NoScorePage"
+
+
+
 import GameContext from "./GameContext";
 import MusicContext from "../songs/MusicContext";
-import "./Game.css"
-import video1 from './backgrounds/Video1.mp4'
-import video2 from './backgrounds/Video2.mp4'
-import video3 from './backgrounds/Video3.mp4'
-import video4 from './backgrounds/Video4.mp4'
-import video5 from './backgrounds/Video5.mp4'
-import video6 from './backgrounds/Video6.mp4'
 import UserContext from "../auth/UserContext";
 
 
+import "./Game.css"
 
-
-
-
-
-/** Homepage of site.
- *
- * Shows welcome message or login/register buttons.
- *
- * Routed at /
- *
- * MyRoutes -> Homepage
- */
 
 const Game = () => {
 
 
-    const { song } = useContext(MusicContext);
-    const { getFormJSX, setOnGamePage } = useContext(UserContext)
+    const { song, encodedData, setHasRefreshedGame } = useContext(MusicContext);
+    const { getFormJSX, setOnGamePage, topScore, currentUser } = useContext(UserContext)
     const { mp3Id } = useParams()
+    const navigate = useNavigate();
+
+    const audioRef = useRef(null);
 
 
 
@@ -54,10 +47,9 @@ const Game = () => {
     const [timer, setTimer] = useState(0)
     const [isAnimationStarted, setIsAnimationStarted] = useState(false);
     const [isAnimationStopped, setIsAnimationStopped] = useState(false);
-
     const [viewHeight, setViewHeight] = useState(0);
-    const [videoHeight, setVideoHeight] = useState(0)
-    const [video, setVideo] = useState(null)
+
+
     const [timeoutId, setTimeoutId] = useState({});
 
     const [activeKeys, setActiveKeys] = useState({});
@@ -74,37 +66,12 @@ const Game = () => {
     const [totalScore, setTotalScore] = useState(0);
     const [maxStreak, setMaxStreak] = useState(0)
     const [gameOver, setGameOver] = useState(false);
+    const [userBeatTop, setUserBeatTop] = useState(false)
+    const [userBeatPersonalBest, setUserBeatPersonalBest] = useState(false)
 
-    const isMountedRef = useRef(false);
+
 
     const maxDelay = 400;
-
-
-
-
-    useEffect(() => {
-        if (!isMountedRef.current) {
-
-            if (Number(mp3Id) === 1564) {
-                setVideo(6)
-            } else if (Number(mp3Id) === 5772) {
-
-                setVideo(5)
-            } else {
-                const videoNumbers = [1, 2, 3, 4]
-                const randomIndex = Math.floor(Math.random() * videoNumbers.length);
-
-                if (videoNumbers[randomIndex] === 1) { setVideo(1) }
-                else if (videoNumbers[randomIndex] === 2) { setVideo(2) }
-                else if (videoNumbers[randomIndex] === 3) { setVideo(3) }
-                else if (videoNumbers[randomIndex] === 4) { setVideo(4) }
-
-            }
-            isMountedRef.current = true;
-        }
-
-    }, [mp3Id])
-
 
 
     const handleRestartGame = () => {
@@ -123,7 +90,95 @@ const Game = () => {
         setTotalScore(0)
         setMaxStreak(0)
         setGameOver(false);
+        setUserBeatPersonalBest(false);
+        setUserBeatTop(false);
     }
+
+
+
+
+    //Animating Stream~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //handling stream animation
+    const handleStartAnimation = () => {
+        setIsAnimationStarted(true);
+    };
+
+    const handleStopAnimation = () => {
+        setIsAnimationStopped(true);
+        setIsAnimationStarted(false);
+    };
+
+    useEffect(() => {
+        if (encodedData === null) {
+
+            setHasRefreshedGame(true)
+            navigate(`/song/${mp3Id}`);
+            return
+        }
+        const decodedData = base64.decode(encodedData);
+        const audioElement = new Audio();
+        audioElement.src = 'data:audio/mp3;base64,' + btoa(decodedData); // Set the MP3 binary data as the audio source
+
+        audioRef.current = audioElement; // Assign the audio element to the ref
+        audioRef.current.volume = 0.1
+
+        return () => {
+            audioElement.pause();
+            audioElement.src = '';
+        };
+    }, [encodedData]);
+
+
+
+    useEffect(() => {
+        setOnGamePage(true)
+        let animationFrameId;
+
+        handlePlay()
+
+
+        const updateProgress = () => {
+            const currentTime = audioRef.current.currentTime;
+            const duration = audioRef.current.duration;
+            const progress = currentTime / duration;
+
+            setSongProgress(progress);
+            animationFrameId = requestAnimationFrame(updateProgress);
+        };
+
+        if (audioRef.current) {
+            animationFrameId = requestAnimationFrame(updateProgress);
+        }
+
+        return () => {
+            cancelAnimationFrame(animationFrameId);
+        };
+    }, []);
+
+    const handlePlay = () => {
+        if (audioRef.current) {
+            setTimeout(() => {
+                audioRef.current.play();
+                handleStartAnimation();;
+            }, 2000);
+        }
+    };
+
+    const handleStop = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            audioRef.current.load(); // Reset the audio source
+            handleStopAnimation();
+        }
+    };
+
+
+
+
+    //Game Play~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
     const handleRightTiming = (keyLetter, phrase, score) => {
@@ -299,9 +354,6 @@ const Game = () => {
 
 
 
-
-
-
     useEffect(function cleanUpNoteAccuracy() {
         const notes = ["A",
             "W",
@@ -328,7 +380,6 @@ const Game = () => {
         })
 
     }, [activeKeys])
-
 
 
 
@@ -367,78 +418,68 @@ const Game = () => {
 
 
 
-    useEffect(() => {
-        // Function to update the view height
-        setOnGamePage(true)
-        const updateViewHeight = () => {
-            setViewHeight(window.innerHeight);
-        };
 
-        const updateVideoHeight = () => {
-            setVideoHeight(window.innerHeight - 220);
-        };
-        // Initial view height
-        updateViewHeight();
-        updateVideoHeight();
-        // Event listener for window resize to update view height on resize
-        window.addEventListener('resize', updateViewHeight);
 
-        // Clean up the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('resize', updateViewHeight);
-        };
-    }, []);
 
-    //handling stream animation
-    const handleStartAnimation = () => {
-        setIsAnimationStarted(true);
-    };
 
-    const handleStopAnimation = () => {
-        setIsAnimationStopped(true);
-        setIsAnimationStarted(false);
-    };
+    const checkForStreamers = () => {
+        if (gameOver && (userBeatTop || !topScore)) {
+            return (<Streamers />)
+        }
 
-    const getVideo = () => {
-        if (video === 1) { return (<source src={video1} type="video/mp4" />) }
-        else if (video === 2) { return (<source src={video2} type="video/mp4" />) }
-        else if (video === 3) { return (<source src={video3} type="video/mp4" />) }
-        else if (video === 4) { return (<source src={video4} type="video/mp4" />) }
-        else if (video === 5) { return (<source src={video5} type="video/mp4" />) }
-        else if (video === 6) { return (<source src={video6} type="video/mp4" />) }
     }
 
 
 
-    if (video === null) return <LoadingSpinner />;
+    const getGameOverJSX = () => {
+        if (userBeatTop || !topScore) {
+            return (<NewScorePage isTop={true} />)
+        } if (userBeatPersonalBest || !currentUser) {
+            return (<NewScorePage isTop={false} />)
+        } if (!userBeatPersonalBest) {
+            return (<NoScorePage />)
+        }
+    }
+
+
+    const getGameJSX = () => {
+        if (!isAnimationStarted && !gameOver) {
+            return (<div className="game-get-ready">Get Ready!</div>)
+        } else if (isAnimationStarted && !gameOver) {
+            return (
+                <>
+                    {topScore ? <ScoreBar /> : ""}
+                    <LeftStats />
+                    <RightStats />
+                </>
+            )
+        } else if (gameOver) {
+            return (
+                <div className="game-over-screen">
+                    {getFormJSX()}
+                    {getGameOverJSX()}
+                </div>
+            )
+        }
+    }
+
+
+
+
 
     return (
-        <div className="game-page">
-            <GameContext.Provider value={{ totalScore, setTimer, viewHeight, streakMultiplier, noteScore, handleRestartGame, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
-
+        <div className="game-container">
+            <GameContext.Provider value={{ viewHeight, setViewHeight, handleStop, handlePlay, handleStartAnimation, handleStopAnimation, isAnimationStarted, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, totalScore, timer, setTimer, streakMultiplier, noteScore, handleRestartGame, setGameOver, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
                 <div className="game-header">{song.title}, {song.dir}</div>
-                {!isAnimationStarted ? (<div className="game-get-ready">Get Ready!</div>) : (<div id="game-timer"> {timer}</div>)}
-                <ScoreBar />
+                <BackgroundVideo />
+                {checkForStreamers()}
 
-
-
-                <video autoPlay loop id="bgvid" style={{ height: videoHeight }}>
-                    {getVideo()}
-                </video>
-
-                <div className="game-login-forms">
-                    {getFormJSX()}
-                </div>
-
+                {getGameJSX()}
 
                 <Stream setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
                 <div className="bottom-container"><Piano /></div>
-
                 <div className="covering-div"></div>
-                <GameButtons handleStartAnimation={handleStartAnimation} handleStopAnimation={handleStopAnimation} isAnimationStarted={isAnimationStarted} />
-
             </GameContext.Provider >
-
         </div >
     )
 

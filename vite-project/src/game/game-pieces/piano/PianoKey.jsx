@@ -93,14 +93,16 @@ function PianoKey({ note, id, className, children, letter }) {
 ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
  ${(accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''} `}>
 
+            <div className="piano-note-name">
+                {children}
+            </div>
+            <div className="piano-note-accuracy">
 
-            {children}
-            <div className="note-accuracy">
                 {accuracyAlert.hasOwnProperty(letter) ? accuracyAlert[letter] : ""}
                 <br />{noteScore.hasOwnProperty(letter) ? `+${noteScore[letter]}` : ""}
             </div>
-        </li>
-    </div>
+        </li >
+    </div >
     );
 }
 

@@ -57,9 +57,6 @@ function MyNav({ logout }) {
           <button id="login" className="button" onClick={toggleLoginForm}>
             Login
           </button>
-          <button id="signup" className="button" onClick={toggleSignupForm}>
-            Signup
-          </button>
         </div>
 
 

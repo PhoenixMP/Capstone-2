@@ -7,8 +7,7 @@ import musicContext from "../songs/MusicContext";
 import userContext from "../auth/UserContext";
 import FallingNotes from "../common/FallingNotes";
 
-import LoginForm from "../auth/LoginForm"
-import SignupForm from "../auth/SignupForm"
+
 import ScorelessLeaderboard from "./ScorelessLeaderboard";
 import Leaderboard from "./Leaderboard";
 
@@ -34,7 +33,7 @@ const SongDetails = ({ login, signup }) => {
 
 
     const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
-    const { getFormJSX, setOnGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
+    const { getUserBestScore, getFormJSX, setOnGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
     const [runnerUpScores, setRunnerUpScores] = useState(null);
 
 
@@ -78,15 +77,6 @@ const SongDetails = ({ login, signup }) => {
 
     useEffect(function getScoreInfo() {
 
-        async function getUserBestScore() {
-            const score = await Melodic2API.getUserSongTopScore(mp3Id, currentUser.username);
-            console.log('userbestscore', score)
-            if (score === null) {
-                setUserBestScore(false);
-            } else {
-                setUserBestScore(score);
-            }
-        }
 
         async function getGeneralScores() {
             const scores = await Melodic2API.getSongAllScores(mp3Id);
@@ -103,7 +93,7 @@ const SongDetails = ({ login, signup }) => {
                         setUserHasTop(true)
                         setUserBestScore(false)
                     } else {
-                        getUserBestScore();
+                        getUserBestScore(mp3Id, currentUser.username);
                     }
 
                 }

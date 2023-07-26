@@ -27,25 +27,25 @@ function MyRoutes({ login, signup, updateUser }) {
   );
 
   return (
-    <div>
-      <Routes>
 
-        <Route exact path="/" element={<Home login={login} signup={signup} />} />
+    <Routes>
 
-
-        <Route exact path="/profile" element={currentUser ? (<Profile />) : (<Navigate replace to={"/"} />)} />
-
-        <Route exact path="/songs" element={<Songs login={login} signup={signup} />} />
-
-        <Route exact path="/song/:mp3Id" element={<SongDetails login={login} signup={signup} />} />
-
-        <Route exact path="/game/:mp3Id" element={<Game />} />
+      <Route exact path="/" element={<Home login={login} signup={signup} />} />
 
 
+      <Route exact path="/profile" element={currentUser ? (<Profile />) : (<Navigate replace to={"/"} />)} />
 
-        <Route path="*" element={<Navigate replace to="/" />} />
-      </Routes>
-    </div>
+      <Route exact path="/songs" element={<Songs login={login} signup={signup} />} />
+
+      <Route exact path="/song/:mp3Id" element={<SongDetails login={login} signup={signup} />} />
+
+      <Route exact path="/game/:mp3Id" element={<Game />} />
+
+
+
+      <Route path="*" element={<Navigate replace to="/" />} />
+    </Routes>
+
   );
 }
 

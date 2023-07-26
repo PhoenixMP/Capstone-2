@@ -1,10 +1,13 @@
-.game-forms {
+.game-over-screen {
     position: absolute;
-    top: 70px;
-    right: 0;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -80%);
     z-index: 9999;
 
 }
+
 
 .covering-div {
     position: fixed;
@@ -35,7 +38,7 @@ video {
     font-size: 50px;
     color: white;
     background-color: rgba(0, 0, 0, 0.471);
-    z-index: 9000;
+    z-index: 9;
     text-align: center;
 
 }
@@ -52,29 +55,42 @@ video {
 
 }
 
-#game-timer {
+.game-left-stat-container {
     position: absolute;
     height: 70px;
     width: 50px;
-    color: white;
-    font-size: 90px;
     z-index: 9000;
     left: 50%;
     bottom: 90px;
     transform: translate(-560px, 0);
+
 }
 
-#game-buttons {
+.game-right-stat-container {
     position: absolute;
-    display: flex;
-    height: 100px;
-    width: 50px;
+    height: 50px;
+
     color: white;
-    font-size: 50px;
+    font-size: 40px;
     z-index: 9000;
     left: 50%;
     bottom: 90px;
-    transform: translate(520px, 0);
+    transform: translate(450px, 0);
+
+}
+
+#game-timer {
+
+    color: white;
+    font-size: 90px;
+    z-index: 9000;
+
+}
+
+#game-buttons {
+
+    display: flex;
+
 }
 
 #song-name {
@@ -92,7 +108,7 @@ video {
     transform: translate(-50%, 0);
     text-align: right;
     color: White;
-    padding-right: 5px;
+
     font-size: 20px;
 }
 
@@ -100,11 +116,16 @@ video {
     height: 100%;
     transition: width 0.3s ease;
     border-radius: 10px;
-    background-color: blue;
+    background-color: rgb(15, 225, 22);
     text-align: right;
     color: White;
     padding-right: 5px;
     box-shadow: 0 0 20px 15px #eaeaea;
+}
+
+.score-fill.user-beat-top {
+    background-color: blue;
+    box-shadow: 0 0 30px 15px #eaeaea;
 }
 
 .stream {
@@ -114,6 +135,7 @@ video {
     width: 750px;
     margin: 0;
     padding: 0;
+    z-index: -1;
 
 }
 
@@ -166,7 +188,7 @@ li.piano-key {
 
 .game-note {
     position: absolute;
-    z-index: 1;
+
 }
 
 .in-play {
@@ -226,7 +248,7 @@ li.piano-key {
 
 
 .key.white {
-    color: black;
+
     height: 180px;
     width: 100px;
     z-index: 1;
@@ -249,7 +271,7 @@ li.piano-key {
 
 
 .key.black {
-    color: white;
+
     height: 100px;
     width: 50px;
     margin: 0 0 0 -25px;
@@ -293,4 +315,26 @@ ul li.piano-key:last-child {
 .key.white.accurate.active,
 .key.black.accurate.active {
     background: linear-gradient(to bottom, #fff 0%, #15b520 100%)
+}
+
+
+
+.black .piano-note-name {
+    color: White
+}
+
+.piano-note-accuracy {
+    position: absolute;
+    left: 50%;
+    font-size: 20px;
+    transform: translateX(-50%);
+    color: white;
+}
+
+.black .piano-note-accuracy {
+    bottom: -130px;
+}
+
+.white .piano-note-accuracy {
+    bottom: -50px;
 }

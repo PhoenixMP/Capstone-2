@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import "./authForm.css"
-
+import userContext from "./UserContext";
 
 /** Login form.
  *
@@ -18,8 +18,9 @@ import "./authForm.css"
 const LoginForm = ({ login, toggleSignupForm }) => {
     const INITIAL_STATE = { username: "", password: "" };
     const [formData, setFormData] = useState(INITIAL_STATE);
-
+    const { onGamePage } = useContext(userContext)
     const navigate = useNavigate();
+    const { mp3Id } = useParams()
 
     /** Handle form submit:
      *
@@ -27,7 +28,7 @@ const LoginForm = ({ login, toggleSignupForm }) => {
      */
     const handleSubmit = evt => {
         evt.preventDefault();
-        login(formData)
+        { onGamePage ? login(formData, mp3Id) : login(formData) }
         setFormData(INITIAL_STATE);
     };
 

@@ -1,0 +1,294 @@
+:root {
+    --color1: #55476A;
+    --color2: #AE3D63;
+    --color3: #DB3853;
+    --color4: #F45C44;
+    --color5: #F8B663;
+}
+
+
+#game-background-confetti-container {
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 60px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.game-background-confetti {
+    position: absolute;
+    display: flex;
+    width: 10px;
+    height: 25px;
+    top: -100px;
+}
+
+.game-background-confetti:nth-child(1) {
+    background-color: var(--color1);
+    animation: fall 2.5s linear infinite;
+    left: 10%;
+}
+
+.game-background-confetti:nth-child(2) {
+    background-color: var(--color2);
+    animation: fall 2.3s linear infinite .2s;
+    left: 20%;
+}
+
+.game-background-confetti:nth-child(3) {
+    background-color: var(--color3);
+    animation: fall 2.4s linear infinite .4s;
+    left: 30%;
+}
+
+.game-background-confetti:nth-child(4) {
+    background-color: var(--color4);
+    animation: fall 2.7s linear infinite .1s;
+    left: 40%;
+}
+
+.game-background-confetti:nth-child(5) {
+    background-color: var(--color5);
+    animation: fall 2.6s linear infinite .7s;
+    left: 50%;
+}
+
+.game-background-confetti:nth-child(6) {
+    background-color: var(--color1);
+    animation: fall 2.4s linear infinite .2s;
+    left: 60%;
+}
+
+.game-background-confetti:nth-child(7) {
+    background-color: var(--color2);
+    animation: fall 2.1s linear infinite .7s;
+    left: 70%;
+}
+
+.game-background-confetti:nth-child(8) {
+    background-color: var(--color3);
+    animation: fall 2.4s linear infinite .9s;
+    left: 80%;
+}
+
+.game-background-confetti:nth-child(9) {
+    background-color: var(--color4);
+    animation: fall 2.9s linear infinite .9s;
+    left: 90%;
+}
+
+.game-background-confetti:nth-child(10) {
+    background-color: var(--color5);
+    animation: fall 2.2s linear infinite 1.1s;
+    left: 100%;
+}
+
+.game-background-confetti:nth-child(11) {
+    background-color: var(--color1);
+    animation: fall2 2.5s linear infinite;
+    left: 95%;
+}
+
+.game-background-confetti:nth-child(12) {
+    background-color: var(--color2);
+    animation: fall2 2.3s linear infinite 1.1s;
+    left: 85%;
+}
+
+.game-background-confetti:nth-child(13) {
+    background-color: var(--color3);
+    animation: fall2 2.4s linear infinite 1.2s;
+    left: 75%;
+}
+
+.game-background-confetti:nth-child(14) {
+    background-color: var(--color4);
+    animation: fall2 2.7s linear infinite 1.3s;
+    left: 65%;
+}
+
+.game-background-confetti:nth-child(15) {
+    background-color: var(--color5);
+    animation: fall2 2.6s linear infinite 1.4s;
+    left: 55%;
+}
+
+.game-background-confetti:nth-child(16) {
+    background-color: var(--color1);
+    animation: fall2 2.4s linear infinite 1.5s;
+    left: 45%;
+}
+
+.game-background-confetti:nth-child(17) {
+    background-color: var(--color2);
+    animation: fall2 2.1s linear infinite 1.6s;
+    left: 35%;
+}
+
+.game-background-confetti:nth-child(18) {
+    background-color: var(--color3);
+    animation: fall2 2.4s linear infinite 1.7s;
+    left: 25%;
+}
+
+.game-background-confetti:nth-child(19) {
+    background-color: var(--color4);
+    animation: fall2 2.9s linear infinite 1.8s;
+    left: 15%;
+}
+
+.game-background-confetti:nth-child(20) {
+    background-color: var(--color5);
+    animation: fall2 2.2s linear infinite 1.9s;
+    left: 5%;
+}
+
+.game-background-confetti:nth-child(21) {
+    background-color: var(--color1);
+    animation: fall 2.5s linear infinite;
+    left: 3%;
+}
+
+.game-background-confetti:nth-child(22) {
+    background-color: var(--color2);
+    animation: fall 2.3s linear infinite 1.3s;
+    left: 13%;
+}
+
+.game-background-confetti:nth-child(23) {
+    background-color: var(--color3);
+    animation: fall 2.4s linear infinite 1.4s;
+    left: 23%;
+}
+
+.game-background-confetti:nth-child(24) {
+    background-color: var(--color4);
+    animation: fall 2.7s linear infinite 1.5s;
+    left: 33%;
+}
+
+.game-background-confetti:nth-child(25) {
+    background-color: var(--color5);
+    animation: fall 2.6s linear infinite 1.6s;
+    left: 43%;
+}
+
+.game-background-confetti:nth-child(26) {
+    background-color: var(--color1);
+    animation: fall 2.4s linear infinite 1.2s;
+    left: 53%;
+}
+
+.game-background-confetti:nth-child(27) {
+    background-color: var(--color2);
+    animation: fall 2.1s linear infinite 1.7s;
+    left: 63%;
+}
+
+.game-background-confetti:nth-child(28) {
+    background-color: var(--color3);
+    animation: fall 2.4s linear infinite 1.8s;
+    left: 73%;
+}
+
+.game-background-confetti:nth-child(29) {
+    background-color: var(--color4);
+    animation: fall 2.9s linear infinite 1.9s;
+    left: 83%;
+}
+
+.game-background-confetti:nth-child(30) {
+    background-color: var(--color5);
+    animation: fall 2.2s linear infinite 1.1s;
+    left: 93%;
+}
+
+.game-background-confetti:nth-child(31) {
+    background-color: var(--color1);
+    animation: fall2 2.2s linear infinite 1.1s;
+    left: 7%;
+}
+
+.game-background-confetti:nth-child(32) {
+    background-color: var(--color2);
+    animation: fall2 2.9s linear infinite .9s;
+    left: 17%;
+}
+
+.game-background-confetti:nth-child(33) {
+    background-color: var(--color3);
+    animation: fall2 2.4s linear infinite .1s;
+    left: 27%;
+}
+
+.game-background-confetti:nth-child(34) {
+    background-color: var(--color4);
+    animation: fall2 2.1s linear infinite .7s;
+    left: 37%;
+}
+
+.game-background-confetti:nth-child(35) {
+    background-color: var(--color5);
+    animation: fall2 2.4s linear infinite .2s;
+    left: 47%;
+}
+
+.game-background-confetti:nth-child(36) {
+    background-color: var(--color1);
+    animation: fall2 2.6s linear infinite .7s;
+    left: 57%;
+}
+
+.game-background-confetti:nth-child(37) {
+    background-color: var(--color2);
+    animation: fall2 2.7s linear infinite .9s;
+    left: 67%;
+}
+
+.game-background-confetti:nth-child(38) {
+    background-color: var(--color3);
+    animation: fall2 2.4s linear infinite .4s;
+    left: 77%;
+}
+
+.game-background-confetti:nth-child(39) {
+    background-color: var(--color4);
+    animation: fall2 2.3s linear infinite .2s;
+    left: 87%;
+}
+
+.game-background-confetti:nth-child(40) {
+    background-color: var(--color5);
+    animation: fall2 2.5s linear infinite .3s;
+    left: 97%;
+}
+
+@keyframes fall {
+    0% {
+        top: -110px;
+        transform: rotate(0deg) rotateY(-90deg);
+        opacity: 1;
+    }
+
+    100% {
+        top: 900px;
+        transform: rotate(360deg) rotateY(180deg);
+        opacity: 0.7;
+    }
+}
+
+@keyframes fall2 {
+    0% {
+        top: -110px;
+        transform: rotate(0deg) rotateY(90deg);
+        opacity: 1;
+    }
+
+    100% {
+        top: 900px;
+        transform: rotate(-360deg) rotateY(-180deg);
+        opacity: 0.5;
+    }
+}

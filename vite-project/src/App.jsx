@@ -63,21 +63,29 @@ function App() {
 
 
   //Register new User
-  async function signup(data) {
+  async function signup(data, mp3Id = null) {
     const res = await Melodic2API.registerUser(data);
     setToken(res);
     if (onHoldScore) addOnHoldScore(data.username);
     setShowLogin(false)
     setShowSignup(false)
+    if (mp3Id) {
+      getUserBestScore(mp3Id)
+    }
   }
 
 
   //Login User
-  async function login(data) {
+  async function login(data, mp3Id = null) {
     const res = await Melodic2API.loginUser(data);
     setToken(res);
     setShowLogin(false)
     setShowSignup(false)
+    if (mp3Id) {
+      console.log("getting an updated score")
+      let { username } = jwt_decode(res)
+      getUserBestScore(mp3Id, username)
+    }
   }
 
 
@@ -105,6 +113,17 @@ function App() {
 
   }
 
+
+
+  async function getUserBestScore(mp3Id, username) {
+    const score = await Melodic2API.getUserSongTopScore(mp3Id, username);
+    console.log('thescore', score)
+    if (score === null) {
+      setUserBestScore(false);
+    } else {
+      setUserBestScore(score);
+    }
+  }
 
 
 
@@ -156,7 +175,7 @@ function App() {
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
+      <UserContext.Provider value={{ getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, onHoldScore, setOnHoldScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <MyNav logout={logout} onGamePage={onGamePage} />
           <MyRoutes login={login} signup={signup} />
