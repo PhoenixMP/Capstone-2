@@ -9,6 +9,18 @@
 }
 
 
+
+.pop-up-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.8;
+    z-index: 10000;
+}
+
 .covering-div {
     position: fixed;
     top: 0;
@@ -21,9 +33,10 @@
 
 video {
     position: absolute;
+
     bottom: 230px;
     left: 50%;
-    height: 100%;
+
     transform: translate(-50%);
     object-fit: cover;
     background-color: black;
@@ -33,78 +46,26 @@ video {
 }
 
 
+
 .game-header {
+    position: absolute;
     height: 70px;
     font-size: 50px;
     color: white;
     background-color: rgba(0, 0, 0, 0.471);
     z-index: 9;
     text-align: center;
-
+    width: 100%;
 }
-
-.game-get-ready {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    height: 70px;
-    font-size: 50px;
-    color: white;
-    z-index: 9000;
-    transform: translateX(-50%);
-
-}
-
-.game-left-stat-container {
-    position: absolute;
-    height: 70px;
-    width: 50px;
-    z-index: 9000;
-    left: 50%;
-    bottom: 90px;
-    transform: translate(-560px, 0);
-
-}
-
-.game-right-stat-container {
-    position: absolute;
-    height: 50px;
-
-    color: white;
-    font-size: 40px;
-    z-index: 9000;
-    left: 50%;
-    bottom: 90px;
-    transform: translate(450px, 0);
-
-}
-
-#game-timer {
-
-    color: white;
-    font-size: 90px;
-    z-index: 9000;
-
-}
-
-#game-buttons {
-
-    display: flex;
-
-}
-
-#song-name {
-    text-align: center;
-}
-
 
 .score-bar {
     position: absolute;
-    width: 780px;
+    width: 800px;
     height: 20px;
     background-color: #ccc;
     border-radius: 10px;
     left: 50%;
+    top: 75px;
     transform: translate(-50%, 0);
     text-align: right;
     color: White;
@@ -127,6 +88,122 @@ video {
     background-color: blue;
     box-shadow: 0 0 30px 15px #eaeaea;
 }
+
+.game-get-ready {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    height: 70px;
+    font-size: 50px;
+    color: white;
+    z-index: 9000;
+    transform: translateX(-50%);
+
+}
+
+.game-left-stat-container {
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    height: 230px;
+    width: 10px;
+    z-index: 9000;
+    left: 50%;
+    bottom: 10px;
+    transform: translate(-490px, 0);
+    align-items: center;
+
+}
+
+.game-right-stat-container {
+    position: absolute;
+    height: 230px;
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    color: white;
+    font-size: 40px;
+    z-index: 9000;
+    left: 50%;
+    bottom: 0;
+
+    transform: translate(410px, 0);
+
+}
+
+.game-user-score {
+    font-size: 50px;
+    margin-top: 25px;
+}
+
+.game-score-message {
+    font-size: 20px;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+
+#game-timer {
+
+    color: white;
+    font-size: 50px;
+    z-index: 9000;
+
+}
+
+
+#song-name {
+    text-align: center;
+}
+
+
+
+.save-btn {
+    width: 240px;
+    font-size: 14px;
+    background-image: linear-gradient(to right, #aa076b, #61045f);
+}
+
+.game-play-button {
+    width: 160px;
+    font-size: 10px;
+    background-image: linear-gradient(to right, #359bce, #176B87);
+
+}
+
+.save-btn,
+.game-play-button {
+
+    padding: 10px;
+    color: #ffffff;
+    border: none;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 20px 0 2px 0;
+    transition: all 0.3s;
+}
+
+.save-btn:hover {
+    transform: translateY(5px);
+    background-image: linear-gradient(to left, #aa076b, #61045f);
+}
+
+.game-play-button:hover {
+    transform: translateY(5px);
+    background-image: linear-gradient(to left, #359bce, #176B87);
+}
+
+
+
+
+
+
+
 
 .stream {
     position: fixed;
@@ -192,7 +269,7 @@ li.piano-key {
 }
 
 .in-play {
-    color: blue;
+    color: rgb(0, 89, 255);
 }
 
 .note-name {

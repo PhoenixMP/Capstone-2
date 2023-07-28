@@ -3,18 +3,18 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import Melodic2API from "../../api/api";
 import userContext from "../../auth/UserContext";
 import GameContext from "../GameContext";
-import GameButtons from "./GameButtons";
+import EndGameButtons from "./EndGameButtons";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import "./NewScorePage.css"
 
 
 
 function NoScorePage() {
-    const { userBestScore } = useContext(userContext);
-    const { totalScore } = useContext(GameContext)
+    const { userBestScore, currentUser, totalScore } = useContext(userContext);
 
 
-    if (!userBestScore) return (<LoadingSpinner />)
+
+    if (currentUser && userBestScore === null) return (<LoadingSpinner />)
     return (
         <div className="results-summary-container no-score">
             <div className="results-summary-container__result">
@@ -24,10 +24,11 @@ function NoScorePage() {
                 </div>
                 <div className="result-text-box">
                     <p className="paragraph">
-                        Your Best Score for this song is: {userBestScore.score}
+                        {currentUser ? `Your Best Score for this song is: ${userBestScore.score}` : 'Login/Signup to save score'}
                     </p>
+
                 </div>
-                <GameButtons isGameOverButton={true} />
+                <EndGameButtons />
             </div>
         </div>
 

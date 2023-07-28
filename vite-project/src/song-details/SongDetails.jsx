@@ -88,14 +88,7 @@ const SongDetails = ({ login, signup }) => {
                 setRunnerUpScores(false);
             } else {
                 if (currentUser) {
-
-                    if (scores[0].username === currentUser.username) {
-                        setUserHasTop(true)
-                        setUserBestScore(false)
-                    } else {
-                        getUserBestScore(mp3Id, currentUser.username);
-                    }
-
+                    getUserBestScore(mp3Id, currentUser.username, scores[0]);
                 }
                 setTopScore(scores[0]);
                 scores.shift()

@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import GameNote from './GameNote';
 import musicContext from '../../songs/MusicContext';
 import gameContext from '../GameContext';
+import UserContext from '../../auth/UserContext';
 
 
 const Stream = ({ setGameOver, songLength, bpm, isAnimationStarted, isAnimationStopped }) => {
 
     const { notes } = useContext(musicContext);
     const { setTimer, songProgress } = useContext(gameContext);
+    const { currentUser } = useContext(UserContext)
     const [streamDistance, setStreamDistance] = useState(0);
 
 
@@ -39,6 +41,7 @@ const Stream = ({ setGameOver, songLength, bpm, isAnimationStarted, isAnimationS
             }
             if (songProgress === 1) {
                 setGameOver(true);
+
             }
         };
 

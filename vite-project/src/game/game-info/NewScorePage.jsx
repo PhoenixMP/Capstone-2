@@ -2,14 +2,14 @@ import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import userContext from "../../auth/UserContext";
 import GameContext from "../GameContext";
-import GameButtons from "./GameButtons";
+import EndGameButtons from "./EndGameButtons";
 import "./NewScorePage.css"
 
 
 
 function NewTopScore({ isTop }) {
-    const { currentUser } = useContext(userContext);
-    const { totalScore, userBestScore, userHasTop } = useContext(GameContext)
+    const { currentUser, totalScore, userBestScore, userHasTop } = useContext(userContext);
+
 
 
 
@@ -57,7 +57,7 @@ function NewTopScore({ isTop }) {
                 </div>
                 {checkLogin()}
 
-                <GameButtons isGameOverButton={true} saving={true} />
+                <EndGameButtons />
             </div>
         </div>
 

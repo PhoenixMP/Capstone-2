@@ -5,8 +5,8 @@ import UserContext from "../../auth/UserContext"
 
 const ScoreBar = () => {
 
-    const { totalScore, setUserBeatTop, setUserBeatPersonalBest, userBeatTop } = useContext(GameContext);
-    const { userBestScore, topScore, currentUser } = useContext(UserContext)
+    const { userBestScore, topScore, currentUser, totalScore, userBeatTop } = useContext(UserContext)
+    const { getGameResults } = useContext(GameContext)
     const [percentage, setPercentage] = useState(0)
 
     console.log
@@ -17,11 +17,10 @@ const ScoreBar = () => {
         if (percentage < 100) {
             setPercentage(percentage)
         } else {
-            setUserBeatTop(true)
             setPercentage(100)
+            getGameResults()
         }
-        if (totalScore > topScore.score) setUserBeatTop(true);
-        if (currentUser && (totalScore > userBestScore.score)) setUserBeatPersonalBest(true)
+
     }, [totalScore])
 
     const scoreBarStyle = () => {

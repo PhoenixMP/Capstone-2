@@ -8,7 +8,7 @@ import { useSound } from 'use-sound';
 
 
 function PianoKey({ note, id, className, children, letter }) {
-    const { noteScore, setActiveKeys, activeKeys, checkPressedKey, checkReleasedKey, accuracyAlert, setAccuracyAlert } = useContext(GameContext);
+    const { noteScore, setActiveKeys, activeKeys, checkPressedKey, checkReleasedKey, accuracyAlert, setAccuracyAlert, gameOver } = useContext(GameContext);
     const [play, { stop }] = useSound(note); // Initialize the useSound hook with the audio file
     const isKeyDownRef = useRef(null);
 
@@ -75,14 +75,16 @@ function PianoKey({ note, id, className, children, letter }) {
     }, [isKeyDownRef.current]);
 
     useEffect(() => {
-        document.addEventListener('keydown', handleKeyDown);
-        document.addEventListener('keyup', handleKeyUp);
+        if (!gameOver) {
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('keyup', handleKeyUp);
+        }
 
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('keyup', handleKeyUp);
         };
-    }, []);
+    }, [gameOver]);
 
 
 

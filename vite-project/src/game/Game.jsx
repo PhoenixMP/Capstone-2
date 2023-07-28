@@ -16,6 +16,7 @@ import ScoreBar from "./game-info/ScoreBar"
 import Streamers from "./game-info/Streamers";
 import NewScorePage from "./game-info/NewScorePage";
 import NoScorePage from "./game-info/NoScorePage"
+import PopUpConfirm from "./game-info/PopUpConfirm";
 
 
 
@@ -23,15 +24,17 @@ import GameContext from "./GameContext";
 import MusicContext from "../songs/MusicContext";
 import UserContext from "../auth/UserContext";
 
+import LoadingSpinner from "../common/LoadingSpinner";
 
 import "./Game.css"
+
 
 
 const Game = () => {
 
 
     const { song, encodedData, setHasRefreshedGame } = useContext(MusicContext);
-    const { getFormJSX, setOnGamePage, topScore, currentUser } = useContext(UserContext)
+    const { userHasTop, getFormJSX, setOnGamePage, userBestScore, topScore, currentUser, setUserBeatTop, userBeatTop, setUserBeatPersonalBest, userBeatPersonalBest, setTotalScore, totalScore, recalcGameResults, setRecalcGameResults } = useContext(UserContext)
     const { mp3Id } = useParams()
     const navigate = useNavigate();
 
@@ -63,11 +66,16 @@ const Game = () => {
     const [streakMultiplier, setStreakMultiplier] = useState(1);
     const [noteScore, setNoteScore] = useState({});
     const [scoreQueue, setScoreQueue] = useState([]);
-    const [totalScore, setTotalScore] = useState(0);
     const [maxStreak, setMaxStreak] = useState(0)
     const [gameOver, setGameOver] = useState(false);
-    const [userBeatTop, setUserBeatTop] = useState(false)
-    const [userBeatPersonalBest, setUserBeatPersonalBest] = useState(false)
+
+    const [resetPrompt, setResetPrompt] = useState(false);
+    const [exitPrompt, setExitPrompt] = useState(false);
+
+
+
+
+
 
 
 
@@ -95,6 +103,20 @@ const Game = () => {
     }
 
 
+    const getGameResults = () => {
+        if ((!topScore || (totalScore > topScore.score)) && totalScore > 0) setUserBeatTop(true);
+        if (currentUser && (totalScore > 0) && ((userBestScore && totalScore > userBestScore.score) || !userBestScore)) setUserBeatPersonalBest(true)
+    }
+
+    useEffect(() => {
+
+        getGameResults();
+        if (recalcGameResults && userBestScore !== null) setRecalcGameResults(false)
+
+
+
+
+    }, [recalcGameResults, userBestScore, gameOver])
 
 
     //Animating Stream~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,6 +155,7 @@ const Game = () => {
 
     useEffect(() => {
         setOnGamePage(true)
+        handleRestartGame();
         let animationFrameId;
 
         handlePlay()
@@ -422,6 +445,61 @@ const Game = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+    const handleExit = () => {
+        navigate(`/song/${mp3Id}`);
+    }
+
+
+    const handleRestart = () => {
+        handleStop();
+        handleRestartGame();
+        setResetPrompt(false)
+        handlePlay();
+    }
+
+
+
+    const handleExitPrompt = () => {
+        setExitPrompt(prev => !prev)
+    }
+
+
+    const handleRestartPrompt = () => {
+        setResetPrompt(prev => !prev)
+    }
+
+
+    const getPopUp = () => {
+        if (resetPrompt) {
+            return (<>
+                <PopUpConfirm message={'Are you sure you want to restart?'} handleYes={handleRestart} handleNo={handleRestartPrompt} />
+                <div className='pop-up-cover'></div>
+            </>
+
+            )
+
+        } else if (exitPrompt) {
+            return (<>
+                <PopUpConfirm message={'Are you sure you want to exit the game?'} handleYes={handleExit} handleNo={handleExitPrompt} />
+                <div className='pop-up-cover'></div>
+            </>)
+
+        }
+
+    }
+
+
+
     const checkForStreamers = () => {
         if (gameOver && (userBeatTop || !topScore)) {
             return (<Streamers />)
@@ -431,13 +509,25 @@ const Game = () => {
 
 
 
+
+
     const getGameOverJSX = () => {
-        if (userBeatTop || !topScore) {
-            return (<NewScorePage isTop={true} />)
-        } if (userBeatPersonalBest || !currentUser) {
-            return (<NewScorePage isTop={false} />)
-        } if (!userBeatPersonalBest) {
-            return (<NoScorePage />)
+
+        console.log('checking  getGameOverjsx results', userBeatPersonalBest, userBestScore)
+        if (currentUser && userBestScore === null) {
+            return (<LoadingSpinner />)
+        } else {
+
+            if ((userBeatTop || !topScore) && totalScore > 0) {
+                console.log('option1')
+                console.log(userBeatTop,)
+                return (<NewScorePage isTop={true} />)
+            } else if (currentUser && !userBeatTop && (userBeatPersonalBest || !userBestScore)) {
+                console.log('option2')
+                return (<NewScorePage isTop={false} />)
+            } else if ((!userBeatTop && !currentUser) || (!userBeatTop && userBeatPersonalBest === false)) {
+                return (<NoScorePage />)
+            }
         }
     }
 
@@ -469,12 +559,13 @@ const Game = () => {
 
     return (
         <div className="game-container">
-            <GameContext.Provider value={{ viewHeight, setViewHeight, handleStop, handlePlay, handleStartAnimation, handleStopAnimation, isAnimationStarted, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, totalScore, timer, setTimer, streakMultiplier, noteScore, handleRestartGame, setGameOver, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
+            <GameContext.Provider value={{ handleRestartPrompt, handleExitPrompt, handleExit, handleRestart, getGameResults, viewHeight, setViewHeight, handleStop, handlePlay, handleStartAnimation, handleStopAnimation, isAnimationStarted, timer, setTimer, streakMultiplier, noteScore, handleRestartGame, setGameOver, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
                 <div className="game-header">{song.title}, {song.dir}</div>
                 <BackgroundVideo />
                 {checkForStreamers()}
 
                 {getGameJSX()}
+                {getPopUp()}
 
                 <Stream setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
                 <div className="bottom-container"><Piano /></div>

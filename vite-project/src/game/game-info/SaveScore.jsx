@@ -8,8 +8,8 @@ import GameContext from "../GameContext";
 
 
 function SaveScore() {
-    const { currentUser, userBestScore, topScore, setOnHoldScore, onHoldScore } = useContext(userContext);
-    const { totalScore, gameOver } = useContext(GameContext)
+    const { currentUser, userBestScore, topScore, setOnHoldScore, onHoldScore, totalScore } = useContext(userContext);
+    const { gameOver } = useContext(GameContext)
     const { mp3Id } = useParams();
     const navigate = useNavigate();
 

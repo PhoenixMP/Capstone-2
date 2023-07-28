@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import GameContext from "../GameContext";
 import UserContext from "../../auth/UserContext"
-import GameButtons from "./GameButtons"
+import GamePlayButtons from "./GamePlayButtons"
 
 
 const LeftStats = () => {
 
-    const { totalScore, timer } = useContext(GameContext);
-    const { userBestScore, setUserBeatPersonalBest, topScore, setUserBeatTop, userBeatTop } = useContext(UserContext)
+    const { timer } = useContext(GameContext);
+
 
 
 
@@ -17,7 +17,7 @@ const LeftStats = () => {
 
         <div className="game-left-stat-container">
             <div id="game-timer"> {timer}</div>
-            <GameButtons isGameOverButton={false} />
+            <GamePlayButtons />
         </div>
 
     );
