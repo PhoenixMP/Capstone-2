@@ -114,20 +114,18 @@ function App() {
 
 
   async function getUserBestScore(mp3Id, username, highScore) {
-    console.log('getting userBestScoreinfo')
     if (highScore && (highScore.username === username)) {
-      console.log('userhasbestscore')
+
       setUserHasTop(true)
       setUserBestScore(highScore)
     } else {
+      setUserHasTop(false)
       const score = await Melodic2API.getUserSongTopScore(mp3Id, username);
-      console.log(score)
+
       if (score === null) {
-        console.log('setting userBestScoreFalse')
         setUserBestScore(false);
 
       } else {
-        console.log('setting userBestScore', score)
         setUserBestScore(score);
       }
     }

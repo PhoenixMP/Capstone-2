@@ -68,6 +68,16 @@ router.get("/:mp3Id/top", checkAPIToken, async function (req, res, next) {
 });
 
 
+router.get("/:mp3Id/all-top", checkAPIToken, async function (req, res, next) {
+    const mp3Id = req.params.mp3Id
+    try {
+        const scores = await Score.getSongTopScores(mp3Id);
+        return res.json({ scores });
+    } catch (err) {
+        return next(err);
+    }
+});
+
 router.get("/:mp3Id/all", checkAPIToken, async function (req, res, next) {
     const mp3Id = req.params.mp3Id
     try {

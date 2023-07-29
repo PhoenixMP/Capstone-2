@@ -95,27 +95,29 @@ const Songs = ({ login, signup }) => {
 
     return (
 
-        <div className="songs-content-container common-background">
+        <div className="songs-page common-background">
             <FallingNotes />
-            <div className="songs-container">
-                <div className="search-container">
-                    <Search searchFor={searchTitle} />
-                    <div className="genre-buttons">
-                        {genres.map(genre => (
+            <div className="songs-content-container">
+                <div className="songs-container">
+                    <div className="search-container">
+                        <Search searchFor={searchTitle} />
+                        <div className="genre-buttons">
+                            {genres.map(genre => (
 
-                            <button className={`genre-button ${(genreButton === genre) ? "active" : ""}`} onClick={() => searchGenre(genre)}>{genre}</button>
-                        ))}
+                                <button className={`genre-button ${(genreButton === genre) ? "active" : ""}`} onClick={() => searchGenre(genre)}>{genre}</button>
+                            ))}
 
+                        </div>
                     </div>
+                    {songs.length
+                        ? <SongCardList songs={songsScores} />
+                        : <p className="lead">Sorry, no results were found!</p>
+                    }
                 </div>
-                {songs.length
-                    ? <SongCardList songs={songsScores} />
-                    : <p className="lead">Sorry, no results were found!</p>
-                }
-            </div>
 
-            <div className="form-container">
-                {getFormJSX()}
+                <div className="form-container">
+                    {getFormJSX()}
+                </div>
             </div>
         </div>
 

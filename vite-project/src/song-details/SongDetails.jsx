@@ -33,7 +33,7 @@ const SongDetails = ({ login, signup }) => {
 
 
     const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
-    const { getUserBestScore, getFormJSX, setOnGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
+    const { userHasTop, getUserBestScore, getFormJSX, setOnGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
     const [runnerUpScores, setRunnerUpScores] = useState(null);
 
 
@@ -79,7 +79,8 @@ const SongDetails = ({ login, signup }) => {
 
 
         async function getGeneralScores() {
-            const scores = await Melodic2API.getSongAllScores(mp3Id);
+            const scores = await Melodic2API.getSongTopScores(mp3Id);
+
 
             if (scores.length === 0) {
                 setTopScore(false);
@@ -91,9 +92,9 @@ const SongDetails = ({ login, signup }) => {
                     getUserBestScore(mp3Id, currentUser.username, scores[0]);
                 }
                 setTopScore(scores[0]);
-                scores.shift()
-                setRunnerUpScores(scores)
+                setRunnerUpScores(scores.slice(1))
             }
+
         }
 
         getGeneralScores();

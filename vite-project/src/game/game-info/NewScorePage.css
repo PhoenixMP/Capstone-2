@@ -69,28 +69,29 @@
   border-radius: 30px;
   background-image: linear-gradient(to bottom, #734b6d, #42275a);
   animation: gradient 9s infinite alternate linear;
-
-  .result-box {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    background-image: linear-gradient(-45deg, #ef629f, #42275a);
-    background-color: #56ab2f;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    animation: gradient 9s linear infinite;
-  }
-
-  .result {
-    margin-top: -8px;
-    font-size: 16px;
-    font-weight: 400;
-    color: hsl(241, 100%, 89%);
-  }
 }
+
+.result-box {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-image: linear-gradient(-45deg, #ef629f, #42275a);
+  background-color: #56ab2f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: gradient 9s linear infinite;
+}
+
+.result {
+  margin-top: -8px;
+  font-size: 16px;
+  font-weight: 400;
+  color: hsl(241, 100%, 89%);
+}
+
 
 
 @keyframes gradient {

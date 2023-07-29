@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import gameSymbol from '../../images/icons/controller.png'
-import tape from "../../images/tape.png"
+
 
 
 /** Loading message used by components that fetch API data. */
@@ -23,7 +23,7 @@ function HomeScoreCard(props) {
     const hue = (props.order * (360 / props.cardNumber) + startingHue) % 360;
     setBackgroundColor(`hsl(${hue}, ${bkgSaturation}, ${bkgLightness})`)
     const oppositeHue = (hue + 180) % 360;
-    setTextColor(`hsl(${hue}, ${textSaturation}, ${textLightness})`)
+    setTextColor(`hsl(${oppositeHue}, ${textSaturation}, ${textLightness})`)
     setImageColor(`invert(90%) sepia(13%) saturate(3207%) hue-rotate(${oppositeHue}deg) brightness(95%) contrast(80%)`)
 
 
@@ -33,52 +33,39 @@ function HomeScoreCard(props) {
 
 
 
-  function getCardInfo() {
-    if (props.undefeated) {
-      return (
-        <div className="score-card-score">
-          <p >🎯 Your Undefeated Score: {props.score}</p>
-          <p >🕒 Recorded At: {props.scoreTimestamp}</p>
-        </div>
-
-      )
-    } else {
-      return (
-        <div className="score-card-score">
-          <p >🎯Your Best Score: {props.score}</p>
-          <p >🕒 Recorded At: {props.scoreTimestamp}</p>
-        </div>
-
-      )
-    }
-  }
 
 
 
 
   return (
-    <Link style={{ textDecoration: 'none', color: "white" }} className="score-card-link" to={`/song/${props.mp3Id}`} key={props.mp3Id}>
-      <div className="score-card">
 
-        <img src={tape} style={{ filter: imageColor }} className="score-card-image " />
+    <div className="score-card" style={{ backgroundColor: backgroundColor, }}>
+      <Link style={{ textDecoration: 'none', color: "white" }} className="score-card-link" to={`/song/${props.mp3Id}`} key={props.mp3Id}>
 
 
-        <div className="score-card-contents">
-          <div className="score-card-header" style={{ color: textColor }} >
-            <div className="score-card-title">
-              {props.title} </div>
-            <div className="score-card-dir">
+        <div className="score-card-header" style={{ color: textColor }} >
+          <div className="score-card-title">
+            {props.title} </div>
+          <div className="score-card-dir">
 
-              {props.dir}
-            </div>
+            {props.dir}
           </div>
+          <div class="bar">
+            <div class="emptybar"></div>
+            <div class="filledbar"></div>
+          </div>
+        </div>
+        <img className='profile-card-image' src={gameSymbol} style={{ filter: imageColor }}></img>
 
-          {getCardInfo()}
+        <div className="score-card-score-container">
+          <p className="score-card-score" >Score: {props.score}</p>
+          <p >🕒{props.scoreTimestamp}</p>
         </div>
 
 
-      </div>
-    </Link>
+      </Link>
+    </div>
+
 
 
   );

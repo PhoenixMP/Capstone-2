@@ -5,14 +5,14 @@ import GameContext from "../GameContext";
 import UserContext from '../../auth/UserContext';
 import base64 from 'react-native-base64';
 import LoadingSpinner from '../../common/LoadingSpinner';
-import PopUpConfirm from './PopUpConfirm';
+
 
 const GamePlayButtons = () => {
 
 
 
 
-    const { isAnimationStarted, handleRestartPrompt, handleExitPrompt, handleExit, handleRestart, gameOver } = useContext(GameContext);
+    const { isAnimationStarted, handleRestartPrompt, handleExitPrompt, gameOver } = useContext(GameContext);
     const { userBestScore, currentUser, } = useContext(UserContext)
 
     const { mp3Id } = useParams()

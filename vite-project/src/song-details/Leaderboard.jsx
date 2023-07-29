@@ -21,6 +21,7 @@ function Leaderboard({ topScore, runnerUpScores, navigateGame, song }) {
 
     const { userHasTop, userBestScore, currentUser, toggleLoginForm } = useContext(userContext);
 
+
     const getTopUserJSX = () => {
         if (!currentUser) {
             return (<div className="leaderboard-message"><button className="song-details-login-button" onClick={toggleLoginForm}>Login</button> to set a new top score!  </div>)

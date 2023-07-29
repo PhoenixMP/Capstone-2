@@ -84,7 +84,7 @@ function SongCard({ mp3Id, title, dir, topScore, genre, cardNumber, order }) {
             <div className="vinyl-jacket" style={{ backgroundColor: backgroundColor, color: textColor }}>
                 <div className="card-header">
                     <div className="card-title">
-                        {title},
+                        {title}
                         <p> {dir} </p>
                     </div>
                 </div>

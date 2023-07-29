@@ -73,11 +73,11 @@ function MyNav({ logout }) {
         <div className="navbar-container">
           <div className="left-side-nav">
             <div className="logo-container">
-              <Link style={{ textDecoration: 'none', color: "white" }} className="navbar-brand" to="/">
-                Note-Worthy
+              <Link style={{ textDecoration: 'none', color: "white" }} className="navbar-brand left" to="/">
+                NoteWorthy
               </Link >
             </div>
-            {currentUser ? (<div className="welcome-nav"> Sup, {currentUser.firstName || currentUser.username}?</div>) : ""}
+            {currentUser ? (<div className="welcome-nav left"> Sup, {currentUser.firstName || currentUser.username}?</div>) : ""}
           </div>
           {currentUser ? loggedInNav() : loggedOutNav()}
         </div>

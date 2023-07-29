@@ -8,7 +8,6 @@ import video2 from '../backgrounds/Video2.mp4'
 import video3 from '../backgrounds/Video3.mp4'
 import video4 from '../backgrounds/Video4.mp4'
 import video5 from '../backgrounds/Video5.mp4'
-import video6 from '../backgrounds/Video6.mp4'
 
 import GameContext from "../GameContext";
 
@@ -29,9 +28,6 @@ const BackgroundVideo = () => {
         if (!isMountedRef.current) {
 
             if (Number(mp3Id) === 1564) {
-                setVideo(6)
-            } else if (Number(mp3Id) === 5772) {
-
                 setVideo(5)
             } else {
                 const videoNumbers = [1, 2, 3, 4]

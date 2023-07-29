@@ -87,6 +87,28 @@ class Score {
     return maxScore;
   }
 
+  static async getSongTopScores(mp3_id) {
+    const scoreRes = await db.query(
+      `SELECT id, username, score, score_timestamp as "scoreTimestamp"
+      FROM user_game_scores
+      WHERE mp3_id = $1 AND (username, score) IN (
+        SELECT username, MAX(score) AS "score"
+        FROM user_game_scores
+        WHERE mp3_id = $1
+        GROUP BY username
+      )
+      ORDER BY score DESC`,
+      [mp3_id]
+    );
+
+    let topScores = [];
+    if (scoreRes.rows.length > 0) {
+      topScores = scoreRes.rows;
+    }
+
+    return topScores;
+  }
+
 
 
   static async findAllUserScores(username, order) {
@@ -187,7 +209,7 @@ class Score {
   static async getUserUndefeatedTopScores(username, order) {
     if (order !== "score" && order !== "score_timestamp") throw new BadRequestError(`Can't order by: ${order}`);
     const scoreRes = await db.query(
-      `SELECT u.id, u.mp3_id, u.username, u.score, u.score_timestamp AS "scoreTimestamp"
+      `SELECT u.id, u.mp3_id as "mp3Id", u.username, u.score, u.score_timestamp AS "scoreTimestamp"
       FROM user_game_scores u
       JOIN (
         SELECT mp3_id, MAX(score) AS "max_score"
@@ -211,7 +233,6 @@ class Score {
 
 
   static async addScore(mp3_id, username, score) {
-
 
     const formattedTimestamp = moment().format('MM/DD/YYYY hh:mm A');
     const result = await db.query(

@@ -45,7 +45,7 @@ const ScoreBar = () => {
 
     return (
         <div className="score-bar">
-            <div className={`score-fill ${userBeatTop ? "user-beat-top" : ""}`} style={scoreBarStyle()}>{totalScore}</div>
+            <div className={`score-fill ${userBeatTop ? "user-beat-top" : ""}`} style={scoreBarStyle()}><div className="score-bar-score">{totalScore}</div></div>
             {scoreBarMessage()}
         </div>
     );

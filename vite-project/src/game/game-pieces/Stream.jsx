@@ -71,7 +71,7 @@ const Stream = ({ setGameOver, songLength, bpm, isAnimationStarted, isAnimationS
 
         <div
             className="stream"
-            style={{ bottom: `calc(210px - ${streamDistance}px)`, height: `${travelDistance}px` }}
+            style={{ bottom: `calc(230px - ${streamDistance}px)`, height: `${travelDistance}px` }}
         >
             {notes.map((note, idx) => (
                 <GameNote

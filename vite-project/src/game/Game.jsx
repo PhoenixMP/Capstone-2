@@ -27,6 +27,7 @@ import UserContext from "../auth/UserContext";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 import "./Game.css"
+import { start } from "tone";
 
 
 
@@ -58,6 +59,7 @@ const Game = () => {
     const [activeKeys, setActiveKeys] = useState({});
     const [potentialMissedNote, setPotentialMissedNote] = useState(new Set());
     const [inPlayKeys, setInPlayKeys] = useState({});
+    const inPlayKeysRef = useRef(inPlayKeys)
 
 
     const [neverPressedAlert, setNeverPressedAlert] = useState({});
@@ -67,19 +69,24 @@ const Game = () => {
     const [noteScore, setNoteScore] = useState({});
     const [scoreQueue, setScoreQueue] = useState([]);
     const [maxStreak, setMaxStreak] = useState(0)
+    const [streakAnnounce, setStreakAnnounce] = useState(null)
+
     const [gameOver, setGameOver] = useState(false);
 
     const [resetPrompt, setResetPrompt] = useState(false);
     const [exitPrompt, setExitPrompt] = useState(false);
+    const [saveEarlyPrompt, setSaveEarlyPrompt] = useState(false)
+
+
+    useEffect(() => {
+        inPlayKeysRef.current = inPlayKeys;
+    }, [inPlayKeys]);
 
 
 
 
 
-
-
-
-    const maxDelay = 400;
+    const maxDelay = 200;
 
 
     const handleRestartGame = () => {
@@ -96,6 +103,7 @@ const Game = () => {
         setNoteScore({});
         setScoreQueue([]);
         setTotalScore(0)
+        setStreakAnnounce(null)
         setMaxStreak(0)
         setGameOver(false);
         setUserBeatPersonalBest(false);
@@ -112,10 +120,6 @@ const Game = () => {
 
         getGameResults();
         if (recalcGameResults && userBestScore !== null) setRecalcGameResults(false)
-
-
-
-
     }, [recalcGameResults, userBestScore, gameOver])
 
 
@@ -159,13 +163,10 @@ const Game = () => {
         let animationFrameId;
 
         handlePlay()
-
-
         const updateProgress = () => {
             const currentTime = audioRef.current.currentTime;
             const duration = audioRef.current.duration;
             const progress = currentTime / duration;
-
             setSongProgress(progress);
             animationFrameId = requestAnimationFrame(updateProgress);
         };
@@ -222,6 +223,7 @@ const Game = () => {
 
     const handleWrongTiming = (keyLetter) => {
         if (streakCount !== 0) setStreakCount(0);
+        setStreakAnnounce(null)
 
         setAccuracyAlert(prevState => ({
             ...prevState,
@@ -239,15 +241,15 @@ const Game = () => {
             score = 0;
 
         } else {
-            if ((timeDelay >= 200) && (timeDelay < maxDelay)) {
+            if ((timeDelay >= 100) && (timeDelay < maxDelay)) {
                 phrase = 'Good!'
                 score = 1;
 
-            } else if (timeDelay >= 100 && timeDelay < 200) {
+            } else if (timeDelay >= 50 && timeDelay < 100) {
                 phrase = 'Great!'
                 score = 2;
 
-            } else if (timeDelay < 100) {
+            } else if (timeDelay < 50) {
                 phrase = 'Perfect!'
                 score = 3;
             }
@@ -312,7 +314,7 @@ const Game = () => {
                     return updatedSet;
                 });
                 const inPlayKeyStart = inPlayKeys[keyLetter]['startTime']
-                const timeDelay = startTime - inPlayKeyStart
+                const timeDelay = Math.abs(startTime - inPlayKeyStart)
 
                 const { phrase, score } = checkTiming(timeDelay);
                 if (phrase === 'Miss') {
@@ -327,7 +329,21 @@ const Game = () => {
     };
 
 
+    const compareToActiveKey = (keyLetter, startTime) => {
 
+        if (activeKeys.hasOwnProperty(keyLetter)) {
+            const activeKeyStart = activeKeys[keyLetter]
+            const timeDelay = Math.abs(activeKeyStart - startTime)
+            const { phrase, score } = checkTiming(timeDelay);
+            if (phrase === 'Miss') {
+                handleWrongTiming(keyLetter);
+            } else {
+                handleRightTiming(keyLetter, phrase, score);
+            }
+            return true;
+        }
+        return false;
+    };
 
 
 
@@ -336,13 +352,16 @@ const Game = () => {
     const checkPressedKey = (keyLetter, startTime) => {
 
         if (!compareToInPlayKey(keyLetter, startTime)) {
+            console.log('value 1', keyLetter, inPlayKeys)
             const timeout = setTimeout(() => {
                 clearTimeout(timeoutId[keyLetter]);
-                if (!compareToInPlayKey(keyLetter, startTime)) {
+                if (!inPlayKeysRef.current.hasOwnProperty(keyLetter) ||
+                    (inPlayKeysRef.current[keyLetter]['endTime'] < startTime)) {
+                    console.log('value 2', keyLetter, inPlayKeysRef.current)
                     handleWrongTiming(keyLetter);
                 }
 
-            }, 300);
+            }, maxDelay);
 
             setTimeoutId(prevState => ({
                 ...prevState,
@@ -361,11 +380,9 @@ const Game = () => {
 
     // handling gameNotes
     //gameNote in Play
-    const checkKeyInPlay = (keyLetter) => {
-        if (!activeKeys.hasOwnProperty(keyLetter)) {
-            //if note not currently pressed
-            setPotentialMissedNote((prevSet) => new Set([...prevSet, keyLetter]));
-
+    const checkKeyInPlay = (keyLetter, startTime) => {
+        if (!compareToActiveKey(keyLetter, startTime)) {
+            setPotentialMissedNote((prevSet) => new Set([...prevSet, keyLetter]))
         }
     }
 
@@ -423,18 +440,26 @@ const Game = () => {
 
 
     useEffect(function handleMultiplier() {
+        console.log(streakAnnounce)
+        console.log('streakcount', streakCount)
         if (streakCount >= 40) {
+            setStreakAnnounce("40 Note Streak!")
             setStreakMultiplier(32)
         } else if (streakCount >= 30) {
+            setStreakAnnounce("30 Note Streak!")
             setStreakMultiplier(16)
         } else if (streakCount >= 20) {
+            setStreakAnnounce("20 Note Streak!")
             setStreakMultiplier(8)
         } else if (streakCount >= 10) {
+            setStreakAnnounce("10 Note Streak!")
             setStreakMultiplier(4)
         } else if (streakCount >= 1) {
+            setStreakAnnounce(null)
             setStreakMultiplier(2)
         } else {
             setStreakMultiplier(1)
+            setStreakAnnounce(null)
         }
 
     }, [streakCount])
@@ -453,6 +478,15 @@ const Game = () => {
 
 
 
+    const handleSaveEarlyPrompt = () => {
+        setSaveEarlyPrompt(prev => !prev)
+    }
+
+    const handleSaveEarly = () => {
+        handleStop();
+        setSaveEarlyPrompt(false);
+        setGameOver(true);
+    }
 
 
     const handleExit = () => {
@@ -494,6 +528,11 @@ const Game = () => {
                 <div className='pop-up-cover'></div>
             </>)
 
+        } else if (saveEarlyPrompt) {
+            return (<>
+                <PopUpConfirm message={'Are you sure you want to save score early?'} handleYes={handleSaveEarly} handleNo={handleExitPrompt} />
+                <div className='pop-up-cover'></div>
+            </>)
         }
 
     }
@@ -513,17 +552,13 @@ const Game = () => {
 
     const getGameOverJSX = () => {
 
-        console.log('checking  getGameOverjsx results', userBeatPersonalBest, userBestScore)
         if (currentUser && userBestScore === null) {
             return (<LoadingSpinner />)
         } else {
 
             if ((userBeatTop || !topScore) && totalScore > 0) {
-                console.log('option1')
-                console.log(userBeatTop,)
                 return (<NewScorePage isTop={true} />)
-            } else if (currentUser && !userBeatTop && (userBeatPersonalBest || !userBestScore)) {
-                console.log('option2')
+            } else if (currentUser && !userBeatTop && (userBeatPersonalBest || !userBestScore) && totalScore > 0) {
                 return (<NewScorePage isTop={false} />)
             } else if ((!userBeatTop && !currentUser) || (!userBeatTop && userBeatPersonalBest === false)) {
                 return (<NoScorePage />)
@@ -559,11 +594,11 @@ const Game = () => {
 
     return (
         <div className="game-container">
-            <GameContext.Provider value={{ handleRestartPrompt, handleExitPrompt, handleExit, handleRestart, getGameResults, viewHeight, setViewHeight, handleStop, handlePlay, handleStartAnimation, handleStopAnimation, isAnimationStarted, timer, setTimer, streakMultiplier, noteScore, handleRestartGame, setGameOver, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
+            <GameContext.Provider value={{ handleSaveEarlyPrompt, handleRestartPrompt, handleExitPrompt, handleExit, handleRestart, getGameResults, viewHeight, setViewHeight, handleStop, handlePlay, handleStartAnimation, handleStopAnimation, isAnimationStarted, timer, setTimer, streakMultiplier, noteScore, handleRestartGame, setGameOver, gameOver, activeKeys, setActiveKeys, checkPressedKey, checkReleasedKey, inPlayKeys, setInPlayKeys, checkKeyInPlay, checkKeyOutOfPlay, accuracyAlert, setAccuracyAlert, streakMultiplier, songProgress, setSongProgress }}>
                 <div className="game-header">{song.title}, {song.dir}</div>
                 <BackgroundVideo />
                 {checkForStreamers()}
-
+                {streakAnnounce ? (<div key={streakAnnounce} className="game-streak">{streakAnnounce}</div>) : ""}
                 {getGameJSX()}
                 {getPopUp()}
 

@@ -17,7 +17,7 @@ import gameContext from "../GameContext";
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
     const { viewHeight, setInPlayKeys, accuracyAlert, checkKeyInPlay, checkKeyOutOfPlay } = useContext(gameContext);
-    const distanceFromTop = viewHeight - 259;
+    const distanceFromTop = viewHeight - 256;
     const rootMarginSpecs = `${-distanceFromTop}px 0px 0px 0px`
 
 
@@ -36,24 +36,24 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
     const noteLength = noteEnd - noteStart
     const noteHeight = (noteLength / songLength) * StreamContainerHeight
-    const blackNoteWidth = 51; //px
-    const whiteNoteWidth = 101.5; //px
-    const leftPaddingWidth = 20; //px
+    const blackNoteWidth = 50; //px
+    const whiteNoteWidth = 100; //px
+    const leftPaddingWidth = 26; //px
 
 
     const noteKey = {
         'C': { "width": whiteNoteWidth, "keyboardKey": 'A', "leftPosition": 0 },
         'C#': { "width": blackNoteWidth, "keyboardKey": 'W', "leftPosition": whiteNoteWidth - (blackNoteWidth / 2) },
         'D': { "width": whiteNoteWidth, "keyboardKey": 'S', "leftPosition": whiteNoteWidth },
-        'D#': { "width": blackNoteWidth, "keyboardKey": 'E', "leftPosition": (2 * whiteNoteWidth) - (blackNoteWidth / 2) - 2 },
+        'D#': { "width": blackNoteWidth, "keyboardKey": 'E', "leftPosition": (2 * whiteNoteWidth) - (blackNoteWidth / 2) },
         'E': { "width": whiteNoteWidth, "keyboardKey": 'D', "leftPosition": (2 * whiteNoteWidth) },
         'F': { "width": whiteNoteWidth, "keyboardKey": 'F', "leftPosition": (3 * whiteNoteWidth) },
-        'F#': { "width": blackNoteWidth, "keyboardKey": 'T', "leftPosition": (4 * whiteNoteWidth) - (blackNoteWidth / 2) - 2 },
+        'F#': { "width": blackNoteWidth, "keyboardKey": 'T', "leftPosition": (4 * whiteNoteWidth) - (blackNoteWidth / 2) - 3 },
         'G': { "width": whiteNoteWidth, "keyboardKey": 'G', "leftPosition": (4 * whiteNoteWidth) },
-        'G#': { "width": blackNoteWidth, "keyboardKey": 'Y', "leftPosition": (5 * whiteNoteWidth) - (blackNoteWidth / 2) - 2 },
+        'G#': { "width": blackNoteWidth, "keyboardKey": 'Y', "leftPosition": (5 * whiteNoteWidth) - (blackNoteWidth / 2) - 5 },
         'A': { "width": whiteNoteWidth, "keyboardKey": 'H', "leftPosition": (5 * whiteNoteWidth) },
-        'A#': { "width": blackNoteWidth, "keyboardKey": 'U', "leftPosition": (6 * whiteNoteWidth) - (blackNoteWidth / 2) - 2 },
-        'B': { "width": whiteNoteWidth, "keyboardKey": 'J', "leftPosition": (6 * whiteNoteWidth) - 2 }
+        'A#': { "width": blackNoteWidth, "keyboardKey": 'U', "leftPosition": (6 * whiteNoteWidth) - (blackNoteWidth / 2) - 7 },
+        'B': { "width": whiteNoteWidth, "keyboardKey": 'J', "leftPosition": (6 * whiteNoteWidth) - 10 }
     };
 
 
@@ -114,6 +114,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
             ${gameNoteClass}  
             ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
             ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : ''}   
+     
 
   
       `}
