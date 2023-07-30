@@ -1,0 +1,187 @@
+.profile-page {
+    text-align: center;
+    font-family: ElMessiri;
+}
+
+.profile-scores {
+    display: flex;
+    justify-content: center;
+}
+
+.scores-list {
+    display: flex;
+    justify-content: left;
+}
+
+.profile-heading {
+    color: white;
+    font-size: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.profile-button {
+    margin-bottom: 20px;
+    border: none;
+    font-size: 20px;
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    padding: 10px 10px;
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 500;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid #00c8ff;
+    color: #7bbae1;
+    background: #f8f8f8;
+}
+
+
+/* Button 1a */
+.profile-button:hover {
+    color: #0e83cd;
+    background: none;
+}
+
+.profile-button.active {
+    color: #0e83cd;
+    background: #f8f8f8;
+    -webkit-box-shadow: 0px 5px 15px 8px #e4e7fb;
+    box-shadow: 0px 5px 15px 8px #3eaea8;
+
+}
+
+
+
+
+
+
+.no-scores {
+    color: white;
+    margin-top: 50px;
+    font-size: 20px;
+}
+
+
+
+.score-card-link {
+    height: 300px;
+    width: 220px;
+    text-decoration: none;
+    text-shadow: 1px 3px 3px rgba(141, 140, 140, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.score-card {
+
+
+    padding-left: 30px;
+    border-radius: 10px;
+    box-shadow: -1rem 0 3rem #000;
+    /*   margin-left: -50px; */
+    transition: 0.4s ease-out;
+    position: relative;
+
+
+}
+
+
+.score-card:hover {
+    transform: translateY(-20px);
+    transition: 0.4s ease-out;
+    box-shadow: 0 0 20px 15px #eaeaea7c;
+}
+
+.score-card:not(:first-child) {
+    margin-left: -50px;
+}
+
+.score-card:hover~.score-card {
+    position: relative;
+    left: 50px;
+    transition: 0.4s ease-out;
+}
+
+
+
+
+.bar {
+    margin-top: 10px;
+    height: 5px;
+    width: 150px;
+}
+
+.emptybar {
+    background-color: #2e3033;
+    height: 5px;
+    width: 150px;
+    width: 100%;
+    height: 100%;
+}
+
+.filledbar {
+
+    height: 5px;
+    width: 150px;
+    z-index: 3;
+    width: 0px;
+    background: rgb(0, 154, 217);
+    background: linear-gradient(90deg, rgb(85, 146, 99) 0%, rgb(0, 217, 65) 65%, rgb(0, 102, 255) 100%);
+    transition: 0.6s ease-out;
+    transform: translateY(-5px);
+}
+
+.score-card:hover .filledbar {
+    width: 150px;
+    transition: 0.4s ease-out;
+}
+
+.score-card:hover .profile-card-image {
+    height: 90px;
+    width: 90px;
+}
+
+
+.score-card-header {
+    margin: 10px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 200;
+    font-weight: 800;
+}
+
+.profile-card-image {
+    height: 60px;
+    width: 60px;
+
+}
+
+.score-card-title {
+    flex: 1;
+    font-size: 1em;
+    font-weight: 800;
+
+
+}
+
+
+.score-card-score-container {
+    font-size: .9em;
+    font-weight: 450;
+}
+
+.score-card-score {
+    font-size: 1.5em;
+    font-weight: 450;
+    padding-bottom: 10px;
+}

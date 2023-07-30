@@ -1,0 +1,91 @@
+.pop-up-wrapper {
+    padding-top: 30px;
+    position: absolute;
+    width: 400px;
+    height: 210px;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: 100000;
+    font-size: 10px;
+    background-color: rgb(0, 46, 91);
+    color: White;
+    border-radius: 30px;
+    box-shadow: 10px 10px 10px rgba(150, 194, 255, 0.3);
+    font-family: ElMessiri;
+    animation: gradient 9s linear infinite;
+
+}
+
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+        background-image: linear-gradient(-45deg, #ef629f, #42275a);
+    }
+
+    50% {
+        background-position: 100% 50%;
+        background-image: linear-gradient(to bottom, #aa076b, #61045f);
+    }
+
+    100% {
+        background-position: 0% 50%;
+        background-image: linear-gradient(to top, #ef629f, #42275a);
+    }
+}
+
+.pop-up-heading {
+    font-size: 25px;
+    padding-bottom: 30px;
+    font-weight: 90;
+    letter-spacing: 3px;
+}
+
+.pop-up-yes-button,
+.pop-up-no-button {
+    border: none;
+    font-size: 20px;
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 500;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+
+
+
+
+.pop-up-yes-button {
+    border: 2px solid #1c6abd;
+    color: #ffffff;
+    background: #1c6abd;
+}
+
+
+.pop-up-no-button {
+    border: 2px solid #9116a4;
+    color: #ffffff;
+    background: #9116a4;
+}
+
+.pop-up-yes-button:hover {
+    color: #1c6abd;
+    background: none;
+}
+
+.pop-up-no-button:hover {
+    color: #9116a4;
+    background: none;
+}
