@@ -33,7 +33,13 @@ app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/scores", scoreRoutes);
 
+app.get("/", (req, res) => {
 
+
+  let result = "hello"
+
+  return res.send(result);
+})
 
 
 /** Handle 404 errors -- this matches everything */
