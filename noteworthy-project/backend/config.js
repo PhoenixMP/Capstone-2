@@ -9,14 +9,19 @@ const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
 
 const PORT = +process.env.PORT || 3001;
 
-let DB_URI_info = {
-  user: 'phoenixp',
-  host: 'localhost',
-  port: 5432,
-  password: '2EN*cn5@9Dpf'
+let DB_URI_info_1 = {
+  user: process.env.USER_1,
+  host: process.env.HOST,
+  password: process.env.PASSWORD_1
 }
 
-const API_token = "*EJi2&bqVvJ06QRSqV^*8@MpjN9#It5M1C2cu$cNypg7Qz9SJ3"
+let DB_URI_info_2 = {
+  user: process.env.USER_2,
+  host: process.env.HOST,
+  password: process.env.PASSWORD_2
+}
+
+const API_token = process.env.API_TOKEN
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
 //
@@ -29,6 +34,7 @@ module.exports = {
   SECRET_KEY,
   PORT,
   BCRYPT_WORK_FACTOR,
-  DB_URI_info,
+  DB_URI_info_1,
+  DB_URI_info_2,
   API_token
 };
