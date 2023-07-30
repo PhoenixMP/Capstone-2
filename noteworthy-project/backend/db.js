@@ -19,7 +19,13 @@ let general_DB_URI = {
 userDB = new Client(user_DB_URI);
 generalDB = new Client(general_DB_URI);
 
-generalDB.connect();
-userDB.connect();
+generalDB.connect()
+  .then(() => console.log("Connected to userDB"))
+  .catch((err) => console.error("Error connecting to userDB:", err))
+
+
+userDB.connect()
+  .then(() => console.log("Connected to generalDB"))
+  .catch((err) => console.error("Error connecting to generalDB:", err));
 
 module.exports = { generalDB, userDB };

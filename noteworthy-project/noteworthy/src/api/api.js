@@ -1,10 +1,15 @@
 import axios from "axios";
 import API_token from "../../APIToken"
 
-//Look at the API variable later, and process.env
-const BASE_URL = process.env.REACT_APP_BASE_URL || "https://noteworthy-r799.onrender.com";
+let BASE_URL;
 
-
+if (typeof process !== 'undefined' && process.env.REACT_APP_BASE_URL) {
+  // Running in a Node.js environment (e.g., server-side rendering)
+  BASE_URL = process.env.REACT_APP_BASE_URL;
+} else {
+  // Running in a frontend environment (e.g., web browser)
+  BASE_URL = "https://noteworthy-r799.onrender.com";
+}
 /** API Class.
  *
  * Static class tying together methods used to get/send to to the API.
