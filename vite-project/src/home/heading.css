@@ -1,0 +1,570 @@
+:root {
+    --endingOpacity: .5;
+    --endingColor: brightness(70%);
+    --jiggle-movement: translateX(-7px) translateY(7px) rotateX(5deg);
+
+    --1transform: rotateX(20deg) rotatey(50deg) rotatez(30deg) skewx(10deg) skewY(10deg) translate(-700px, 80vh);
+    --1height: height: 50px;
+    --1width: 30px;
+    --2transform: rotateX(20deg) rotatey(30deg) rotatez(2deg) skewY(10deg) translate(-100px, 50vh);
+    --2height: 90px;
+    --2width: 60px;
+    --3transform: rotateX(10deg) rotatey(30deg) rotatez(60deg) skewx(10deg) skewY(10deg) translate(-200px, -50vh);
+    --3height: 30px;
+    --3width: 20px;
+    --4transform: rotateX(10deg) rotatey(20deg) rotatez(10deg) skewY(30deg) translate(-300px, 20vh);
+    --4height: 100px;
+    --4width: 70px;
+    --5transform: rotateX(80deg) rotatey(10deg) rotatez(40deg) skewY(40deg) translate(-300px, -10vh);
+    --5height: 90px;
+    --5width: 60px;
+    --6transform: rotateX(100deg) rotatey(50deg) rotatez(30deg) skewY(10deg) translate(800px, -40vh);
+    --6height: 90px;
+    --6width: 60px;
+    --7transform: rotateX(50deg) rotatey(45deg) rotatez(90deg) skewx(10deg) skewY(10deg) translate(100px, -500px);
+    --7height: 50px;
+    --7width: 35px;
+    --8transform: rotateX(45deg) rotatey(30deg) rotatez(30deg) skewY(10deg) translate(-90px, 100vh);
+    --8height: 70px;
+    --8width: 50px;
+    --9transform: rotateX(20deg) rotatey(10deg) rotatez(20deg) skewY(10deg) translate(200px, 50vh);
+    --9height: 90px;
+    --9width: 60px;
+    --10transform: rotate(-10deg) rotateX(20deg) rotatey(30deg) rotatez(180deg) skewY(10deg) translate(-400px, -40vh);
+    --10height: 50px;
+    --10width: 35px;
+}
+
+
+.home-span {
+    display: inline-block;
+    position: relative;
+    margin-right: 5px;
+
+}
+
+.home-span::after {
+    content: "";
+    background-image: url("../images/sheet-music.jpg");
+    background-size: cover;
+    position: absolute;
+    height: 150px;
+    width: 110px;
+    left: 0;
+    transition: 0.6s;
+    z-index: -1;
+    opacity: 0;
+    transform-origin: left center;
+
+
+}
+
+
+.home-span:nth-child(1)::after {
+    transform: rotate(-25deg) translate(-15%, 20%);
+    animation-delay: 0.4s, 1s, 21s;
+}
+
+.home-span:nth-child(2)::after {
+    transform: rotate(-20deg) translate(-15%, 10%);
+    animation-delay: 0.3s, 1s, 21s;
+}
+
+.home-span:nth-child(3)::after {
+    transform: rotate(-15deg) translate(-10%, 5%);
+    animation-delay: 0.2s, 1s, 21s;
+}
+
+.home-span:nth-child(4)::after {
+    transform: rotate(-10deg) translate(-10%, 5%);
+    animation-delay: .1s, 1s, 21s;
+}
+
+.home-span:nth-child(5)::after {
+    transform: translateX(20%);
+    animation-delay: 0s, 1s, 21s;
+}
+
+.home-span:nth-child(6)::after {
+    transform: rotate(10deg) translate(-10%, -5%);
+    animation-delay: .1s, 1s, 21s;
+}
+
+.home-span:nth-child(7)::after {
+    transform: rotate(15deg) translate(-10%, -5%);
+    animation-delay: .2s, 1s, 21s;
+}
+
+.home-span:nth-child(8)::after {
+    transform: rotate(20deg) translate(-10%, -5%);
+    animation-delay: .3s, 2s, 21s;
+}
+
+.home-span:nth-child(9)::after {
+    transform: rotate(25deg) translate(-10%, 0);
+    animation-delay: .4s, 1s, 21s;
+}
+
+.home-span:nth-child(10)::after {
+    transform: rotate(25deg) translate(-10%, 10%);
+    animation-delay: .5s, 1s, 21s;
+}
+
+
+
+
+@keyframes fadeInSweepAnimation {
+    0% {
+
+        opacity: 0;
+
+        /* Start with a scale of 0, so it's not visible */
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: .8
+            /* Scale to full width when visible */
+    }
+}
+
+.first-container.animated .home-span::after {
+    animation-fill-mode: forwards;
+    animation-duration: 1s, 20s, 4s;
+    animation-iteration-count: 1, 1, infinite;
+
+}
+
+/* Apply animations to respective .home-span::after with delays */
+.first-container.animated .home-span:nth-child(1)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation1, sway1;
+
+
+}
+
+.first-container.animated .home-span:nth-child(2)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation2, sway2;
+}
+
+.first-container.animated .home-span:nth-child(3)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation3, sway3;
+}
+
+.first-container.animated .home-span:nth-child(4)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation4, sway4;
+}
+
+.first-container.animated .home-span:nth-child(5)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation5, sway5;
+}
+
+.first-container.animated .home-span:nth-child(6)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation6, sway6;
+}
+
+.first-container.animated .home-span:nth-child(7)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation7, sway7;
+}
+
+.first-container.animated .home-span:nth-child(8)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation8, sway8;
+}
+
+.first-container.animated .home-span:nth-child(9)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation9, sway9;
+}
+
+.first-container.animated .home-span:nth-child(10)::after {
+    animation-name: fadeInSweepAnimation, fallingAnimation10, sway10;
+}
+
+
+@keyframes fallingAnimation1 {
+
+    100% {
+        transform: var(--1transform);
+        height: var(--1height);
+        width: var(--1width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation2 {
+
+    100% {
+        transform: var(--2transform);
+        height: var(--2height);
+        width: var(--2width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation3 {
+
+    100% {
+
+        transform: var(--3transform);
+        height: var(--3height);
+        width: var(--3width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation4 {
+
+    100% {
+        transform: var(--4transform);
+        height: var(--4height);
+        width: var(--4width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation5 {
+
+    100% {
+        transform: var(--5transform);
+        height: var(--5height);
+        width: var(--5width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation6 {
+
+    100% {
+        transform: var(--6transform);
+        height: var(--6height);
+        width: var(--6width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation7 {
+
+    100% {
+        transform: var(--7transform);
+        height: var(--7height);
+        width: var(--7width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation8 {
+
+    100% {
+        transform: var(--8transform);
+        height: var(--8height);
+        width: var(--8width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation9 {
+
+    100% {
+        transform: var(--9transform);
+        height: var(--9height);
+        width: var(--9width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes fallingAnimation10 {
+
+    100% {
+        transform: var(--10transform);
+        height: var(--10height);
+        width: var(--10width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+
+
+
+@keyframes sway1 {
+
+    0% {
+        transform: var(--1transform);
+        height: var(--1height);
+        width: var(--1width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--1transform) var(--jiggle-movement);
+        height: var(--1height);
+        width: var(--1width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--1transform);
+        height: var(--1height);
+        width: var(--1width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes sway2 {
+
+    0% {
+        transform: var(--2transform);
+        height: var(--2height);
+        width: var(--2width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--2transform) var(--jiggle-movement);
+        height: var(--2height);
+        width: var(--2width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--2transform);
+        height: var(--2height);
+        width: var(--2width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes sway3 {
+
+    0% {
+        transform: var(--3transform);
+        height: var(--3height);
+        width: var(--3width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--3transform) var(--jiggle-movement);
+        height: var(--3height);
+        width: var(--3width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--3transform);
+        height: var(--3height);
+        width: var(--3width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+
+
+
+@keyframes sway4 {
+
+    0% {
+        transform: var(--4transform);
+        height: var(--4height);
+        width: var(--4width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--4transform) var(--jiggle-movement);
+        height: var(--4height);
+        width: var(--4width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--4transform);
+        height: var(--4height);
+        width: var(--4width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes sway5 {
+
+    0% {
+        transform: var(--5transform);
+        height: var(--5height);
+        width: var(--5width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--5transform) var(--jiggle-movement);
+        height: var(--5height);
+        width: var(--5width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--5transform);
+        height: var(--5height);
+        width: var(--5width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes sway6 {
+
+    0% {
+        transform: var(--6transform);
+        height: var(--6height);
+        width: var(--6width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--6transform) var(--jiggle-movement);
+        height: var(--6height);
+        width: var(--6width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--6transform);
+        height: var(--6height);
+        width: var(--6width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes sway7 {
+
+    0% {
+        transform: var(--7transform);
+        height: var(--7height);
+        width: var(--7width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--7transform) var(--jiggle-movement);
+        height: var(--7height);
+        width: var(--7width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--7transform);
+        height: var(--7height);
+        width: var(--7width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes sway8 {
+
+    0% {
+        transform: var(--8transform);
+        height: var(--8height);
+        width: var(--8width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--8transform) var(--jiggle-movement);
+        height: var(--8height);
+        width: var(--8width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--8transform);
+        height: var(--8height);
+        width: var(--8width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes sway9 {
+
+    0% {
+        transform: var(--9transform);
+        height: var(--9height);
+        width: var(--9width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--9transform) var(--jiggle-movement);
+        height: var(--9height);
+        width: var(--9width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--9transform);
+        height: var(--9height);
+        width: var(--9width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}
+
+@keyframes sway10 {
+
+    0% {
+        transform: var(--10transform);
+        height: var(--10height);
+        width: var(--10width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    50% {
+        transform: var(--10transform var(--jiggle-movement));
+        height: var(--10height);
+        width: var(--10width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+
+    100% {
+        transform: var(--10transform);
+        height: var(--10height);
+        width: var(--10width);
+        opacity: var(--endingOpacity);
+        filter: var(--endingColor);
+    }
+}

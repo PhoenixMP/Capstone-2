@@ -47,6 +47,7 @@ function App() {
 
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
+  const [isAnimated, setIsAnimated] = useState(false)
   const [onGamePage, setOnGamePage] = useState(false)
 
 
@@ -168,12 +169,18 @@ function App() {
     }
   }
 
+  const handleHeadingHover = () => {
+    setIsAnimated('animated')
+  }
+
+
+
 
 
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ recalcGameResults, setRecalcGameResults, totalScore, setTotalScore, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore }}>
+      <UserContext.Provider value={{ isAnimated, handleHeadingHover, recalcGameResults, setRecalcGameResults, totalScore, setTotalScore, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <MyNav logout={logout} onGamePage={onGamePage} />
           <MyRoutes login={login} signup={signup} />

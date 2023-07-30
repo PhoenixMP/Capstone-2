@@ -6,8 +6,7 @@ import SongCardList from "./SongCardList";
 import LoadingSpinner from "../common/LoadingSpinner";
 import FallingNotes from "../common/FallingNotes";
 import UserContext from "../auth/UserContext";
-import LoginForm from "../auth/LoginForm"
-import SignupForm from "../auth/SignupForm"
+import Lights from "../common/Lights"
 import "./Songs.css"
 
 
@@ -96,7 +95,10 @@ const Songs = ({ login, signup }) => {
     return (
 
         <div className="songs-page common-background">
-            <FallingNotes />
+            <div className="songs-decoration">
+                <FallingNotes />
+
+            </div>
             <div className="songs-content-container">
                 <div className="songs-container">
                     <div className="search-container">

@@ -70,18 +70,13 @@
     z-index: -1;
 }
 
-video {
+#bgvid {
     position: absolute;
-
     bottom: 230px;
     left: 50%;
-
     transform: translate(-50%);
-    object-fit: cover;
     background-color: black;
     z-index: -1;
-
-
 }
 
 
@@ -136,7 +131,7 @@ video {
 
 .game-get-ready {
     position: absolute;
-    top: 30%;
+    top: 40%;
     left: 50%;
     height: 70px;
     font-size: 50px;
@@ -144,6 +139,35 @@ video {
     z-index: 9000;
     transform: translateX(-50%);
 
+}
+
+.game-explain-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 150px;
+    left: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+    transform: translate(-50%, 0);
+    text-align: center;
+    font-size: 20px;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.game-explain-text {
+    width: 600px;
+}
+
+.keyboard-image {
+    padding-left: 10px;
+    height: 150px;
 }
 
 .game-left-stat-container {
@@ -205,7 +229,8 @@ video {
 
 
 
-.save-btn {
+.save-btn,
+.game-explain-button {
     width: 240px;
     font-size: 14px;
     background-image: linear-gradient(to right, #aa076b, #61045f);
@@ -231,7 +256,8 @@ video {
 
 .save-btn,
 .game-play-button,
-.pop-up-button {
+.pop-up-button,
+.game-explain-button {
 
     padding: 10px;
     color: #ffffff;
@@ -245,7 +271,8 @@ video {
     transition: all 0.3s;
 }
 
-.save-btn:hover {
+.save-btn:hover,
+.game-explain-button:hover {
     transform: translateY(5px);
     background-image: linear-gradient(to left, #aa076b, #61045f);
 }

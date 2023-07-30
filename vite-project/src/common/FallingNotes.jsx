@@ -1,4 +1,5 @@
 import React from "react";
+import "./FallingNotes.css"
 
 function FallingNotes() {
     return (

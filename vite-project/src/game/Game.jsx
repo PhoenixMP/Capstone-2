@@ -17,6 +17,7 @@ import Streamers from "./game-info/Streamers";
 import NewScorePage from "./game-info/NewScorePage";
 import NoScorePage from "./game-info/NoScorePage"
 import PopUpConfirm from "./game-info/PopUpConfirm";
+import GameExplain from "./game-info/GameExplain";
 
 
 
@@ -28,6 +29,7 @@ import LoadingSpinner from "../common/LoadingSpinner";
 
 import "./Game.css"
 import { start } from "tone";
+
 
 
 
@@ -76,6 +78,7 @@ const Game = () => {
     const [resetPrompt, setResetPrompt] = useState(false);
     const [exitPrompt, setExitPrompt] = useState(false);
     const [saveEarlyPrompt, setSaveEarlyPrompt] = useState(false)
+    const [gameExplain, setGameExplain] = useState(true)
 
 
     useEffect(() => {
@@ -122,6 +125,14 @@ const Game = () => {
         if (recalcGameResults && userBestScore !== null) setRecalcGameResults(false)
     }, [recalcGameResults, userBestScore, gameOver])
 
+
+    useEffect(() => {
+        const setGameExplain = () => {
+            if (currentUser) {
+                setGameExplain(false)
+            }
+        }
+    })
 
     //Animating Stream~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -486,6 +497,7 @@ const Game = () => {
         handleStop();
         setSaveEarlyPrompt(false);
         setGameOver(true);
+        setGameExplain(false);
     }
 
 
@@ -568,6 +580,7 @@ const Game = () => {
 
 
     const getGameJSX = () => {
+
         if (!isAnimationStarted && !gameOver) {
             return (<div className="game-get-ready">Get Ready!</div>)
         } else if (isAnimationStarted && !gameOver) {
@@ -587,8 +600,17 @@ const Game = () => {
             )
         }
     }
+    const handleRemoveExplain = () => {
+        setGameExplain(prev => !prev)
+    }
 
-
+    const getGameExplain = () => {
+        if (!currentUser && gameExplain && !gameOver) {
+            return (
+                <GameExplain handleRemoveExplain={handleRemoveExplain} />
+            )
+        }
+    }
 
 
 
@@ -601,7 +623,7 @@ const Game = () => {
                 {streakAnnounce ? (<div key={streakAnnounce} className="game-streak">{streakAnnounce}</div>) : ""}
                 {getGameJSX()}
                 {getPopUp()}
-
+                {getGameExplain()}
                 <Stream setGameOver={setGameOver} songLength={songLength} bpm={bpm} isAnimationStarted={isAnimationStarted} isAnimationStopped={isAnimationStopped} />
                 <div className="bottom-container"><Piano /></div>
                 <div className="covering-div"></div>

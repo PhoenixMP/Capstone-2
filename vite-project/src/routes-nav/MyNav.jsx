@@ -13,7 +13,7 @@ import "./Navigation.css";
  */
 
 function MyNav({ logout }) {
-  const { onGamePage, currentUser, toggleSignupForm, toggleLoginForm } = useContext(UserContext);
+  const { handleHeadingHover, onGamePage, currentUser, toggleLoginForm, } = useContext(UserContext);
 
 
 
@@ -70,14 +70,14 @@ function MyNav({ logout }) {
       return
     } else {
       return (
-        <div className="navbar-container">
+        <div className="navbar-container" onMouseEnter={handleHeadingHover}>
           <div className="left-side-nav">
             <div className="logo-container">
               <Link style={{ textDecoration: 'none', color: "white" }} className="navbar-brand left" to="/">
                 NoteWorthy
               </Link >
             </div>
-            {currentUser ? (<div className="welcome-nav left"> Sup, {currentUser.firstName || currentUser.username}?</div>) : ""}
+            {currentUser ? (<div className="welcome-nav left"> Sup, {currentUser.firstName || currentUser.username}!</div>) : ""}
           </div>
           {currentUser ? loggedInNav() : loggedOutNav()}
         </div>

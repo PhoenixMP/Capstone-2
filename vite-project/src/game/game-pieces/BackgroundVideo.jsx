@@ -76,7 +76,7 @@ const BackgroundVideo = () => {
         else if (video === 3) { return (<source src={video3} type="video/mp4" />) }
         else if (video === 4) { return (<source src={video4} type="video/mp4" />) }
         else if (video === 5) { return (<source src={video5} type="video/mp4" />) }
-        else if (video === 6) { return (<source src={video6} type="video/mp4" />) }
+
     }
 
     if (video === null) return <LoadingSpinner />;

@@ -7,6 +7,10 @@
     justify-content: center;
 }
 
+.scores-list {
+    display: flex;
+    justify-content: left;
+}
 
 .profile-heading {
     color: white;

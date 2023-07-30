@@ -80,26 +80,29 @@ function SongCard({ mp3Id, title, dir, topScore, genre, cardNumber, order }) {
 
 
     return (
-        <Link to={`/song/${mp3Id}`} style={{ textDecoration: 'none', color: "white" }} key={mp3Id}>
-            <div className="vinyl-jacket" style={{ backgroundColor: backgroundColor, color: textColor }}>
-                <div className="card-header">
-                    <div className="card-title">
-                        {title}
-                        <p> {dir} </p>
-                    </div>
-                </div>
-                <div >
-                    {(topScore !== null) ?
-                        (<p className="card-score">🏆 Top Scorer: {topScore.username}</p>) :
-                        (<p className="card-no-score">No Top Score Yet </p>)
-                    }
-                </div>
-                <div className="vinyl-wrapper">
-                    <div className={`vinyl ${getGenreClass()}`}></div>
+
+
+        <div className="vinyl-jacket" style={{ backgroundColor: backgroundColor, color: textColor }}>
+            <div className="card-header">
+                <div className="card-title">
+                    {title}
+                    <p> {dir} </p>
                 </div>
             </div>
+            <div >
+                {(topScore !== null) ?
+                    (<p className="card-score">🏆 Top Scorer: {topScore.username}</p>) :
+                    (<p className="card-no-score">No Top Score Yet </p>)
+                }
+            </div>
+            <div className="vinyl-wrapper">
+                <Link to={`/song/${mp3Id}`} style={{ textDecoration: 'none', color: "white" }} key={mp3Id}>
+                    <div className={`vinyl ${getGenreClass()}`}></div>
+                </Link >
+            </div>
+        </div>
 
-        </Link >
+
     );
 }
 
