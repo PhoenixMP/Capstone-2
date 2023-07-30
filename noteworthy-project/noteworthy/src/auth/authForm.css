@@ -11,7 +11,12 @@
     margin-right: 30px;
     margin-top: 30px;
     font-family: "Hanken Grotesk", sans-serif;
-    z-index: 500;
+
+}
+
+.form-error {
+    color: red;
+    font-size: .7em;
 }
 
 .heading-profile-edit {

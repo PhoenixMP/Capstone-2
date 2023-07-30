@@ -43,8 +43,13 @@ class Melodic2API {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
       console.error("API Error:", err.response);
+      if ((err.response.status === 401 || err.response.status === 400) && (url === `${BASE_URL}/auth/token` || url === `${BASE_URL}/auth/register`)) {
+        return err.response
+      }
+
     }
   }
+
 
   // Individual API routes
 
@@ -73,16 +78,14 @@ class Melodic2API {
 
   static async registerUser(data) {
     let res = await this.request(`auth/register`, data, false, 'post');
-
-    return res.token;
+    return res;
   }
 
   /** Login a user. */
 
   static async loginUser(data) {
     let res = await this.request(`auth/token`, data, false, 'post');
-    console.log("loginAPI", res)
-    return res.token;
+    return res;
   }
 
 

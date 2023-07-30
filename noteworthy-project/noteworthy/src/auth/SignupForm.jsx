@@ -19,11 +19,11 @@ const SignupForm = ({ signup, toggleLoginForm }) => {
 
     const INITIAL_STATE = { username: "", password: "" };
     const [formData, setFormData] = useState(INITIAL_STATE);
-    const { onGamePage } = useContext(userContext)
+    const { onGamePage, signupFormError } = useContext(userContext)
     const { mp3Id } = useParams();
 
     const navigate = useNavigate();
-
+    console.log("signupFormError", signupFormError)
     /** Handle form submit:
      *
      * Calls login func prop and, if successful, redirect to /.
@@ -43,11 +43,30 @@ const SignupForm = ({ signup, toggleLoginForm }) => {
         }));
     };
 
+
+    const getErrors = () => {
+        if (Array.isArray(signupFormError)) {
+            console.log('1')
+            return (
+                <>
+                    {signupFormError.map(error => {
+                        return (<p className="form-error">*{error}</p>)
+                    })}
+                </>
+            )
+        } else {
+            console.log('2')
+            return (<p className="form-error">*{signupFormError}</p>)
+        }
+    }
+
     /** render form */
 
     return (
         <form className="form_main" onSubmit={handleSubmit}>
             <p className="heading">Signup</p>
+            {signupFormError && (getErrors())}
+
 
             <div className="inputContainer">
 

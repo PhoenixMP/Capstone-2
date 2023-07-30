@@ -50,7 +50,8 @@ function App() {
   const [totalScore, setTotalScore] = useLocalStorage("totalScore", null);
   const [recalcGameResults, setRecalcGameResults] = useLocalStorage("recalcGameResults", false);
 
-  const [loginError, setLoginError] = useState(false)
+  const [loginFormError, setLoginFormError] = useState(false)
+  const [signupFormError, setSignupFormError] = useState(false)
 
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
@@ -58,38 +59,61 @@ function App() {
   const [onGamePage, setOnGamePage] = useState(false)
 
 
-
   const [token, setToken] = useLocalStorage("token", null);
 
 
+
+  useEffect(() => {
+    if (loginFormError) {
+      setShowLogin(true)
+      setShowSignup(false)
+      setSignupFormError(false)
+    } else if (signupFormError) {
+      setShowLogin(false)
+      setShowSignup(true)
+      setLoginFormError(false)
+    }
+  }, [loginFormError, signupFormError])
 
 
 
   //Register new User
   async function signup(data, mp3Id = null) {
+    setLoginFormError(false)
     const res = await Melodic2API.registerUser(data);
-    setToken(res);
-    setShowLogin(false)
-    setShowSignup(false)
-    if (mp3Id) {
+    if (res.status === 400) {
+      setSignupFormError(res.data.error.message)
+    } else {
+      setToken(res.token);
+      setShowLogin(false)
+      setShowSignup(false)
+      if (mp3Id) {
 
-      setRecalcGameResults(true)
-      setUserBestScore(false)
+        setRecalcGameResults(true)
+        setUserBestScore(false)
+      }
     }
   }
 
 
   //Login User
   async function login(data, mp3Id = null) {
+    setSignupFormError(false)
     const res = await Melodic2API.loginUser(data);
+    if (res.status === 401) {
 
-    setToken(res);
-    setShowLogin(false)
-    setShowSignup(false)
-    if (mp3Id) {
-      let { username } = jwt_decode(res)
-      getUserBestScore(mp3Id, username, topScore)
-      setRecalcGameResults(true)
+      setLoginFormError(res.data.error.message)
+
+    } else {
+      setToken(res.token);
+      setShowLogin(false)
+      setShowSignup(false)
+      if (mp3Id) {
+        let { username } = jwt_decode(res)
+        getUserBestScore(mp3Id, username, topScore)
+        setRecalcGameResults(true)
+      }
+
     }
   }
 
@@ -109,12 +133,14 @@ function App() {
   function toggleLoginForm() {
     setShowLogin(prevState => !prevState)
     setShowSignup(false)
+    setLoginFormError(false)
 
 
   }
   function toggleSignupForm() {
     setShowSignup(prevState => !prevState)
     setShowLogin(false)
+    setSignupFormError(false)
 
   }
 
@@ -151,7 +177,6 @@ function App() {
           let { username } = jwt_decode(token);
           Melodic2API.userToken = token;
           const user = await Melodic2API.getUser(username);
-          console.log('token res', user)
           setCurrentUser(user);
 
         } catch (err) {
@@ -188,7 +213,7 @@ function App() {
   return (
 
     <BrowserRouter>
-      <UserContext.Provider value={{ isAnimated, handleHeadingHover, recalcGameResults, setRecalcGameResults, totalScore, setTotalScore, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore }}>
+      <UserContext.Provider value={{ loginFormError, signupFormError, isAnimated, handleHeadingHover, recalcGameResults, setRecalcGameResults, totalScore, setTotalScore, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore }}>
         <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
           <MyNav logout={logout} onGamePage={onGamePage} />
           <MyRoutes login={login} signup={signup} />
