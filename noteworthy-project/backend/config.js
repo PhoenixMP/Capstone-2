@@ -13,8 +13,9 @@ let DB_URI_info_1 = {
   user: (process.env.USER_1 || "szuibmwj"),
   host: (process.env.HOST || "mahmud.db.elephantsql.com"),
   password: (process.env.PASSWORD_1 || "UMCAdc65cGdL3ZvdWTRpoBUVx2u-A4V1"),
-  ssl: true,
-  sslmode: 'require'
+  ssl: {
+    rejectUnauthorized: false
+  }
 }
 
 let DB_URI_info_2 = {

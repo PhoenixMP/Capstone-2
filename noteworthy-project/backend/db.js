@@ -1,5 +1,4 @@
 const { Client } = require("pg");
-const { DB_URI_info_1, DB_URI_info_2 } = require("./config")
 
 let generalDB = null; // Connection for general data database
 let userDB = null; // Connection for user data database

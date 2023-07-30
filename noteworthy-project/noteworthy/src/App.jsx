@@ -1,7 +1,6 @@
 import React, { useState, useEffect, ReactElement, ReactNode, } from "react";
 import jwt_decode from "jwt-decode";
 import { BrowserRouter } from "react-router-dom";
-import { ErrorBoundary } from 'react-error-boundary'
 import MyRoutes from './routes-nav/MyRoutes'
 import MyNav from './routes-nav/MyNav'
 import UserContext from "./auth/UserContext";
@@ -51,6 +50,7 @@ function App() {
   const [totalScore, setTotalScore] = useLocalStorage("totalScore", null);
   const [recalcGameResults, setRecalcGameResults] = useLocalStorage("recalcGameResults", false);
 
+  const [loginError, setLoginError] = useState(false)
 
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
@@ -82,6 +82,7 @@ function App() {
   //Login User
   async function login(data, mp3Id = null) {
     const res = await Melodic2API.loginUser(data);
+
     setToken(res);
     setShowLogin(false)
     setShowSignup(false)
@@ -150,6 +151,7 @@ function App() {
           let { username } = jwt_decode(token);
           Melodic2API.userToken = token;
           const user = await Melodic2API.getUser(username);
+          console.log('token res', user)
           setCurrentUser(user);
 
         } catch (err) {

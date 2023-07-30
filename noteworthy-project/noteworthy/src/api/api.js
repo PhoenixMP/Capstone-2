@@ -1,13 +1,14 @@
 import axios from "axios";
-import API_token from "../../APIToken"
+import { API_TOKEN } from "../secret.js"
 
 let BASE_URL;
-
+let API_token
 if (typeof process !== 'undefined' && process.env.REACT_APP_BASE_URL) {
-  // Running in a Node.js environment (e.g., server-side rendering)
+  API_token = process.env.API_TOKEN
   BASE_URL = process.env.REACT_APP_BASE_URL;
 } else {
   // Running in a frontend environment (e.g., web browser)
+  API_token = API_TOKEN
   BASE_URL = "https://noteworthy-r799.onrender.com";
 }
 /** API Class.
@@ -42,7 +43,6 @@ class Melodic2API {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
       console.error("API Error:", err.response);
-      throwError(new Error("Asynchronous error"));
     }
   }
 
@@ -81,6 +81,7 @@ class Melodic2API {
 
   static async loginUser(data) {
     let res = await this.request(`auth/token`, data, false, 'post');
+    console.log("loginAPI", res)
     return res.token;
   }
 
