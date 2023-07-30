@@ -4,7 +4,7 @@ import API_token from "../../APIToken"
 //Look at the API variable later, and process.env
 // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://https://noteworthy-r799.onrender.com/";
 
 /** API Class.
  *
