@@ -184,18 +184,15 @@ function App() {
 
 
   return (
-    <ErrorBoundary fallback={<p>Something went wrong</p>}>
-      <BrowserRouter>
-        <UserContext.Provider value={{ isAnimated, handleHeadingHover, recalcGameResults, setRecalcGameResults, totalScore, setTotalScore, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore }}>
-          <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
-            <MyNav logout={logout} onGamePage={onGamePage} />
-            <MyRoutes login={login} signup={signup} />
 
-          </musicContext.Provider>
-        </UserContext.Provider >
-      </BrowserRouter>
-    </ErrorBoundary>
-
+    <BrowserRouter>
+      <UserContext.Provider value={{ isAnimated, handleHeadingHover, recalcGameResults, setRecalcGameResults, totalScore, setTotalScore, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore }}>
+        <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
+          <MyNav logout={logout} onGamePage={onGamePage} />
+          <MyRoutes login={login} signup={signup} />
+        </musicContext.Provider>
+      </UserContext.Provider >
+    </BrowserRouter>
 
   );
 }
