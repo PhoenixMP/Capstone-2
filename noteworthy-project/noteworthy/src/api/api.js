@@ -4,7 +4,7 @@ import API_token from "../../APIToken"
 //Look at the API variable later, and process.env
 // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
-const BASE_URL = "http://https://noteworthy-r799.onrender.com/";
+const BASE_URL = "http://localhost:3001"
 
 /** API Class.
  *
@@ -38,8 +38,7 @@ class Melodic2API {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
       console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
+      throwError(new Error("Asynchronous error"));
     }
   }
 

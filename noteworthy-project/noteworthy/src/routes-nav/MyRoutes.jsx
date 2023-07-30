@@ -17,7 +17,7 @@ import UserContext from "../auth/UserContext";
  * Visiting a non-existant route redirects to the homepage.
  */
 
-function MyRoutes({ login, signup, updateUser }) {
+function MyRoutes({ login, signup }) {
   const { currentUser } = useContext(UserContext);
 
   console.debug(

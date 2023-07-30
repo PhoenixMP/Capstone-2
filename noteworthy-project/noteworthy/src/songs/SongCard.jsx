@@ -25,7 +25,6 @@ function SongCard({ mp3Id, title, dir, topScore, genre, cardNumber, order }) {
     const [backgroundColor, setBackgroundColor] = useState(null)
     const [textColor, setTextColor] = useState(null)
 
-    console.log(topScore)
 
     useEffect(() => {
 

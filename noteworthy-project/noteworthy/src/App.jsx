@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactElement, ReactNode, } from "react";
 import jwt_decode from "jwt-decode";
 import { BrowserRouter } from "react-router-dom";
+import { ErrorBoundary } from 'react-error-boundary'
 import MyRoutes from './routes-nav/MyRoutes'
 import MyNav from './routes-nav/MyNav'
 import UserContext from "./auth/UserContext";
@@ -9,8 +10,14 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import Melodic2API from "./api/api";
 import LoginForm from "./auth/LoginForm";
 import SignupForm from "./auth/SignupForm";
+
+
 import './index.css'
 import './App.css'
+
+
+
+
 
 
 
@@ -53,7 +60,6 @@ function App() {
 
 
   const [token, setToken] = useLocalStorage("token", null);
-
 
 
 
@@ -178,15 +184,18 @@ function App() {
 
 
   return (
+    <ErrorBoundary fallback={<p>Something went wrong</p>}>
+      <BrowserRouter>
+        <UserContext.Provider value={{ isAnimated, handleHeadingHover, recalcGameResults, setRecalcGameResults, totalScore, setTotalScore, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore }}>
+          <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
+            <MyNav logout={logout} onGamePage={onGamePage} />
+            <MyRoutes login={login} signup={signup} />
 
-    <BrowserRouter>
-      <UserContext.Provider value={{ isAnimated, handleHeadingHover, recalcGameResults, setRecalcGameResults, totalScore, setTotalScore, userBeatPersonalBest, setUserBeatPersonalBest, userBeatTop, setUserBeatTop, getUserBestScore, onGamePage, setOnGamePage, getFormJSX, userHasTop, setUserHasTop, toggleSignupForm, toggleLoginForm, setShowLogin, setShowSignup, showLogin, showSignup, currentUser, userBestScore, setUserBestScore, topScore, setTopScore }}>
-        <musicContext.Provider value={{ song, setSong, notes, setNotes, encodedData, setEncodedData, hasRefreshedGame, setHasRefreshedGame }}>
-          <MyNav logout={logout} onGamePage={onGamePage} />
-          <MyRoutes login={login} signup={signup} />
-        </musicContext.Provider>
-      </UserContext.Provider >
-    </BrowserRouter>
+          </musicContext.Provider>
+        </UserContext.Provider >
+      </BrowserRouter>
+    </ErrorBoundary>
+
 
   );
 }

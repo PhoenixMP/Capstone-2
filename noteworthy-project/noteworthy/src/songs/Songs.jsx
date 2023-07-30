@@ -1,29 +1,29 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Outlet } from 'react-router-dom'
+import { useErrorBoundary } from 'react-error-boundary'
 import Search from "../common/SearchForm";
 import Melodic2API from "../api/api";
 import SongCardList from "./SongCardList";
 import LoadingSpinner from "../common/LoadingSpinner";
 import FallingNotes from "../common/FallingNotes";
 import UserContext from "../auth/UserContext";
-import Lights from "../common/Lights"
+import useAsyncError from "../hooks/useAsyncError";
+
 import "./Songs.css"
 
 
-/** Homepage of site.
- *
- * Shows welcome message or login/register buttons.
- *
- * Routed at /
- *
- * MyRoutes -> Homepage
- */
 
-const Songs = ({ login, signup }) => {
+
+
+const Songs = () => {
+
     const [songs, setSongs] = useState(null);
     const [songsScores, setSongsScores] = useState(null);
     const [genreButton, setGenreButton] = useState(null)
     const { getFormJSX, setOnGamePage, setShowLogin, setShowSignup } = useContext(UserContext);
+
+
+
+    const throwError = useAsyncError();
 
 
     const genres = [
@@ -41,7 +41,12 @@ const Songs = ({ login, signup }) => {
         setOnGamePage(false)
         setShowLogin(false);
         setShowSignup(false);
-        searchTitle();
+        try {
+            searchTitle();
+        } catch (error) {
+            throwError(new Error("Async Error"))
+        }
+
     }, []);
 
 
@@ -68,21 +73,30 @@ const Songs = ({ login, signup }) => {
 
     /** Triggered by search form submit; reloads songs. */
     async function searchTitle(title) {
+        try {
+            let songs = await Melodic2API.getAllSongs({ title, dir: title });
+            setSongs(songs);
+        } catch (error) {
+            throwError(new Error("Async Error"))
+        }
 
-        let songs = await Melodic2API.getAllSongs({ title, dir: title });
-        setSongs(songs);
+
     }
 
 
     /** Triggered by search form submit; reloads songs. */
     async function searchGenre(genre) {
+
         let songs = await Melodic2API.searchGenre({ genre });
 
         setGenreButton(genre)
         setSongs(songs);
+
+
     }
 
     async function getTopScore(mp3Id) {
+
         let topScore = await Melodic2API.getSongTopScore(mp3Id)
         return topScore
     }
@@ -93,7 +107,6 @@ const Songs = ({ login, signup }) => {
     if (!songsScores || !songs) return <LoadingSpinner />;
 
     return (
-
         <div className="songs-page common-background">
             <div className="songs-decoration">
                 <FallingNotes />
@@ -122,7 +135,6 @@ const Songs = ({ login, signup }) => {
                 </div>
             </div>
         </div>
-
 
     )
 
