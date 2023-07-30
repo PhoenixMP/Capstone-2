@@ -1,7 +1,7 @@
 .pop-up-wrapper {
     padding-top: 30px;
     position: absolute;
-    width: 400px;
+    width: 450px;
     height: 210px;
     top: 50%;
     left: 50%;
@@ -41,6 +41,8 @@
     padding-bottom: 30px;
     font-weight: 90;
     letter-spacing: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .pop-up-yes-button,

@@ -491,6 +491,8 @@ const Game = () => {
 
     const handleSaveEarlyPrompt = () => {
         setSaveEarlyPrompt(prev => !prev)
+        setExitPrompt(false)
+        setResetPrompt(false)
     }
 
     const handleSaveEarly = () => {
@@ -542,7 +544,7 @@ const Game = () => {
 
         } else if (saveEarlyPrompt) {
             return (<>
-                <PopUpConfirm message={'Are you sure you want to save score early?'} handleYes={handleSaveEarly} handleNo={handleExitPrompt} />
+                <PopUpConfirm message={'Are you sure you want to save score early?'} handleYes={handleSaveEarly} handleNo={handleSaveEarlyPrompt} />
                 <div className='pop-up-cover'></div>
             </>)
         }
