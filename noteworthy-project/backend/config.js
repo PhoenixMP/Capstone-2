@@ -12,13 +12,15 @@ const PORT = +process.env.PORT || 3001;
 let DB_URI_info_1 = {
   user: process.env.USER_1,
   host: process.env.HOST,
-  password: process.env.PASSWORD_1
+  password: process.env.PASSWORD_1,
+  ssl: true
 }
 
 let DB_URI_info_2 = {
   user: process.env.USER_2,
   host: process.env.HOST,
-  password: process.env.PASSWORD_2
+  password: process.env.PASSWORD_2,
+  ssl: true
 }
 
 const API_token = process.env.API_TOKEN
