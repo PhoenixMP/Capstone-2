@@ -7,23 +7,25 @@ require("colors");
 
 const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
 
-const PORT = +process.env.PORT || 3001;
+const PORT = +process.env.PORT || 3002;
 
 let DB_URI_info_1 = {
-  user: process.env.USER_1,
-  host: process.env.HOST,
-  password: process.env.PASSWORD_1,
-  ssl: true
+  user: (process.env.USER_1 || "szuibmwj"),
+  host: (process.env.HOST || "mahmud.db.elephantsql.com"),
+  password: (process.env.PASSWORD_1 || "UMCAdc65cGdL3ZvdWTRpoBUVx2u-A4V1"),
+  ssl: true,
+  sslmode: 'require'
 }
 
 let DB_URI_info_2 = {
-  user: process.env.USER_2,
-  host: process.env.HOST,
-  password: process.env.PASSWORD_2,
-  ssl: true
+  user: (process.env.USER_2 || "fnfivnrh"),
+  host: (process.env.HOST || "mahmud.db.elephantsql.com"),
+  password: (process.env.PASSWORD_2 || "glg9DbPKWN6Lt0lxx0B8w2gnC25fnl2m"),
+  ssl: true,
+  sslmode: 'require'
 }
 
-const API_token = process.env.API_TOKEN
+const API_token = process.env.API_TOKEN || "*EJi2&bqVvJ06QRSqV^*8@MpjN9#It5M1C2cu$cNypg7Qz9SJ3"
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
 //

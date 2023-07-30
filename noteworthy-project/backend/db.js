@@ -6,19 +6,28 @@ let userDB = null; // Connection for user data database
 
 
 
-let general_DB_URI = {
-  ...DB_URI_info_1,
-  database: process.env.general_DB_URI
-}
+let general_DB_URI = (process.env.general_DB_URI || "postgresql://szuibmwj:UMCAdc65cGdL3ZvdWTRpoBUVx2u-A4V1@mahmud.db.elephantsql.com/szuibmwj")
+
+let user_DB_URI = (process.env.user_DB_URI || "postgresql://fnfivnrh:glg9DbPKWN6Lt0lxx0B8w2gnC25fnl2m@mahmud.db.elephantsql.com/fnfivnrh")
 
 
-let user_DB_URI = {
-  ...DB_URI_info_2,
-  database: process.env.user_DB_URI
-}
+generalDB = new Client(
+  {
+    connectionString: general_DB_URI,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  });
 
-userDB = new Client(user_DB_URI);
-generalDB = new Client(general_DB_URI);
+userDB = new Client(
+  {
+    connectionString: user_DB_URI,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  }
+);
+
 
 generalDB.connect()
   .then(() => console.log("Connected to userDB"))
