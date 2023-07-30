@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_TOKEN } from "../secret.js"
+// import { API_TOKEN } from "../secret.js"
 
 let BASE_URL;
 let API_token
@@ -8,7 +8,7 @@ if (typeof process !== 'undefined' && process.env.REACT_APP_BASE_URL) {
   BASE_URL = process.env.REACT_APP_BASE_URL;
 } else {
   // Running in a frontend environment (e.g., web browser)
-  API_token = API_TOKEN
+  // API_token = API_TOKEN
   BASE_URL = "https://noteworthy-r799.onrender.com";
 }
 /** API Class.
