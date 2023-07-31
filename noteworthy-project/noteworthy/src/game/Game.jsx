@@ -504,6 +504,7 @@ const Game = () => {
 
 
     const handleExit = () => {
+        setOnGamePage(false)
         navigate(`/song/${mp3Id}`);
     }
 

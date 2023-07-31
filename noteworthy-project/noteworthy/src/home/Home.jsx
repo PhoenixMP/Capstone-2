@@ -4,7 +4,7 @@ import Melodic2API from "../api/api";
 import homeVideo from "./underwater.mp4"
 import "./Home.css"
 import "./heading.css"
-import search from "../images/icons/search.png"
+import info from "../images/icons/info.png"
 
 import UserContext from "../auth/UserContext";
 
@@ -59,7 +59,7 @@ const Home = () => {
                     <p className="home-tag">Explore A Sea Of Melodies ~  Will You Sink or Swim?</p>
                     {showAbout ? <p className="home-about">(This game is basically "GuitarHero" but for piano)</p> : ""}
                 </div>
-                <div className="home-search" onClick={handleSearchHover}> <img className="home-search-image" src={search} /> </div>
+                <div className="home-info" onClick={handleSearchHover}> <img className="home-info-image" src={info} /> </div>
 
             </div>
 

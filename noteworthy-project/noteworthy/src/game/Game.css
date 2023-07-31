@@ -498,17 +498,11 @@ ul li.piano-key:last-child {
 }
 
 .piano-note-accuracy {
-    position: absolute;
+    position: relative;
     left: 50%;
-    font-size: 15px;
+    font-family: "Hanken Grotesk", sans-serif;
+    font-size: 18px;
     transform: translateX(-50%);
     color: white;
-}
-
-.black .piano-note-accuracy {
-    bottom: -130px;
-}
-
-.white .piano-note-accuracy {
-    bottom: -50px;
+    bottom: -150px;
 }

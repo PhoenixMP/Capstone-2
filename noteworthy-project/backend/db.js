@@ -5,9 +5,9 @@ let userDB = null; // Connection for user data database
 
 
 
-let general_DB_URI = (process.env.general_DB_URI || "postgresql://szuibmwj:UMCAdc65cGdL3ZvdWTRpoBUVx2u-A4V1@mahmud.db.elephantsql.com/szuibmwj")
+let general_DB_URI = (process.env.general_DB_URI)
 
-let user_DB_URI = (process.env.user_DB_URI || "postgresql://fnfivnrh:glg9DbPKWN6Lt0lxx0B8w2gnC25fnl2m@mahmud.db.elephantsql.com/fnfivnrh")
+let user_DB_URI = (process.env.user_DB_URI)
 
 
 generalDB = new Client(

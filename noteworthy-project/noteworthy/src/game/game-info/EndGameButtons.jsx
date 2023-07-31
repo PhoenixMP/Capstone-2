@@ -14,7 +14,7 @@ const EndGameButtons = () => {
     const navigate = useNavigate();
 
     const { isAnimationStarted, handleStop, handleRestartGame, handlePlay, } = useContext(GameContext);
-    const { setShowLogin, currentUser, totalScore, userBeatTop, userBeatPersonalBest } = useContext(UserContext)
+    const { setShowLogin, currentUser, totalScore, userBeatTop, userBeatPersonalBest, setOnGamePage } = useContext(UserContext)
 
     const { mp3Id } = useParams()
 
@@ -28,6 +28,7 @@ const EndGameButtons = () => {
     function handleSubmitScore() {
         addScore();
         handleRestartGame();
+        setOnGamePage(false)
         navigate(`/song/${mp3Id}`);
 
     }

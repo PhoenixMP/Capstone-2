@@ -25,7 +25,7 @@ import './SongDetails.css'
  * MyRoutes -> Homepage
  */
 
-const SongDetails = ({ login, signup }) => {
+const SongDetails = () => {
 
     const { mp3Id } = useParams();
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ const SongDetails = ({ login, signup }) => {
 
 
     const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
-    const { userHasTop, getUserBestScore, getFormJSX, setOnGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
+    const { userHasTop, getUserBestScore, getFormJSX, setOnGamePage, onGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
     const [runnerUpScores, setRunnerUpScores] = useState(null);
 
 
@@ -58,48 +58,50 @@ const SongDetails = ({ login, signup }) => {
 
 
     useEffect(function getSongInfo() {
-        setOnGamePage(false)
-        setShowLogin(false);
-        setShowSignup(false);
-        async function getSong() {
-            const newSong = await Melodic2API.getSong(mp3Id);
-            setSong(newSong.song);
-            setNotes(newSong.notes.notes)
+        if (!onGamePage) {
+            setOnGamePage(false)
+            setShowLogin(false);
+            setShowSignup(false);
+            async function getSong() {
+                const newSong = await Melodic2API.getSong(mp3Id);
+                setSong(newSong.song);
+                setNotes(newSong.notes.notes)
 
-            setEncodedData(newSong.mp3Data.encodedSong)
+                setEncodedData(newSong.mp3Data.encodedSong)
+            }
+            getSong();
+
         }
-        getSong();
-
-
-    }, [mp3Id]);
+    }, [mp3Id, onGamePage]);
 
 
 
     useEffect(function getScoreInfo() {
 
+        if (!onGamePage) {
+            async function getGeneralScores() {
+                const scores = await Melodic2API.getSongTopScores(mp3Id);
 
-        async function getGeneralScores() {
-            const scores = await Melodic2API.getSongTopScores(mp3Id);
 
-
-            if (scores.length === 0) {
-                setTopScore(false);
-                setUserHasTop(false);
-                setUserBestScore(false);
-                setRunnerUpScores(false);
-            } else {
-                if (currentUser) {
-                    getUserBestScore(mp3Id, currentUser.username, scores[0]);
+                if (scores.length === 0) {
+                    setTopScore(false);
+                    setUserHasTop(false);
+                    setUserBestScore(false);
+                    setRunnerUpScores(false);
+                } else {
+                    if (currentUser) {
+                        getUserBestScore(mp3Id, currentUser.username, scores[0]);
+                    }
+                    setTopScore(scores[0]);
+                    setRunnerUpScores(scores.slice(1))
                 }
-                setTopScore(scores[0]);
-                setRunnerUpScores(scores.slice(1))
+
             }
 
+            getGeneralScores();
         }
 
-        getGeneralScores();
-
-    }, [currentUser]);
+    }, [currentUser, onGamePage]);
 
 
 

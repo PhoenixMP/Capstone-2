@@ -17,6 +17,30 @@ body {
   text-decoration: none;
   overflow: hidden;
   background-color: black;
+
+}
+
+::-webkit-scrollbar {
+  background: black;
+  border-radius: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: gainsboro;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #176B87;
+  ;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(51, 172, 212);
 }
 
 button {
