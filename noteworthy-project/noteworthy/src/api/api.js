@@ -1,16 +1,9 @@
 import axios from "axios";
 // import { API_TOKEN } from "../secret.js"
 
-let BASE_URL;
-let API_token = process.env.API_TOKEN
-if (typeof process !== 'undefined' && process.env.REACT_APP_BASE_URL) {
+const API_token = "*EJi2&bqVvJ06QRSqV^*8@MpjN9#It5M1C2cu$cNypg7Qz9SJ3"
+const BASE_URL = "https://noteworthy-r799.onrender.com";
 
-  BASE_URL = process.env.REACT_APP_BASE_URL;
-} else {
-  // Running in a frontend environment (e.g., web browser)
-  // API_token = API_TOKEN
-  BASE_URL = "https://noteworthy-r799.onrender.com";
-}
 /** API Class.
  *
  * Static class tying together methods used to get/send to to the API.
