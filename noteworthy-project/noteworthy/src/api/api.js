@@ -2,9 +2,9 @@ import axios from "axios";
 // import { API_TOKEN } from "../secret.js"
 
 let BASE_URL;
-let API_token
+let API_token = process.env.API_TOKEN
 if (typeof process !== 'undefined' && process.env.REACT_APP_BASE_URL) {
-  API_token = process.env.API_TOKEN
+
   BASE_URL = process.env.REACT_APP_BASE_URL;
 } else {
   // Running in a frontend environment (e.g., web browser)
