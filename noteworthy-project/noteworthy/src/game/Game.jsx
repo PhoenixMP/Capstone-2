@@ -18,6 +18,7 @@ import NewScorePage from "./game-info/NewScorePage";
 import NoScorePage from "./game-info/NoScorePage"
 import PopUpConfirm from "./game-info/PopUpConfirm";
 import GameExplain from "./game-info/GameExplain";
+import CountdownTimer from "./game-info/CountdownTimer";
 
 
 
@@ -28,7 +29,8 @@ import UserContext from "../auth/UserContext";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 import "./Game.css"
-import { start } from "tone";
+
+
 
 
 
@@ -196,7 +198,7 @@ const Game = () => {
             setTimeout(() => {
                 audioRef.current.play();
                 handleStartAnimation();;
-            }, 2000);
+            }, 3000);
         }
     };
 
@@ -585,7 +587,7 @@ const Game = () => {
     const getGameJSX = () => {
 
         if (!isAnimationStarted && !gameOver) {
-            return (<div className="game-get-ready">Get Ready!</div>)
+            return (<div className="game-get-ready"><CountdownTimer /></div>)
         } else if (isAnimationStarted && !gameOver) {
             return (
                 <>

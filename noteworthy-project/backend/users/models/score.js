@@ -57,8 +57,7 @@ class Score {
         SELECT mp3_id, MAX(score) AS "max_score"
         FROM user_game_scores 
         GROUP BY mp3_id
-      ) t ON u.mp3_id = t.mp3_id AND u.score = t.max_score
-      ORDER BY  DESC`
+      ) t ON u.mp3_id = t.mp3_id AND u.score = t.max_score`
     );
 
     return scoreRes.rows;
