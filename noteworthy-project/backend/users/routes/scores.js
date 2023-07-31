@@ -45,12 +45,9 @@ router.get("/", checkAPIToken, async function (req, res, next) {
 
 
 router.get("/top", checkAPIToken, async function (req, res, next) {
-    const q = req.query;
-    let order;
-    (q !== "undefined" ? order = "score_timestamp" : order = q.sort)
 
     try {
-        const scores = await Score.findAllTopScores(order);
+        const scores = await Score.findAllTopScores();
         return res.json({ scores });
     } catch (err) {
         return next(err);

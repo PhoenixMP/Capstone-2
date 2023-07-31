@@ -15,7 +15,7 @@ import { ScrollRestoration } from "react-router-dom";
  */
 
 const SongCardList = ({ songs }) => {
-
+    console.log(songs)
 
     return (
         <div className="song-card-list">
@@ -25,7 +25,7 @@ const SongCardList = ({ songs }) => {
                     mp3Id={song.mp3_id}
                     title={song.title}
                     dir={song.dir}
-                    topScore={song.topScore}
+                    username={song.username}
                     genre={song.genre}
                     order={index + 1}
                     cardNumber={songs.length}

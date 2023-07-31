@@ -51,26 +51,40 @@ const Songs = () => {
 
     useEffect(function getSongScores() {
         if (songs !== null) {
-            // Use Promise.all to wait for all the getTopScore calls to complete
+
+
+            async function compareScores() {
+                let scores = await Melodic2API.getAllTopScores()
+                const songWithScores = songs.map((song) => {
+                    const mp3Id = song.mp3_id;
+                    const matchingScore = scores.find((score) => score.mp3Id === mp3Id);
+                    if (matchingScore) {
+                        song.username = matchingScore.username;
+                    }
+                    return song;
+                })
+                setSongsScores(songWithScores)
+            }
+
+
             try {
-                Promise.all(songs.map(song => getTopScore(song.mp3_id)))
-                    .then(topScores => {
-                        // Map the resolved topScores to the corresponding songs
-                        const songsWithTopScores = songs.map((song, index) => ({
-                            ...song,
-                            topScore: topScores[index]
-                        }));
-                        setSongsScores(songsWithTopScores);
-                    })
-                    .catch(error => {
-                        console.error("Error getting top scores:", error);
-                        setSongsScores(songs); // In case of an error, set the songs without top scores
-                    });
+                compareScores()
+            } catch (error) {
+
+                console.error("Error getting top scores:", error);
+                setSongsScores(songs); // In case of an error, set the songs without top scores
+
+
             } finally {
                 setLoading(false);
             }
+
+
         }
     }, [songs]);
+
+
+
 
 
 
@@ -85,7 +99,6 @@ const Songs = () => {
 
 
     }
-
 
     /** Triggered by search form submit; reloads songs. */
     async function searchGenre(genre) {

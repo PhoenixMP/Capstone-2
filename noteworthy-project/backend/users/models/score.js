@@ -49,7 +49,7 @@ class Score {
 
 
   static async findAllTopScores(order) {
-    if (order !== "score" && order !== "score_timestamp") throw new BadRequestError(`Can't order by: ${order}`)
+
     const scoreRes = await db.query(
       `SELECT u.id, u.mp3_id as "mp3Id", u.username, u.score, u.score_timestamp as "scoreTimestamp"
       FROM user_game_scores u
@@ -58,7 +58,7 @@ class Score {
         FROM user_game_scores 
         GROUP BY mp3_id
       ) t ON u.mp3_id = t.mp3_id AND u.score = t.max_score
-      ORDER BY ${order} DESC`
+      ORDER BY  DESC`
     );
 
     return scoreRes.rows;

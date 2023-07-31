@@ -25,9 +25,7 @@ function MyRoutes({ login, signup }) {
   return (
 
     <Routes>
-
       <Route exact path="/" element={<Home login={login} signup={signup} />} />
-
 
       <Route exact path="/profile" element={currentUser ? (<Profile />) : (<Navigate replace to={"/"} />)} />
 

@@ -20,7 +20,7 @@ import hipHopIcon from "../images/icons/breakdance.png"
  * JobCardList -> JobCard
  */
 
-function SongCard({ mp3Id, title, dir, topScore, genre, cardNumber, order }) {
+function SongCard({ mp3Id, title, dir, username, genre, cardNumber, order }) {
 
     const [backgroundColor, setBackgroundColor] = useState(null)
     const [textColor, setTextColor] = useState(null)
@@ -77,7 +77,6 @@ function SongCard({ mp3Id, title, dir, topScore, genre, cardNumber, order }) {
 
 
 
-
     return (
 
 
@@ -89,8 +88,8 @@ function SongCard({ mp3Id, title, dir, topScore, genre, cardNumber, order }) {
                 </div>
             </div>
             <div >
-                {(topScore !== null) ?
-                    (<p className="card-score">🏆 Top Scorer: {topScore.username}</p>) :
+                {(username) ?
+                    (<p className="card-score">🏆 Top Scorer: {username}</p>) :
                     (<p className="card-no-score">No Top Score Yet </p>)
                 }
             </div>
