@@ -19,6 +19,7 @@ const Songs = () => {
     const [songs, setSongs] = useState(null);
     const [songsScores, setSongsScores] = useState(null);
     const [genreButton, setGenreButton] = useState(null)
+    const [loading, setLoading] = useState(false);
     const { getFormJSX, setOnGamePage, setShowLogin, setShowSignup } = useContext(UserContext);
 
 
@@ -42,9 +43,12 @@ const Songs = () => {
         setShowLogin(false);
         setShowSignup(false);
         try {
+            setLoading(true);
             searchTitle();
         } catch (error) {
             throwError(new Error("Async Error"))
+        } finally {
+            setLoading(false);
         }
 
     }, []);
@@ -124,10 +128,13 @@ const Songs = () => {
 
                         </div>
                     </div>
-                    {songs.length
-                        ? <SongCardList songs={songsScores} />
-                        : <p className="lead">Sorry, no results were found!</p>
-                    }
+                    {loading ? (
+                        <LoadingSpinner />
+                    ) : songs.length ? (
+                        <SongCardList songs={songsScores} />
+                    ) : (
+                        <p className="lead">Sorry, no results were found!</p>
+                    )}
                 </div>
 
                 <div className="form-container">
