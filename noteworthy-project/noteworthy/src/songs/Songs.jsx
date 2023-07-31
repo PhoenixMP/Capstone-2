@@ -19,13 +19,13 @@ const Songs = () => {
     const [songs, setSongs] = useState(null);
     const [songsScores, setSongsScores] = useState(null);
     const [genreButton, setGenreButton] = useState(null)
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const { getFormJSX, setOnGamePage, setShowLogin, setShowSignup } = useContext(UserContext);
 
 
 
     const throwError = useAsyncError();
-    setLoading(true);
+
 
     const genres = [
         "pop",
@@ -36,6 +36,7 @@ const Songs = () => {
         "movie",
         "tv",
         "video game"
+
     ];
 
     useEffect(function getAllSongsOnMount() {
