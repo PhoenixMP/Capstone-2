@@ -4,6 +4,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const path = require('path');
 
 const { NotFoundError } = require("./expressError");
 
@@ -34,12 +35,16 @@ app.use("/auth", authRoutes);
 app.use("/scores", scoreRoutes);
 
 app.get("/", (req, res) => {
-
-
   let result = "hello"
 
   return res.send(result);
 })
+
+
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 
 /** Handle 404 errors -- this matches everything */
