@@ -42,14 +42,11 @@ const Songs = () => {
         setOnGamePage(false)
         setShowLogin(false);
         setShowSignup(false);
-        try {
-            setLoading(true);
-            searchTitle();
-        } catch (error) {
-            throwError(new Error("Async Error"))
-        } finally {
-            setLoading(false);
-        }
+
+        setLoading(true);
+        searchTitle();
+
+
 
     }, []);
 
@@ -57,19 +54,23 @@ const Songs = () => {
     useEffect(function getSongScores() {
         if (songs !== null) {
             // Use Promise.all to wait for all the getTopScore calls to complete
-            Promise.all(songs.map(song => getTopScore(song.mp3_id)))
-                .then(topScores => {
-                    // Map the resolved topScores to the corresponding songs
-                    const songsWithTopScores = songs.map((song, index) => ({
-                        ...song,
-                        topScore: topScores[index]
-                    }));
-                    setSongsScores(songsWithTopScores);
-                })
-                .catch(error => {
-                    console.error("Error getting top scores:", error);
-                    setSongsScores(songs); // In case of an error, set the songs without top scores
-                });
+            try {
+                Promise.all(songs.map(song => getTopScore(song.mp3_id)))
+                    .then(topScores => {
+                        // Map the resolved topScores to the corresponding songs
+                        const songsWithTopScores = songs.map((song, index) => ({
+                            ...song,
+                            topScore: topScores[index]
+                        }));
+                        setSongsScores(songsWithTopScores);
+                    })
+                    .catch(error => {
+                        console.error("Error getting top scores:", error);
+                        setSongsScores(songs); // In case of an error, set the songs without top scores
+                    });
+            } finally {
+                setLoading(false);
+            }
         }
     }, [songs]);
 
