@@ -52,7 +52,6 @@ const Songs = () => {
     useEffect(function getSongScores() {
         if (songs !== null) {
 
-
             async function compareScores() {
                 let scores = await Melodic2API.getAllTopScores()
                 const songWithScores = songs.map((song) => {
