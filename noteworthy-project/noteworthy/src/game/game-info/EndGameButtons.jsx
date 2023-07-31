@@ -35,6 +35,7 @@ const EndGameButtons = () => {
 
 
     const handleExit = () => {
+        setOnGamePage(false)
         handleRestartGame()
         navigate(`/song/${mp3Id}`);
     }

@@ -365,12 +365,10 @@ const Game = () => {
     const checkPressedKey = (keyLetter, startTime) => {
 
         if (!compareToInPlayKey(keyLetter, startTime)) {
-            console.log('value 1', keyLetter, inPlayKeys)
             const timeout = setTimeout(() => {
                 clearTimeout(timeoutId[keyLetter]);
                 if (!inPlayKeysRef.current.hasOwnProperty(keyLetter) ||
                     (inPlayKeysRef.current[keyLetter]['endTime'] < startTime)) {
-                    console.log('value 2', keyLetter, inPlayKeysRef.current)
                     handleWrongTiming(keyLetter);
                 }
 
@@ -453,8 +451,7 @@ const Game = () => {
 
 
     useEffect(function handleMultiplier() {
-        console.log(streakAnnounce)
-        console.log('streakcount', streakCount)
+
         if (streakCount >= 40) {
             setStreakAnnounce("40 Note Streak!")
             setStreakMultiplier(32)
