@@ -25,7 +25,7 @@ const Songs = () => {
 
 
     const throwError = useAsyncError();
-
+    setLoading(true);
 
     const genres = [
         "pop",
@@ -42,11 +42,7 @@ const Songs = () => {
         setOnGamePage(false)
         setShowLogin(false);
         setShowSignup(false);
-
-        setLoading(true);
         searchTitle();
-
-
 
     }, []);
 
