@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { Suspense, useState, useEffect, useContext } from "react";
 import { useErrorBoundary } from 'react-error-boundary'
 import Search from "../common/SearchForm";
 import Melodic2API from "../api/api";
@@ -40,6 +40,7 @@ const Songs = () => {
     ];
 
     useEffect(function getAllSongsOnMount() {
+        setLoading(true);
         setOnGamePage(false)
         setShowLogin(false);
         setShowSignup(false);
@@ -110,35 +111,40 @@ const Songs = () => {
 
     return (
         <div className="songs-page common-background">
-            <div className="songs-decoration">
-                <FallingNotes />
 
-            </div>
-            <div className="songs-content-container">
-                <div className="songs-container">
-                    <div className="search-container">
-                        <Search searchFor={searchTitle} />
-                        <div className="genre-buttons">
-                            {genres.map(genre => (
-
-                                <button className={`genre-button ${(genreButton === genre) ? "active" : ""}`} onClick={() => searchGenre(genre)}>{genre}</button>
-                            ))}
+            {loading ? <LoadingSpinner /> :
+                (
+                    <>
+                        <div className="songs-decoration">
+                            <FallingNotes />
 
                         </div>
-                    </div>
-                    {loading ? (
-                        <LoadingSpinner />
-                    ) : songs.length ? (
-                        <SongCardList songs={songsScores} />
-                    ) : (
-                        <p className="lead">Sorry, no results were found!</p>
-                    )}
-                </div>
+                        <div className="songs-content-container">
+                            <div className="songs-container">
+                                <div className="search-container">
+                                    <Search searchFor={searchTitle} />
+                                    <div className="genre-buttons">
+                                        {genres.map(genre => (
 
-                <div className="form-container">
-                    {getFormJSX()}
-                </div>
-            </div>
+                                            <button className={`genre-button ${(genreButton === genre) ? "active" : ""}`} onClick={() => searchGenre(genre)}>{genre}</button>
+                                        ))}
+
+                                    </div>
+                                </div>
+                                {songs.length ? (
+                                    <SongCardList songs={songsScores} />
+                                ) : (
+                                    <p className="lead">Sorry, no results were found!</p>
+                                )}
+                            </div>
+
+                            <div className="form-container">
+                                {getFormJSX()}
+                            </div>
+                        </div>
+                    </>
+                )}
+
         </div>
 
     )

@@ -17,7 +17,6 @@ class Melodic2API {
   static userToken;
 
   static async request(endpoint, data = {}, userAuth = false, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
 
     //there are multiple ways to pass an authorization token, this is how you pass it in the header.
     //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.

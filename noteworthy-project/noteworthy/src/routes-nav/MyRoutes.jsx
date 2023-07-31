@@ -20,11 +20,7 @@ import UserContext from "../auth/UserContext";
 function MyRoutes({ login, signup }) {
   const { currentUser } = useContext(UserContext);
 
-  console.debug(
-    "Routes",
-    `login=${typeof login}`,
-    `register=${typeof register}`,
-  );
+
 
   return (
 

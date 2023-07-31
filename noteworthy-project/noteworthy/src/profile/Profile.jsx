@@ -42,13 +42,11 @@ const Profile = () => {
         async function getUserScores() {
 
             const top = await Melodic2API.getUserTopScores(currentUser.username);
-            console.log(top)
             if (top.length === 0) {
                 setTopScores(false);
             } else { setTopScores(top) }
 
             const undefeated = await Melodic2API.getUserUndefeatedTopScores(currentUser.username);
-            console.log(undefeated)
             if (undefeated.length === 0) {
                 setUndefeatedScores(false);
             } else { setUndefeatedScores(undefeated) }

@@ -10,7 +10,9 @@
 
 }
 
-
+.songs-page {
+    position: relative;
+}
 
 .search-container {
     display: flex;
