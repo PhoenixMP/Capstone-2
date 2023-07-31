@@ -5,28 +5,28 @@
 require("dotenv").config();
 require("colors");
 
-const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
+const SECRET_KEY = process.env.SECRET_KEY
 
 const PORT = +process.env.PORT || 3002;
 
 let DB_URI_info_1 = {
-  user: (process.env.USER_1 || "szuibmwj"),
-  host: (process.env.HOST || "mahmud.db.elephantsql.com"),
-  password: (process.env.PASSWORD_1 || "UMCAdc65cGdL3ZvdWTRpoBUVx2u-A4V1"),
+  user: (process.env.USER_1),
+  host: (process.env.HOST),
+  password: (process.env.PASSWORD_1),
   ssl: {
     rejectUnauthorized: false
   }
 }
 
 let DB_URI_info_2 = {
-  user: (process.env.USER_2 || "fnfivnrh"),
-  host: (process.env.HOST || "mahmud.db.elephantsql.com"),
-  password: (process.env.PASSWORD_2 || "glg9DbPKWN6Lt0lxx0B8w2gnC25fnl2m"),
+  user: (process.env.USER_2),
+  host: (process.env.HOST),
+  password: (process.env.PASSWORD_2),
   ssl: true,
   sslmode: 'require'
 }
 
-const API_token = process.env.API_TOKEN || "*EJi2&bqVvJ06QRSqV^*8@MpjN9#It5M1C2cu$cNypg7Qz9SJ3"
+const API_token = process.env.API_TOKEN
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
 //
