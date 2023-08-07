@@ -1,3 +1,4 @@
+INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (1000, 'Im Just Ken', 'Barbie', 'movie', 58.26230579166666, 70);
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (26498, 'Never Gonna Give You Up', 'Rick Astley', 'pop', 244.210624, 228.1609452927713);
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (27793, 'Peaches', 'Jack Black', 'movie', 24.010416666666664, 193.54838709677415);
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (2896, 'Hotel California', 'Eagles', 'rock', 389.18204325000005, 294.22175344922147);
