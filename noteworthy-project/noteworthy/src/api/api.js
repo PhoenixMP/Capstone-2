@@ -2,7 +2,7 @@ import axios from "axios";
 // import { API_TOKEN } from "../secret.js"
 
 const API_token = "*EJi2&bqVvJ06QRSqV^*8@MpjN9#It5M1C2cu$cNypg7Qz9SJ3"
-const BASE_URL = "https://noteworthy-r799.onrender.com";
+const BASE_URL = "https://noteworthy-backend.onrender.com";
 
 /** API Class.
  *
