@@ -3,21 +3,20 @@
 const { userDB } = require("../../db");
 const {
   NotFoundError,
-  BadRequestError,
-  UnauthorizedError,
+  BadRequestError
 } = require("../../expressError");
 const moment = require('moment');
 const db = userDB;
 
-/** Related functions for users. */
+/*Related functions for user scores. */
 
 class Score {
 
 
-  /** Find all users.
-   *
-   * Returns [{ username, first_name, last_name, email, is_admin }, ...]
-   **/
+  /*Find all scores.
+   
+   Returns [{id, mp3Id, username, score, scoreTimestamp }, ...]
+   */
 
   static async findAll() {
     const scoreRes = await db.query(
@@ -34,20 +33,10 @@ class Score {
 
 
 
-
-  static async findAllSongScores(mp3_id) {
-    const scoreRes = await db.query(
-      `SELECT id, username,
-      score, score_timestamp as "scoreTimestamp"
-           FROM user_game_scores
-           WHERE mp3_id = $1
-           ORDER BY score DESC`,
-      [mp3_id]
-    );
-    return scoreRes.rows;
-  }
-
-
+  /*Find all undefeated top scores for all songs.
+ 
+ Returns [{id, mp3Id, username, score, scoreTimestamp }, ...]
+ */
   static async findAllTopScores(order) {
 
     const scoreRes = await db.query(
@@ -62,6 +51,35 @@ class Score {
 
     return scoreRes.rows;
   }
+
+
+
+  /*Find all scores for a given song.
+   
+   Returns [{id, username, score, scoreTimestamp }, ...]
+   */
+
+
+  static async findAllSongScores(mp3_id) {
+    const scoreRes = await db.query(
+      `SELECT id, username,
+      score, score_timestamp as "scoreTimestamp"
+           FROM user_game_scores
+           WHERE mp3_id = $1
+           ORDER BY score DESC`,
+      [mp3_id]
+    );
+    return scoreRes.rows;
+  }
+
+
+
+  /*Find undefeated top score for a given song.
+ 
+ Returns {id, username, score, scoreTimestamp }
+ 
+ If no top score, returns null
+ */
 
 
   static async getSongTopScore(mp3_id) {
@@ -86,6 +104,15 @@ class Score {
     return maxScore;
   }
 
+
+  /*Find the best score for each user for a given song.
+ 
+ Returns {id, username, score, scoreTimestamp }
+ 
+ If no scores for song, returns []
+ */
+
+
   static async getSongTopScores(mp3_id) {
     const scoreRes = await db.query(
       `SELECT id, username, score, score_timestamp as "scoreTimestamp"
@@ -109,6 +136,18 @@ class Score {
   }
 
 
+
+  /*Find all scores for a given user.
+  
+   can order by (all optional):
+  - score 
+  - score_timestamp
+  
+  Returns [{mp3ID, {scores}},...]
+  where scores is [{score, scoreTimestamp}, ...]
+  
+  If user has no scores, returns []
+  */
 
   static async findAllUserScores(username, order) {
     if (order !== "score" && order !== "score_timestamp") throw new BadRequestError(`Can't order by: ${order}`);
@@ -146,6 +185,14 @@ class Score {
 
 
 
+  /*Find all top scores for a given user.
+
+can order by (all optional):
+  - score 
+  - score_timestamp
+  
+Returns [{id, username, mp3ID, score, scoreTimestamp},...]
+*/
 
   static async getUserTopScores(username, order) {
     if (order !== "score" && order !== "score_timestamp") throw new BadRequestError(`Can't order by: ${order}`)
@@ -166,6 +213,16 @@ class Score {
   }
 
 
+
+  /*Find all scores for a given user and song.
+  
+     can order by (all optional):
+    - score 
+    - score_timestamp
+    
+  Returns [{id, username, score, scoreTimestamp},...]
+  */
+
   static async getUserSongScores(username, mp3_id, order) {
     if (order !== "score" && order !== "score_timestamp") throw new BadRequestError(`Can't order by: ${order}`)
     const scoreRes = await db.query(
@@ -179,6 +236,15 @@ class Score {
     );
     return scoreRes.rows;
   }
+
+
+
+  /*Find a user's best score for a given song.
+
+  Returns {id, score, scoreTimestamp}
+    If user has no best score for song, returns null
+  */
+
 
   static async getUserSongTopScore(username, mp3_id) {
     const scoreRes = await db.query(
@@ -205,6 +271,13 @@ class Score {
   }
 
 
+  /*Find a user's undefeated best scores (site-wide top score) .
+
+Returns [{id, mp3Id, username, score, scoreTimestamp},...]
+  If user has no best score for song, returns null
+*/
+
+
   static async getUserUndefeatedTopScores(username, order) {
     if (order !== "score" && order !== "score_timestamp") throw new BadRequestError(`Can't order by: ${order}`);
     const scoreRes = await db.query(
@@ -224,12 +297,11 @@ class Score {
 
 
 
+  /*Add a score.
 
+Returns {mp3Id, username, score, scoreTimestamp}
 
-
-
-
-
+*/
 
   static async addScore(mp3_id, username, score) {
 
@@ -256,8 +328,10 @@ class Score {
   }
 
 
-
-  /** Delete given user from database; returns undefined. */
+  /*Delete given score from database; returns undefined. 
+  
+     Throws NotFoundError if score not found.
+     */
 
   static async removeScore(id) {
     let result = await db.query(
@@ -271,12 +345,6 @@ class Score {
 
     if (!score) throw new NotFoundError(`No score: ${id}}`);
   }
-
-  /** Apply for job: update db, returns undefined.
-   *
-   * - username: username applying for job
-   * - jobId: job id
-   **/
 
 }
 

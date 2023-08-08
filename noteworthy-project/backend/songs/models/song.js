@@ -1,7 +1,6 @@
 "use strict";
 
 const { generalDB } = require("../../db");
-const bcrypt = require("bcrypt");
 const fs = require('fs');
 const path = require('path');
 
@@ -9,24 +8,26 @@ const { sqlForPartialUpdate } = require("../../helpers/sql");
 
 
 const {
-  NotFoundError,
-  BadRequestError,
-  UnauthorizedError,
+  NotFoundError
 } = require("../../expressError");
 
-const { BCRYPT_WORK_FACTOR } = require("../../config.js");
 
 const db = generalDB;
 
 
-/** Related functions for songs. */
+/*Related functions for songs. */
 
 class Song {
-  static async getmp3(mp3Id, baseUrl) {
+
+  /*Find base64 encoded data for song MP3 file.
+
+   Returns {encodedSong }
+   */
+
+  static async getmp3(mp3Id) {
 
     const folderPath = path.resolve(`./songs/mp3/${mp3Id}`);
     const songs = fs.readdirSync(folderPath);
-    console.log(songs[0])
     const song = songs[0]
     const songPath = path.join(folderPath, song);
     const songData = fs.readFileSync(songPath)
@@ -39,15 +40,14 @@ class Song {
 
 
 
-  // /** Find all Songs (optional filter on searchFilters).
-  //  *
-  //  * searchFilters (all optional):
-  //  * - title
-  //  * - dir
-  //  * 
-  //  *
-  //  * Returns [{ mp3_id, title, dir, song_length, bpm }, ...]
-  //  * */
+  /*Find all Songs (optional filter on searchFilters).
+
+   searchFilters (all optional):
+   - title
+   - dir
+
+   Returns [{ mp3_id, title, dir, genre }, ...]
+   */
 
   static async findAll(searchFilters = {}) {
     let query = `SELECT mp3_id,
@@ -60,8 +60,8 @@ class Song {
     const { title, dir } = searchFilters;
 
 
-    // For each possible search term, add to whereExpressions and queryValues so
-    // we can generate the right SQL
+    // For each possible search term, add to whereExpressions and queryValues to
+    //  generate the right SQL
 
     if (title) {
       queryValues.push(`%${title}%`);
@@ -86,6 +86,12 @@ class Song {
 
 
 
+
+  /*Find all Songs for specified genre 
+
+   Returns [{ mp3_id, title, dir, genre }, ...]
+   */
+
   static async searchGenre(genre) {
     const songsRes = await db.query(
       `SELECT mp3_id,
@@ -99,15 +105,11 @@ class Song {
 
   }
 
-  // /** Given a song, return data about song.
-  //  *
-  //  * Returns { mp3_id, title, dir, song_length, bpm, non_drum_tracks, drum_tracks}
-  //  *   where non_drum_tracks is [{id, track_name}, ...]
-  //  *   and where drum_tracks is [{id, track_name}, ...]
-
-  //  *
-  //  * Throws NotFoundError if not found.
-  //  **/
+  /*Given a song id, return data about song.
+   
+   Returns {song: { mp3_id, title, dir, genre, song_length, bpm}, {notes}}
+   Throws NotFoundError if the songs or it's notes are found.
+   */
 
   static async get(mp3Id) {
     const songRes = await db.query(
@@ -139,17 +141,15 @@ class Song {
     return { song, notes };
   }
 
-  // /** Update song data with `data`.
-  //  *
-  //  * This is a "partial update" --- it's fine if data doesn't contain all the
-  //  * fields; this only changes provided ones.
-  //  *
-  //  * Data can include: {mp3_id, title, dir, song_length, bpm}
-  //  *
-  //  * Returns {mp3_id, title, dir, song_length, bpm}
-  //  *
-  //  * Throws NotFoundError if not found.
-  //  */
+  /*Update song data with `data`.
+   
+   This is a "partial update" --- only provided fields will be updated.
+   Data can include: { title, dir, genre}
+   
+   Returns {mp3_id, title, dir, genre, song_length, bpm}
+   
+   Throws NotFoundError if song not found.
+   */
 
   static async update(mp3Id, data) {
     const { setCols, values } = sqlForPartialUpdate(
@@ -165,7 +165,7 @@ class Song {
                       WHERE mp3_id = ${mp3IdVarIdx} 
                       RETURNING mp3_id, 
                                 title, 
-                                dir,  
+                                dir, genre, 
                                 song_length,
                                 bpm`;
     const result = await db.query(querySql, [...values, mp3Id]);
@@ -176,10 +176,10 @@ class Song {
     return song;
   }
 
-  // /** Delete given song from database; returns undefined.
-  //  *
-  //  * Throws NotFoundError if song not found.
-  //  **/
+  /*Delete given song from database; returns undefined.
+   
+   Throws NotFoundError if song not found.
+   */
 
   static async remove(mp3Id) {
     const result = await db.query(

@@ -19,7 +19,7 @@ const router = new express.Router();
 
 
 /** GET /  =>
- *   { songs: [ {mp3Id, title, dir, ticksPerBeat }, ...] }
+ *   { songs: [{ mp3_id, title, dir, genre }, ...] }
  *
  * Can filter on provided search filters:
  * - title
@@ -45,9 +45,16 @@ router.get("/", checkAPIToken, async function (req, res, next) {
     }
 });
 
+
+/** GET /genre  =>
+ *   { songs: [{ mp3_id, title, dir, genre }, ...] }
+ *
+ * Songs are filtered by genre, genre type must be validated via songSearchSchema
+ *
+ * Authorization required: API_token
+ */
 router.get("/genre", checkAPIToken, async function (req, res, next) {
     const q = req.query;
-    console.log('q', q.genre)
 
     try {
         const validator = jsonschema.validate(q, songSearchSchema);
@@ -64,12 +71,11 @@ router.get("/genre", checkAPIToken, async function (req, res, next) {
 });
 
 
-/** GET /[mp3Id]  =>  { song, mp3Files }
+/** GET /[mp3Id]  =>  { song, notes, mp3Data }
  *
- *  song is { mp3_id, title, dir, ticksPerBeat, nonDrumTracks, drumTracks}
-//  *   where nonDrumTracks is [{id, track_name}, ...]
-//  *   and where drumTracks is [{id, track_name}, ...]
- *
+ *  song is { mp3_id, title, dir, genre, song_length, bpm }
+ *  notes is {id, notes}
+ *  mp3Data is {encodedSong}
  * Authorization required: API_token
  */
 
@@ -81,17 +87,12 @@ router.get("/:mp3Id", checkAPIToken, async function (req, res, next) {
         const baseUrl = `${req.protocol}://${req.get('host')}`;
         const mp3Data = await Song.getmp3(mp3Id, baseUrl)
 
-
-
-        // Additional JSON data to include in the response
         const jsonData = {
             song, notes,
             mp3Data
         };
 
-        // Set the content type as 'application/json'
         res.setHeader('Content-Type', 'application/json');
-        // Send the JSON object as the response
         res.json(jsonData);
 
     } catch (err) {
@@ -106,9 +107,10 @@ router.get("/:mp3Id", checkAPIToken, async function (req, res, next) {
  *
  * Patches song data.
  *
- * fields can be: { title, dir, ticksPerBeat}
+ * fields can be: { title, dir, genre}
+ * fields must be validated via songSearchSchema
  *
- * Returns { mp3Id, title, dir, ticksPerBeat }
+ * Returns {song: {mp3_id, title, dir, genre, song_length, bpm}}
  *
  * Authorization required: admin
  */

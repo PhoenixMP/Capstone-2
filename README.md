@@ -1,6 +1,6 @@
 
 # NoteWorthy
-Deployed on Render: https://noteworthy-srs1.onrender.com/
+Deployed on Render: https://noteworthy-play.onrender.com/
 
 ### About Noteworthy
 
@@ -93,7 +93,7 @@ The countdown feature provides a visual countdown from 3 before the start of gam
 #### __Dynamic Backgrounds__
 I've generated four distinct background videos using the AI video generation software, Runway Gen 2. These videos showcase abstract surrealist imagery centered around grand pianos. During gameplay users are treated to a visual spectacle as one of these randomly selected background videos accompanies their experience. This dynamic feature enhances immersion, providing players with engaging and visually captivating surroundings that complement the musical gameplay.
 
-#### __ Note Accuracy Feedback__
+#### __Note Accuracy Feedback__
 The visual feedback system for denotating the accuracy of a players keypress provides instantaneous cues to players. As users interact with falling notes and piano keys, a color-coded system activates: accurate hits illuminate both the falling note and corresponding piano key in green, while mistimed actions trigger a red glow. Below the virtual piano keys, real-time descriptors ("perfect," "great," "good," or "miss") appear, accompanied by the precise points earned for that note. This swift, dynamic feedback loop enhances player awareness, encouraging timely and precise actions for an immersive gaming experience.
 
 #### __Audio Feedback__
@@ -111,7 +111,7 @@ This dynamic connection between player inputs and audio responses provides an es
 ### Database Schema
 
 ### NoteWorthy Backend API
-
+https://noteworthy-backend.onrender.com/
 
 ### Tech Stack
 Front End:

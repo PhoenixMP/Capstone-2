@@ -1,19 +1,17 @@
 "use strict";
 
-/** Convenience middleware to handle common auth cases in routes. */
+/*Convenience middleware to handle common auth cases in routes. */
 
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
-const { UnauthorizedError } = require("../expressError");
-const { API_token } = require("../config");
+const { UnauthorizedError, API_token } = require("../expressError");
 
 
-/** Middleware: Authenticate user.
- *
- * If a token was provided, verify it, and, if valid, store the token payload
- * on res.locals (this will include the username and isAdmin field.)
- *
- * It's not an error if no token was provided or if the token is not valid.
+
+/*Middleware: Check for API token 
+
+  Check the request header for an "apiauth" value and veriy it is correct
+ 
  */
 function checkAPIToken(req, res, next) {
   try {
@@ -34,6 +32,14 @@ function checkAPIToken(req, res, next) {
   }
 }
 
+
+/*Middleware: Authenticate user
+
+ If a token was provided, verify it, and, if valid, store the token payload
+ on res.locals (this will include the username and isAdmin field.)
+ 
+ */
+
 function authenticateJWT(req, res, next) {
   try {
     const authHeader = req.headers && req.headers.userauth;
@@ -49,9 +55,9 @@ function authenticateJWT(req, res, next) {
   }
 }
 
-/** Middleware to use when they must be logged in.
- *
- * If not, raises Unauthorized.
+/*Middleware to use when user must be logged in.
+ 
+ If not, raises Unauthorized.
  */
 
 function ensureLoggedIn(req, res, next) {
@@ -64,9 +70,9 @@ function ensureLoggedIn(req, res, next) {
 }
 
 
-/** Middleware to use when they be logged in as an admin user.
- *
- *  If not, raises Unauthorized.
+/*Middleware to use when user must be logged in as an admin user.
+ 
+  If not, raises Unauthorized.
  */
 
 function ensureAdmin(req, res, next) {
@@ -80,10 +86,10 @@ function ensureAdmin(req, res, next) {
   }
 }
 
-/** Middleware to use when they must provide a valid token & be user matching
- *  username provided as route param.
- *
- *  If not, raises Unauthorized.
+/*Middleware to use when user must provide either a valid token or have a username that matches
+  username provided as route param.
+ 
+  If not, raises Unauthorized.
  */
 
 function ensureCorrectUserOrAdmin(req, res, next) {

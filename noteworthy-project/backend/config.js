@@ -9,22 +9,12 @@ const SECRET_KEY = process.env.SECRET_KEY
 
 const PORT = +process.env.PORT || 3002;
 
-let DB_URI_info_1 = {
-  user: (process.env.USER_1),
-  host: (process.env.HOST),
-  password: (process.env.PASSWORD_1),
-  ssl: {
-    rejectUnauthorized: false
-  }
-}
+//database for songs
+let general_DB_URI = (process.env.general_DB_URI)
 
-let DB_URI_info_2 = {
-  user: (process.env.USER_2),
-  host: (process.env.HOST),
-  password: (process.env.PASSWORD_2),
-  ssl: true,
-  sslmode: 'require'
-}
+//database for users and scores
+let user_DB_URI = (process.env.user_DB_URI)
+
 
 const API_token = process.env.API_TOKEN
 
@@ -39,7 +29,7 @@ module.exports = {
   SECRET_KEY,
   PORT,
   BCRYPT_WORK_FACTOR,
-  DB_URI_info_1,
-  DB_URI_info_2,
+  general_DB_URI,
+  user_DB_URI,
   API_token
 };

@@ -1,15 +1,11 @@
 const { Client } = require("pg");
+const { general_DB_URI, user_DB_URI } = require("./config");
 
 let generalDB = null; // Connection for general data database
 let userDB = null; // Connection for user data database
 
 
-
-let general_DB_URI = (process.env.general_DB_URI)
-
-let user_DB_URI = (process.env.user_DB_URI)
-
-
+//database for song information
 generalDB = new Client(
   {
     connectionString: general_DB_URI,
@@ -18,6 +14,8 @@ generalDB = new Client(
     }
   });
 
+
+//database for users and scores
 userDB = new Client(
   {
     connectionString: user_DB_URI,

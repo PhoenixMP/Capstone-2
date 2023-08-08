@@ -12,15 +12,17 @@ const {
 const { BCRYPT_WORK_FACTOR } = require("../../config.js");
 
 const db = userDB;
-/** Related functions for users. */
+/*Related functions for users. */
 
 class UserProfile {
-  /** authenticate user with username, password.
-   *
-   * Returns { username, first_name, last_name, email, is_admin }
-   *
-   * Throws UnauthorizedError is user not found or wrong password.
-   **/
+
+
+  /*authenticate user with username, password.
+   
+   Returns { username, firstName, lastName, isAdmin }
+   
+   Throws UnauthorizedError if user not found or wrong password.
+   */
 
   static async authenticate(username, password) {
     // try to find the user first
@@ -49,12 +51,14 @@ class UserProfile {
     throw new UnauthorizedError("Invalid username/password");
   }
 
-  /** Register user with data.
-   *
-   * Returns { username, firstName, lastName, email, isAdmin }
-   *
-   * Throws BadRequestError on duplicates.
-   **/
+
+
+  /*Register user with data.
+   
+   Returns { username, firstName, lastName, isAdmin }
+   
+   Throws BadRequestError on duplicates.
+   */
 
   static async register(
     { username, password, firstName, lastName, isAdmin }) {
@@ -94,10 +98,12 @@ class UserProfile {
     return user;
   }
 
-  /** Find all users.
-   *
-   * Returns [{ username, first_name, last_name, email, is_admin }, ...]
-   **/
+
+
+  /*Find all users.
+   
+   Returns [{ username, firstName, lastName, isAdmin }, ...]
+   */
 
   static async findAll() {
     const result = await db.query(
@@ -112,13 +118,15 @@ class UserProfile {
     return result.rows;
   }
 
-  /** Given a username, return data about user.
-   *
-   * Returns { username, first_name, last_name, is_admin, jobs }
-   *   where jobs is { id, title, company_handle, company_name, state }
-   *
-   * Throws NotFoundError if user not found.
-   **/
+
+
+  /*Given a username, return data about user.
+   
+   Returns { username, firstName, lastName, isAdmin }
+
+   
+   Throws NotFoundError if user not found.
+   */
 
   static async get(username) {
     const userRes = await db.query(
@@ -140,21 +148,15 @@ class UserProfile {
     return user;
   }
 
-  /** Update user data with `data`.
-   *
-   * This is a "partial update" --- it's fine if data doesn't contain
-   * all the fields; this only changes provided ones.
-   *
-   * Data can include:
-   *   { firstName, lastName, password, email, isAdmin }
-   *
-   * Returns { username, firstName, lastName, email, isAdmin }
-   *
-   * Throws NotFoundError if not found.
-   *
-   * WARNING: this function can set a new password or make a user an admin.
-   * Callers of this function must be certain they have validated inputs to this
-   * or a serious security risks are opened.
+  /*Update user data with `data`.
+   
+   Data can include:
+     { firstName, lastName, password, isAdmin }
+   
+   Returns { username, firstName, lastName, isAdmin }
+   
+   Throws NotFoundError if not found.
+   
    */
 
   static async update(username, data) {
@@ -187,7 +189,9 @@ class UserProfile {
     return user;
   }
 
-  /** Delete given user from database; returns undefined. */
+  /*Delete given user from database;
+     Throws NotFoundError if user not found.
+      returns undefined. */
 
   static async remove(username) {
     let result = await db.query(
@@ -202,11 +206,7 @@ class UserProfile {
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
-  /** Apply for job: update db, returns undefined.
-   *
-   * - username: username applying for job
-   * - jobId: job id
-   **/
+
 
 }
 

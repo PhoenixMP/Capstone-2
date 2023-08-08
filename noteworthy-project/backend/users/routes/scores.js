@@ -7,7 +7,6 @@ const express = require("express");
 
 const { BadRequestError } = require("../../expressError");
 const { checkAPIToken,
-    ensureLoggedIn,
     ensureAdmin,
     ensureCorrectUserOrAdmin } = require("../../middleware/auth");
 const Score = require("../models/score");
@@ -17,20 +16,10 @@ const newScoreSchema = require("../schemas/newScore.json");
 const router = new express.Router();
 
 
-
-
-
-
-
-
 /** GET /  =>
- *   { scores: [ {mp3Id, title, dir, ticksPerBeat }, ...] }
- *
- * Can filter on provided search filters:
- * - title
- * - dir
- *
- * Authorization required: API_token
+  { scores: [{id, mp3Id, username, score, scoreTimestamp }, ...] }
+ 
+  Authorization required: API_token
  */
 
 router.get("/", checkAPIToken, async function (req, res, next) {
@@ -44,6 +33,11 @@ router.get("/", checkAPIToken, async function (req, res, next) {
 });
 
 
+/** GET /top  =>
+  { scores: [{id, mp3Id, username, score, scoreTimestamp }, ...] }
+ 
+  Authorization required: API_token
+ */
 router.get("/top", checkAPIToken, async function (req, res, next) {
 
     try {
@@ -54,6 +48,12 @@ router.get("/top", checkAPIToken, async function (req, res, next) {
     }
 });
 
+
+/** GET /[mp3Id]/top  =>
+  { score: {id, username, score, scoreTimestamp } }
+ 
+  Authorization required: API_token
+ */
 router.get("/:mp3Id/top", checkAPIToken, async function (req, res, next) {
     const mp3Id = req.params.mp3Id
     try {
@@ -64,7 +64,11 @@ router.get("/:mp3Id/top", checkAPIToken, async function (req, res, next) {
     }
 });
 
-
+/** GET /[mp3Id]/all-top  =>
+  { scores: [{id, username, score, scoreTimestamp },...] }
+ 
+  Authorization required: API_token
+ */
 router.get("/:mp3Id/all-top", checkAPIToken, async function (req, res, next) {
     const mp3Id = req.params.mp3Id
     try {
@@ -75,6 +79,12 @@ router.get("/:mp3Id/all-top", checkAPIToken, async function (req, res, next) {
     }
 });
 
+
+/** GET /[mp3Id]/all  =>
+  { scores: [{id, username, score, scoreTimestamp }, ...] }
+ 
+  Authorization required: API_token
+ */
 router.get("/:mp3Id/all", checkAPIToken, async function (req, res, next) {
     const mp3Id = req.params.mp3Id
     try {
@@ -84,6 +94,12 @@ router.get("/:mp3Id/all", checkAPIToken, async function (req, res, next) {
         return next(err);
     }
 });
+
+/** GET /[mp3Id]/[username]/top  =>
+  { score: {id, score, scoreTimestamp} }
+ 
+  Authorization required: API_token, is correct user or is admin
+ */
 
 router.get("/:mp3Id/:username/top", checkAPIToken, ensureCorrectUserOrAdmin, async function (req, res, next) {
     const { mp3Id, username } = req.params;
@@ -102,6 +118,12 @@ router.get("/:mp3Id/:username/top", checkAPIToken, ensureCorrectUserOrAdmin, asy
 });
 
 
+
+/** GET /[mp3Id]/[username]/all-scores  =>
+  { scores: [{id, username, score, scoreTimestamp},...] }
+ 
+  Authorization required: API_token, is correct user or is admin
+ */
 router.get("/:mp3Id/:username/all-scores", checkAPIToken, ensureCorrectUserOrAdmin, async function (req, res, next) {
     const { mp3Id, username } = req.params;
     const q = req.query;
@@ -117,13 +139,19 @@ router.get("/:mp3Id/:username/all-scores", checkAPIToken, ensureCorrectUserOrAdm
     }
 });
 
+
+/** GET /[username]/all-scores  =>
+  { scores: [{mp3ID, {scores}},...]}
+  where scores is [{score, scoreTimestamp}, ...] }
+ 
+  Authorization required: API_token, is correct user or is admin
+ */
 router.get("/:username/all-scores", checkAPIToken, ensureCorrectUserOrAdmin, async function (req, res, next) {
     const username = req.params.username;
 
     const q = req.query;
     let order;
     (q !== "undefined" ? order = "score_timestamp" : order = q.sort)
-
 
     try {
         const scores = await Score.findAllUserScores(username, order);
@@ -134,6 +162,11 @@ router.get("/:username/all-scores", checkAPIToken, ensureCorrectUserOrAdmin, asy
 });
 
 
+/** GET /[username]/top-scores  =>
+  { scores: [{id, username, mp3ID, score, scoreTimestamp},...] }
+ 
+  Authorization required: API_token, is correct user or is admin
+ */
 router.get("/:username/top-scores", checkAPIToken, ensureCorrectUserOrAdmin, async function (req, res, next) {
     const username = req.params.username;
 
@@ -150,6 +183,12 @@ router.get("/:username/top-scores", checkAPIToken, ensureCorrectUserOrAdmin, asy
     }
 });
 
+
+/** GET /[username]/undefeated-scores  =>
+  { scores: [{id, mp3Id, username, score, scoreTimestamp},...]}
+ 
+  Authorization required: API_token, is correct user or is admin
+ */
 router.get("/:username/undefeated-scores", checkAPIToken, ensureCorrectUserOrAdmin, async function (req, res, next) {
     const username = req.params.username;
 
@@ -169,7 +208,11 @@ router.get("/:username/undefeated-scores", checkAPIToken, ensureCorrectUserOrAdm
 
 
 
-
+/** POST /new-score  =>
+{newScore: {mp3Id, username, score, scoreTimestamp}}
+ 
+  Authorization required: is correct user or is admin
+ */
 router.post("/new-score", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
         const validator = jsonschema.validate(req.body, newScoreSchema);
@@ -187,10 +230,13 @@ router.post("/new-score", ensureCorrectUserOrAdmin, async function (req, res, ne
     }
 });
 
-// ensureCorrectUserOrAdmin,
 
 
-
+/** DELETE /[id]  =>
+{delted: id}
+ 
+  Authorization required: API_token,is admin 
+ */
 router.delete("/:id", ensureAdmin, checkAPIToken, async function (req, res, next) {
     try {
         await Score.removeSCore(req.params.id);
