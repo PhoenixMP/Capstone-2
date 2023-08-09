@@ -2,15 +2,19 @@ import React, { useState, useContext, useEffect } from 'react';
 import keyboardImage from "../../images/keyboard.png"
 
 
-
+/**
+ * Component that provides an explanation of how to play the game.
+ * Displays instructions and an image of a keyboard.
+ *
+ * @component
+ * @param {function} handleRemoveExplain - Callback function to remove the component.
+ */
 
 const GameExplain = ({ handleRemoveExplain }) => {
 
 
 
     return (
-
-
 
         <div className="game-explain-container">
             <div className="game-explain-text">

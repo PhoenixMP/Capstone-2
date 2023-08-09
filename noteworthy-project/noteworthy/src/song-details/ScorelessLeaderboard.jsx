@@ -4,21 +4,29 @@ import "./Leaderboard.css"
 import "./recordPlayer.css"
 
 
-
-/** Show limited information about a job.
+/**
+ * Component for displaying a leaderboard when no scores are recorded for a song.
  *
- * Is rendered by JobCardList to show a "card" for each job.
+ * Displays a message encouraging the user to set a score for the song, along with a
+ * button to log in if the user is not logged in.
  *
- * Receives apply func prop from parent, which is called on apply.
- *
- * JobCardList -> JobCard
+ * @component
+ * @param {function} navigateGame - Function to navigate to the game page
+ * @param {object} song - Information about the song for which the leaderboard is displayed
+ * @return {JSX.Element} ScorelessLeaderboard component
  */
+
 
 function ScorelessLeaderboard({ navigateGame, song, }) {
 
-
     const { currentUser, toggleLoginForm } = useContext(userContext);
 
+
+    /**
+ * Get JSX for the appropriate message based on the user's authentication status.
+ *
+ * @return {JSX.Element} JSX for the message encouraging the user to set a score
+ */
     const getMsgJSX = () => {
         if (currentUser) {
             return (<div className="no-scores-div">Be the first to set a score for this song! </div>)

@@ -1,10 +1,16 @@
-import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+
 import userContext from "../../auth/UserContext";
-import GameContext from "../GameContext";
 import EndGameButtons from "./EndGameButtons";
 import "./NewScorePage.css"
 
+/**
+ * Component that displays the new top score or new personal best result summary.
+ *
+ * @component
+ * @param {boolean} isTop - Indicates whether the score is a new top score.
+ * @return {JSX.Element} The new top score or new personal best result summary JSX.
+ */
 
 
 function NewTopScore({ isTop }) {
@@ -12,7 +18,11 @@ function NewTopScore({ isTop }) {
 
 
 
-
+    /**
+     * Checks if the user is logged in and returns appropriate JSX.
+     *
+     * @return {JSX.Element|null} JSX for login prompt or null if user is logged in.
+     */
     const checkLogin = () => {
         if (!currentUser) {
             return (

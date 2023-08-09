@@ -1,6 +1,18 @@
 import React from "react";
 import "./Lights.css"
 
+
+/**
+ * Component rendering a grid of lights for decorative purposes.
+ *
+ * This component displays a grid of light elements, adding a decorative element
+ * to the UI. Each light is represented as a <span> element with a unique class name.
+ *
+ * @component
+ * @return {JSX.Element} Lights component
+ */
+
+
 function Lights() {
     return (
         <div className='lights-container'>

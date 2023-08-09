@@ -4,10 +4,17 @@ import UserContext from "../../auth/UserContext"
 import GamePlayButtons from "./GamePlayButtons"
 import './PopUpConfirm.css'
 
+/**
+ * Component for displaying a pop-up confirmation dialog.
+ *
+ * @component
+ * @param {string} message - The message to be displayed in the dialog.
+ * @param {Function} handleYes - Callback function for the "Yes" button.
+ * @param {Function} handleNo - Callback function for the "No" button.
+ * @return {JSX.Element} The pop-up confirmation dialog JSX.
+ */
 
 const PopUpConfirm = ({ message, handleYes, handleNo }) => {
-
-
 
     return (
 

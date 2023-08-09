@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
-import Melodic2API from "../api/api";
+import NoteworthyAPI from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import FallingNotes from "../common/FallingNotes";
 import userContext from "../auth/UserContext";
@@ -10,13 +10,20 @@ import './Profile.css'
 
 
 
-/** Homepage of site.
+/** Routed at /profile
  *
- * Shows welcome message or login/register buttons.
+ * Component representing the user's profile page.
  *
- * Routed at /
+ * This component serves as the user's profile page, displaying various score-related
+ * information and allowing users to toggle between their personal best and undefeated scores.
+ * It retrieves the user's personal best and undefeated scores from the API and populates the information
+ * with details about the songs.
  *
- * MyRoutes -> Homepage
+ * @component
+ * @return {JSX.Element} Profile component
+ *
+ * @memberof MyRoutes
+ * @see {@link MyRoutes}
  */
 
 const Profile = () => {
@@ -27,26 +34,25 @@ const Profile = () => {
     const [undefeatedScoreInfo, setUndefeatedScoreInfo] = useState(null)
     const [undefeatedScores, setUndefeatedScores] = useState(null)
     const [toggleScore, setToggleScore] = useState("top")
-    const [songsReady, setSongsReady] = useState(false)
+    const [songsReady, setSongsReady] = useState(false)     // Flag to indicate if songs data is ready for processing
 
-    const { setOnGamePage, currentUser, onHoldScore, addScore } = useContext(userContext);
+    const { setOnGamePage, currentUser } = useContext(userContext);
 
 
-
+    /**
+      * Fetches the user's scores from the API and sets up songs for display.
+      */
     useEffect(function getScores() {
         setOnGamePage(false)
 
-
-
-
         async function getUserScores() {
 
-            const top = await Melodic2API.getUserTopScores(currentUser.username);
+            const top = await NoteworthyAPI.getUserTopScores(currentUser.username);
             if (top.length === 0) {
                 setTopScores(false);
             } else { setTopScores(top) }
 
-            const undefeated = await Melodic2API.getUserUndefeatedTopScores(currentUser.username);
+            const undefeated = await NoteworthyAPI.getUserUndefeatedTopScores(currentUser.username);
             if (undefeated.length === 0) {
                 setUndefeatedScores(false);
             } else { setUndefeatedScores(undefeated) }
@@ -58,6 +64,11 @@ const Profile = () => {
 
     }, [currentUser]);
 
+
+
+    /**
+  * Compares user's scores with available songs and sets up score details for display.
+  */
     useEffect(() => {
 
         function compareArrays(scores, songs) {
@@ -76,7 +87,7 @@ const Profile = () => {
 
 
         async function getAllSongs() {
-            const songs = await Melodic2API.getAllSongs();
+            const songs = await NoteworthyAPI.getAllSongs();
             const topScoreDetails = compareArrays(topScores, songs)
             const undefeatedScoreDetails = compareArrays(undefeatedScores, songs)
             setTopScoreInfo(topScoreDetails)
@@ -91,7 +102,11 @@ const Profile = () => {
 
 
 
-
+    /**
+     * Render the top scores view.
+     *
+     * @returns {JSX.Element} Rendered top scores view
+     */
     function viewTopScores() {
         return (
             <div className="profile-scores">
@@ -101,6 +116,13 @@ const Profile = () => {
         )
     }
 
+
+
+    /**
+   * Render the undefeated scores view.
+   *
+   * @returns {JSX.Element} Rendered undefeated scores view
+   */
     function viewUndefeatedScores() {
         return (
             <div className="profile-scores">
@@ -110,6 +132,12 @@ const Profile = () => {
         )
     }
 
+
+    /**
+ * Toggle the view between personal best and undefeated scores.
+ *
+ * @returns {JSX.Element} Rendered scores view based on toggle state
+ */
     function toggleView() {
         if (toggleScore === "top") {
             return viewTopScores();
@@ -118,10 +146,14 @@ const Profile = () => {
         }
     };
 
+
+    //Set the view to display personal best scores.
     function toggleToTop() {
         setToggleScore("top");
     };
 
+
+    //Set the view to display undefeated scores.
     function toggleToUndefeated() {
         setToggleScore("undefeated");
     };

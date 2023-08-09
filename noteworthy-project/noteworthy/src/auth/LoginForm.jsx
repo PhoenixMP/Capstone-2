@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./authForm.css"
 import userContext from "./UserContext";
 
@@ -8,23 +8,18 @@ import userContext from "./UserContext";
  * Shows form and manages update to state on changes.
  * On submission:
  * - calls login function prop
- * - redirects to / route
- *
- * MyRoutes -> LoginForm 
- * Routed as /login
+ * 
+ * Form visibility can be toggled on all routes. 
+ * Login errors will be displayed on form 
  */
-
-
 const LoginForm = ({ login, toggleSignupForm }) => {
     const INITIAL_STATE = { username: "", password: "" };
     const [formData, setFormData] = useState(INITIAL_STATE);
     const { onGamePage, loginFormError } = useContext(userContext)
-    const navigate = useNavigate();
     const { mp3Id } = useParams()
 
     /** Handle form submit:
-     *
-     * Calls login func prop and, if successful, redirect to /.
+     * Calls login func prop
      */
     const handleSubmit = evt => {
         evt.preventDefault();

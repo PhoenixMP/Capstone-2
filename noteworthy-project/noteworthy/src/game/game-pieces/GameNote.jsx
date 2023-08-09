@@ -1,39 +1,41 @@
 
-import React, { useEffect, useContext, useState, useRef } from "react";
+import React, { useEffect, useContext } from "react";
 import { useInView } from 'react-intersection-observer';
 import gameContext from "../GameContext";
 
-
-
-/** Homepage of site.
+/**
+ * Represents a musical note in the game.
  *
- * Shows welcome message or login/register buttons.
+ * This component renders a musical note that cascades down within the game, applying appropriate styles and
+ * animations based on the note's pitch, position, and timing.
  *
- * Routed at /
- *
- * MyRoutes -> Homepage
+ * @component
+ * @param {number} idx - Index of the note.
+ * @param {number} noteStart - Start time of the note.
+ * @param {number} noteEnd - End time of the note.
+ * @param {number} pitch - Pitch of the note.
+ * @param {number} songLength - Length of the song in seconds.
+ * @param {number} bpm - Beats per minute of the song.
  */
 
 const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
     const { viewHeight, setInPlayKeys, accuracyAlert, checkKeyInPlay, checkKeyOutOfPlay } = useContext(gameContext);
+
+    // Distance calculation and rootMargin for intersection observer
     const distanceFromTop = viewHeight - 256;
     const rootMarginSpecs = `${-distanceFromTop}px 0px 0px 0px`
 
 
+    // Use the `useInView` hook to determine if the note is in the viewport
     const { ref, inView } = useInView({
-        /* Optional options */
         rootMargin: rootMarginSpecs,
         threshold: 0
     });
 
 
-    const beatsPerSecond = bpm / 60
-    const miliSecondsPerBeat = 1000 / (beatsPerSecond)
-
-
+    //Note characteristics calculation
     const StreamContainerHeight = songLength * (10000 / 60)
-
     const noteLength = noteEnd - noteStart
     const noteHeight = (noteLength / songLength) * StreamContainerHeight
     const blackNoteWidth = 50; //px
@@ -57,6 +59,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     };
 
 
+    // Convert pitch to note name (e.g., C, C#, D, etc.)
     const convertPitchToNote = (pitch) => {
         const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         const noteIndex = pitch % 12;
@@ -65,12 +68,14 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
     const noteName = convertPitchToNote(pitch)
 
+    // Calculate note's width, left position, and bottom position
     const noteWidth = noteKey[noteName]['width']
     const letter = noteKey[noteName]["keyboardKey"]
     const noteBottomPosition = (noteStart / songLength) * StreamContainerHeight
     const noteLeftPosition = noteKey[noteName]['leftPosition']
 
 
+    // Define the style for the note element
     const noteStyle = {
         height: `${noteHeight}px`,
         width: `${noteWidth}px`,
@@ -82,7 +87,7 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
     (noteKey[noteName]['width'] === whiteNoteWidth) ? gameNoteClass = 'white-game-note' : gameNoteClass = 'black-game-note';
 
 
-
+    //Effect to manage note in-play state and accuracy checking.
     useEffect(() => {
 
         if (inView) {
@@ -91,11 +96,13 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
             const currTime = Date.now();
             const endTime = currTime + noteLength_ms;
 
-
+            // Set the note as in-play and start tracking its timing
             setInPlayKeys(prevState => ({
                 ...prevState,
                 [letter]: { startTime: currTime, endTime }
             }));
+
+            // Check if the note is pressed and update accuracy if necessary
 
             checkKeyInPlay(letter, currTime, endTime);
 
@@ -125,11 +132,5 @@ const GameNote = ({ idx, noteStart, noteEnd, pitch, songLength, bpm }) => {
 
 };
 export default GameNote;
-
-// ${(inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] === 'Miss') ? 'inaccurate' : ''} 
-// ${ (inView && accuracyAlert.hasOwnProperty(letter) && accuracyAlert[letter] !== 'Miss') ? 'accurate' : '' }      
-// ${ (inView) ? 'in-play' : '' } 
-
-
 
 

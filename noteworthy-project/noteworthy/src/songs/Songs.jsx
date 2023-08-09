@@ -1,7 +1,7 @@
 import React, { Suspense, useState, useEffect, useContext } from "react";
 import { useErrorBoundary } from 'react-error-boundary'
 import Search from "../common/SearchForm";
-import Melodic2API from "../api/api";
+import NoteworthyAPI from "../api/api";
 import SongCardList from "./SongCardList";
 import LoadingSpinner from "../common/LoadingSpinner";
 import FallingNotes from "../common/FallingNotes";
@@ -11,7 +11,20 @@ import useAsyncError from "../hooks/useAsyncError";
 import "./Songs.css"
 
 
+/**
+ * Routed at /songs
 
+ * Component to display a list of songs with search and genre filter options.
+ *
+ * This component fetches and displays a list of songs from the API. It includes
+ * search functionality by title and genre filters. The song list is shown as
+ * SongCardList components with additional features.
+ *
+ * @component
+ * @return {JSX.Element} Songs component
+ * @memberof MyRoutes
+ * @see {@link MyRoutes}
+ */
 
 
 const Songs = () => {
@@ -39,6 +52,7 @@ const Songs = () => {
 
     ];
 
+    // Fetch all songs and scores on component mount
     useEffect(function getAllSongsOnMount() {
         setLoading(true);
         setOnGamePage(false)
@@ -48,12 +62,12 @@ const Songs = () => {
 
     }, []);
 
-
+    // Fetch song scores and associate with songs
     useEffect(function getSongScores() {
         if (songs !== null) {
 
             async function compareScores() {
-                let scores = await Melodic2API.getAllTopScores()
+                let scores = await NoteworthyAPI.getAllTopScores()
                 const songWithScores = songs.map((song) => {
                     const mp3Id = song.mp3_id;
                     const matchingScore = scores.find((score) => score.mp3Id === mp3Id);
@@ -90,7 +104,7 @@ const Songs = () => {
     /** Triggered by search form submit; reloads songs. */
     async function searchTitle(title) {
         try {
-            let songs = await Melodic2API.getAllSongs({ title, dir: title });
+            let songs = await NoteworthyAPI.getAllSongs({ title, dir: title });
             setSongs(songs);
         } catch (error) {
             throwError(new Error("Async Error"))
@@ -99,23 +113,14 @@ const Songs = () => {
 
     }
 
-    /** Triggered by search form submit; reloads songs. */
+    /** Triggered by clicking genre button; reloads songs. */
     async function searchGenre(genre) {
 
-        let songs = await Melodic2API.searchGenre({ genre });
+        let songs = await NoteworthyAPI.searchGenre({ genre });
 
         setGenreButton(genre)
         setSongs(songs);
-
-
     }
-
-    async function getTopScore(mp3Id) {
-
-        let topScore = await Melodic2API.getSongTopScore(mp3Id)
-        return topScore
-    }
-
 
 
 

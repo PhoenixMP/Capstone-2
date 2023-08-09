@@ -2,6 +2,12 @@ import React from 'react';
 import "./Streamers.css"
 const Streamers = () => {
 
+    /**
+     * @component
+     * Component displaying colorful confetti streamers falling in the game background.
+     * 
+     * @returns {JSX.Element} The Streamers component.
+        */
 
     return (
 

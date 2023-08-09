@@ -1,39 +1,48 @@
-import React, { useState, useEffect, useLayoutEffect, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import Melodic2API from "../../api/api"
+import NoteworthyAPI from "../../api/api"
 import GameContext from "../GameContext";
 import UserContext from '../../auth/UserContext';
-import base64 from 'react-native-base64';
 
+
+
+/**
+ * Component that displays end game buttons and handles their functionalities.
+ * Provides options to restart the game, exit the game, and save the player's score.
+ * Uses context to access game-related and user-related states and functions.
+ * @component
+ * @return { JSX.Element } EndGameButtons component
+ */
 const EndGameButtons = () => {
 
     const [resetPrompt, setResetPrompt] = useState(false);
     const [exitPrompt, setExitPrompt] = useState(false);
-    const [saveEarlyPrompt, setSaveEarlyPrompt] = useState(false)
 
     const navigate = useNavigate();
 
-    const { isAnimationStarted, handleStop, handleRestartGame, handlePlay, } = useContext(GameContext);
+    const { handleStop, handleRestartGame, handlePlay, } = useContext(GameContext);
     const { setShowLogin, currentUser, totalScore, userBeatTop, userBeatPersonalBest, setOnGamePage } = useContext(UserContext)
 
     const { mp3Id } = useParams()
 
-
-
-
+    //Function to save the player's score to the server.
     async function addScore() {
-        await Melodic2API.saveScore({ mp3Id: `${mp3Id}`, username: currentUser.username, score: totalScore })
+        await NoteworthyAPI.saveScore({ mp3Id: `${mp3Id}`, username: currentUser.username, score: totalScore })
     }
 
+    /**
+       * Function to handle the submission of the player's score.
+       * It saves the score, restarts the game, and navigates back to the song details page.
+       */
     function handleSubmitScore() {
         addScore();
         handleRestartGame();
         setOnGamePage(false)
         navigate(`/song/${mp3Id}`);
-
     }
 
 
+    //Function to handle exiting the game.
     const handleExit = () => {
         setOnGamePage(false)
         handleRestartGame()
@@ -41,6 +50,7 @@ const EndGameButtons = () => {
     }
 
 
+    //Function to handle restarting the game.
     const handleRestart = () => {
         handleStop();
         handleRestartGame();
@@ -48,25 +58,26 @@ const EndGameButtons = () => {
         handlePlay();
     }
 
-
+    //Function to display the exit prompt.
     const handleExitPrompt = () => {
         setExitPrompt(true)
         setResetPrompt(false)
     }
 
-
+    //Function to display the restart prompt.
     const handleRestartPrompt = () => {
         setResetPrompt(true)
         setExitPrompt(false)
     }
 
-
+    //Function to show the login/signup form.
     const handleShowLogin = () => {
         setShowLogin(true)
         setResetPrompt(false)
         setExitPrompt(false)
     }
 
+    //Function to render the restart button JSX.
     const getRestartButtonJSX = () => {
         if (!resetPrompt) {
             return (
@@ -81,6 +92,7 @@ const EndGameButtons = () => {
 
     }
 
+    //Function to render the exit button JSX.
     const getExitButtonJSX = () => {
 
         if (!exitPrompt) {
@@ -89,10 +101,10 @@ const EndGameButtons = () => {
         } else {
             return (<button className="save-btn  prompt" onClick={handleExit}>Confirm Exit Without Saving?</button>)
         }
-
-
     }
 
+
+    //Function to render the save score button JSX.
     const getSaveScoreButtonJSX = () => {
         if (currentUser && (userBeatPersonalBest || userBeatTop)) {
             return (<button className="save-btn save" onClick={handleSubmitScore}>Save Score</button>)
@@ -100,12 +112,7 @@ const EndGameButtons = () => {
         } else if (!currentUser) {
             return (<button className="save-btn save" onClick={handleShowLogin}>Login/Signup</button>)
         }
-
-
     }
-
-
-
 
 
     return (
@@ -113,8 +120,6 @@ const EndGameButtons = () => {
             {getSaveScoreButtonJSX()}
             {getRestartButtonJSX()}
             {getExitButtonJSX()}
-
-
         </div>
     );
 };

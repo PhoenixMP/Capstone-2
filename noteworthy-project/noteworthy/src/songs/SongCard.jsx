@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./SongCard.css"
-import hipHopIcon from "../images/icons/breakdance.png"
-// import "./images/icons/disco-ball.png"
-// import "./images/icons/games.png"
-// import "./images/icons/hand.png"
-// import "./images/icons/headphone-symbol.png"
 
-
-
-
-
-/** Show limited information about a job.
+/**
+ * Component to display a song card with details and visual effects.
  *
- * Is rendered by JobCardList to show a "card" for each job.
+ * This component renders a song card containing information like title, dir,
+ * username of top scorer, and genre. It also applies dynamic background and text colors
+ * based on the order and card number. The genre is used to apply a specific class for styling.
  *
- * Receives apply func prop from parent, which is called on apply.
- *
- * JobCardList -> JobCard
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.mp3Id - The unique ID of the song.
+ * @param {string} props.title - The title of the song.
+ * @param {string} props.dir - The directory of the song.
+ * @param {string} props.username - The username of the top scorer.
+ * @param {string} props.genre - The genre of the song.
+ * @param {number} props.cardNumber - The total number of cards.
+ * @param {number} props.order - The order of the card.
+ * @return {JSX.Element} SongCard component
  */
 
 function SongCard({ mp3Id, title, dir, username, genre, cardNumber, order }) {

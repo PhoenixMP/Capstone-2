@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../common/LoadingSpinner";
 
-
 import video1 from '../backgrounds/Video1.mp4'
 import video2 from '../backgrounds/Video2.mp4'
 import video3 from '../backgrounds/Video3.mp4'
@@ -11,9 +10,21 @@ import video5 from '../backgrounds/Video5.mp4'
 
 import GameContext from "../GameContext";
 
+/**
+ * @component
+ * Component responsible for rendering the background video.
+ * 
+ * This component displays a looping video as the background of the game page. The video
+ * source is selected based on certain conditions, and its height is adjusted to fit the
+ * viewport. Event listeners for window resize are added to ensure the video's height
+ * remains responsive.
+ * 
+ * @returns {JSX.Element} The BackgroundVideo component.
+ */
+
 const BackgroundVideo = () => {
 
-    const { viewHeight, setViewHeight } = useContext(GameContext);
+    const { setViewHeight } = useContext(GameContext);
 
 
     const [video, setVideo] = useState(null)
@@ -23,10 +34,9 @@ const BackgroundVideo = () => {
 
     const { mp3Id } = useParams()
 
-
+    // Set the appropriate video based on conditions
     useEffect(() => {
         if (!isMountedRef.current) {
-
             if (Number(mp3Id) === 1564) {
                 setVideo(5)
             } else {
@@ -37,39 +47,32 @@ const BackgroundVideo = () => {
                 else if (videoNumbers[randomIndex] === 2) { setVideo(2) }
                 else if (videoNumbers[randomIndex] === 3) { setVideo(3) }
                 else if (videoNumbers[randomIndex] === 4) { setVideo(4) }
-
             }
             isMountedRef.current = true;
         }
-
     }, [mp3Id])
 
 
+    // Update view height and video height on window resize
     useEffect(() => {
-        // Function to update the view height
-
         const updateViewHeight = () => {
             setViewHeight(window.innerHeight);
         };
-
         const updateVideoHeight = () => {
             setVideoHeight(window.innerHeight - 220);
         };
-        // Initial view height
         updateViewHeight();
         updateVideoHeight();
-        // Event listener for window resize to update view height on resize
+
         window.addEventListener('resize', updateViewHeight);
 
-        // Clean up the event listener when the component unmounts
         return () => {
             window.removeEventListener('resize', updateViewHeight);
         };
     }, []);
 
 
-
-
+    // Get the video source based on the selected video
     const getVideo = () => {
         if (video === 1) { return (<source src={video1} type="video/mp4" />) }
         else if (video === 2) { return (<source src={video2} type="video/mp4" />) }

@@ -3,8 +3,18 @@ import { Link } from "react-router-dom";
 import gameSymbol from '../../images/icons/controller.png'
 
 
-
-/** Loading message used by components that fetch API data. */
+/**
+ * Component representing a score card displayed on the profile page.
+ *
+ * This component renders a score card with title, dir, a decorative progress bar, score,
+ * and timestamp information. The appearance of each score card is dynamically
+ * determined based on its order and total number of cards. The component also
+ * provides a link to the detailed song page for further exploration.
+ *
+ * @component
+ * @param {Object} props - Component props containing score card data.
+ * @return {JSX.Element} HomeScoreCard component
+ */
 
 function HomeScoreCard(props) {
 
@@ -14,10 +24,10 @@ function HomeScoreCard(props) {
 
   useEffect(() => {
     const startingHue = 150;
-    const bkgSaturation = '60%'; // You can adjust this value to control the saturation
+    const bkgSaturation = '60%';
     const bkgLightness = '60%';
 
-    const textSaturation = '70%'; // You can adjust this value to control the saturation
+    const textSaturation = '70%';
     const textLightness = '60%';
 
     const hue = (props.order * (360 / props.cardNumber) + startingHue) % 360;
@@ -26,14 +36,7 @@ function HomeScoreCard(props) {
     setTextColor(`hsl(${oppositeHue}, ${textSaturation}, ${textLightness})`)
     setImageColor(`invert(90%) sepia(13%) saturate(3207%) hue-rotate(${oppositeHue}deg) brightness(95%) contrast(80%)`)
 
-
-
   }, [])
-
-
-
-
-
 
 
 

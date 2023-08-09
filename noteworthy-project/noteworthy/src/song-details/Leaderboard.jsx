@@ -6,15 +6,19 @@ import medalImage from '../images/icons/medal.png'
 import "./Leaderboard.css"
 import "./recordPlayer.css"
 
-
-
-/** Show limited information about a job.
+/**
+ * Component displaying the leaderboard for a specific song.
  *
- * Is rendered by JobCardList to show a "card" for each job.
+ * Renders the leaderboard table showing top scores and runner-up scores for a given song.
+ * Provides information about the user's standing in the leaderboard, as well as login prompts
+ * for setting a new top score or logging in to access the full functionality.
  *
- * Receives apply func prop from parent, which is called on apply.
- *
- * JobCardList -> JobCard
+ * @component
+ * @param {object} topScore - The top score object for the song
+ * @param {array} runnerUpScores - Array of runner-up score objects for the song
+ * @param {function} navigateGame - Function to navigate to the game page
+ * @param {object} song - The song object for which the leaderboard is displayed
+ * @return {JSX.Element} Leaderboard component
  */
 
 function Leaderboard({ topScore, runnerUpScores, navigateGame, song }) {
@@ -22,6 +26,12 @@ function Leaderboard({ topScore, runnerUpScores, navigateGame, song }) {
     const { userHasTop, userBestScore, currentUser, toggleLoginForm } = useContext(userContext);
 
 
+
+    /* Get JSX for the top user's status message.
+    *
+    *
+    * @return {JSX.Element} JSX for the user's status message
+    */
     const getTopUserJSX = () => {
         if (!currentUser) {
             return (<div className="leaderboard-message"><button className="song-details-login-button" onClick={toggleLoginForm}>Login</button> to set a new top score!  </div>)

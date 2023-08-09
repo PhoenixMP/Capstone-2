@@ -1,16 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import GameContext from "../GameContext";
-import UserContext from "../../auth/UserContext"
 import GamePlayButtons from "./GamePlayButtons"
 
+/**
+ * Component that displays the timer and game play buttons.
+ *
+ * @component
+ * @return {JSX.Element} The left stats container JSX
+ */
 
 const LeftStats = () => {
 
     const { timer } = useContext(GameContext);
-
-
-
-
 
 
     return (

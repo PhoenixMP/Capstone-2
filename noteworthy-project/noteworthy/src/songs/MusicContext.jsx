@@ -1,6 +1,10 @@
 import React from "react";
 
-/** Context: provides currentUser object and setter for it throughout app. */
+
+/** 
+ * @context
+ *  Context to provide a pass relevant song and related data between the game page and the song detail page.*/
+
 
 const MusicContext = React.createContext();
 

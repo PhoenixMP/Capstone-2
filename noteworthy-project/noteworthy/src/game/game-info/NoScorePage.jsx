@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import Melodic2API from "../../api/api";
+import React, { useContext } from "react";
 import userContext from "../../auth/UserContext";
-import GameContext from "../GameContext";
 import EndGameButtons from "./EndGameButtons";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import "./NewScorePage.css"
 
-
+/**
+ * Component that displays the result summary when a user did not beat their best score.
+ *
+ * @component
+ * @return {JSX.Element} The  result summary JSX when there is no score to save.
+ */
 
 function NoScorePage() {
     const { userBestScore, currentUser, totalScore } = useContext(userContext);

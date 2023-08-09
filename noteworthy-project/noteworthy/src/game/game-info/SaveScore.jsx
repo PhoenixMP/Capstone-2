@@ -1,10 +1,16 @@
-import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import userContext from "../../auth/UserContext";
-import Melodic2API from "../../api/api";
+import NoteworthyAPI from "../../api/api";
 import GameContext from "../GameContext";
 
 
+/**
+ * Component for saving and displaying user's scores at the end of the game.
+ *
+ * @component
+ * @return {JSX.Element} The SaveScore component JSX.
+ */
 
 
 function SaveScore() {
@@ -13,21 +19,29 @@ function SaveScore() {
     const { mp3Id } = useParams();
     const navigate = useNavigate();
 
-    console.log(totalScore)
+
+    // This useEffect handles storing the user's score temporarily if they are not logged in when the game ends.
+    // It checks if the game is over and the user is not logged in, then stores their score and song ID for later submission.
     useEffect(() => {
         if (!currentUser && (score > 0)) {
             setOnHoldScore({ mp3Id, score })
         }
     }, [gameOver])
 
-
+    /**
+     * Adds the user's score to the database.
+     * @returns {Promise<void>} A promise indicating the completion of the score submission.
+     */
     async function addScore() {
-
-        await Melodic2API.saveScore({ mp3Id: `${mp3Id}`, username: currentUser.username, score: totalScore })
+        await NoteworthyAPI.saveScore({ mp3Id: `${mp3Id}`, username: currentUser.username, score: totalScore })
     }
 
-    function handleClick() {
 
+    /**
+ * Handles the click event for submitting the score.
+ * Navigates to the song page after submitting.
+ */
+    function handleClick() {
         addScore();
         navigate(`/song/${mp3Id}`);
 

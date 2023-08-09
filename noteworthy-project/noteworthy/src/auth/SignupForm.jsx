@@ -1,17 +1,18 @@
 import React, { useState, useContext } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import userContext from "./UserContext";
 
 import "./authForm.css"
 
 
-/** Homepage of site.
+/** Signup form.
  *
- * Shows welcome message or login/register buttons.
- *
- * Routed at /
- *
- * MyRoutes -> Homepage
+ * Shows form and manages update to state on changes.
+ * On submission:
+ * - calls signup function prop
+ * 
+ * Form visibility can be toggled on all routes.
+ * Signup errors will be displayed on form 
  */
 
 const SignupForm = ({ signup, toggleLoginForm }) => {
@@ -22,11 +23,9 @@ const SignupForm = ({ signup, toggleLoginForm }) => {
     const { onGamePage, signupFormError } = useContext(userContext)
     const { mp3Id } = useParams();
 
-    const navigate = useNavigate();
-    console.log("signupFormError", signupFormError)
+
     /** Handle form submit:
-     *
-     * Calls login func prop and, if successful, redirect to /.
+     * Calls signup func prop.
      */
     const handleSubmit = evt => {
         evt.preventDefault();
@@ -44,9 +43,12 @@ const SignupForm = ({ signup, toggleLoginForm }) => {
     };
 
 
+    /**
+     * Retrieves and displays error messages from the signupFormError array.
+     * @returns {JSX.Element} - JSX elements representing error messages.
+     */
     const getErrors = () => {
         if (Array.isArray(signupFormError)) {
-            console.log('1')
             return (
                 <>
                     {signupFormError.map(error => {
@@ -55,7 +57,7 @@ const SignupForm = ({ signup, toggleLoginForm }) => {
                 </>
             )
         } else {
-            console.log('2')
+
             return (<p className="form-error">*{signupFormError}</p>)
         }
     }

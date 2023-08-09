@@ -1,29 +1,26 @@
-import React, { useState, useEffect, useLayoutEffect, useRef, useContext } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
-import Melodic2API from "../../api/api"
+import React, { useContext } from 'react';
 import GameContext from "../GameContext";
 import UserContext from '../../auth/UserContext';
-import base64 from 'react-native-base64';
 import LoadingSpinner from '../../common/LoadingSpinner';
 
+/**
+ * Component that displays game play buttons for restarting or exiting the game.
+ *
+ * @component
+ * @return {JSX.Element} GamePlayButtons
+ */
 
 const GamePlayButtons = () => {
-
-
-
 
     const { isAnimationStarted, handleRestartPrompt, handleExitPrompt, gameOver } = useContext(GameContext);
     const { userBestScore, currentUser, } = useContext(UserContext)
 
-    const { mp3Id } = useParams()
 
-
-
-
-
-
-
-
+    /**
+     * Returns JSX for the restart button based on game animation status.
+     * 
+     * @returns {JSX.Element} Restart button JSX
+     */
     const getRestartButtonJSX = () => {
 
         if (isAnimationStarted) {
@@ -31,19 +28,19 @@ const GamePlayButtons = () => {
                 <button className="game-restart-button game-play-button" onClick={handleRestartPrompt}>Restart Game</button>
             )
         }
-
-
     }
 
+    /**
+     * Returns JSX for the exit button based on game animation and game over status.
+     * 
+     * @returns {JSX.Element} Exit button JSX
+     */
     const getExitButtonJSX = () => {
 
         if ((isAnimationStarted && !gameOver)) {
             return (<button className="game-play-button" onClick={handleExitPrompt}>Exit Game</button>)
         }
-
     }
-
-
 
 
 
@@ -51,10 +48,8 @@ const GamePlayButtons = () => {
 
     return (
         <div id="game-play-buttons" >
-
             {getRestartButtonJSX()}
             {getExitButtonJSX()}
-
         </div>
     );
 };

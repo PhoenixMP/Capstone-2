@@ -1,9 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import GameContext from "../GameContext";
 import UserContext from "../../auth/UserContext"
 
-
-
+/**
+ * Component for displaying right-side game statistics, including current score,
+ * score messages, and an option to save the score early.
+ *
+ * @component
+ * @return {JSX.Element} The right-side game statistics JSX.
+ */
 const RightStats = () => {
 
 
@@ -11,10 +16,10 @@ const RightStats = () => {
     const { handleSaveEarlyPrompt } = useContext(GameContext);
 
 
-
-
-
-
+    /**
+     * Determines the score message based on game outcomes.
+     * @returns {string} The score message.
+     */
     const getScoreMessage = () => {
         if (userBestScore && !userBeatPersonalBest) {
             return `Your Best Score:${userBestScore.score} `
@@ -27,9 +32,13 @@ const RightStats = () => {
         } else {
             return `You Have No Saved Score`
         }
-
     }
 
+
+    /**
+ * Generates JSX for the save score button based on conditions.
+ * @returns {JSX.Element|null} The save score button JSX, or null.
+ */
     const getSaveScoreButtonJSX = () => {
         if (((!topScore && (totalScore > 0)) ||
             (currentUser && (totalScore > userBestScore.score)) ||

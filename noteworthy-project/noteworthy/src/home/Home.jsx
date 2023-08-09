@@ -1,22 +1,29 @@
 
 import React, { useState, useEffect, useContext } from "react";
-import Melodic2API from "../api/api";
-import homeVideo from "./underwater.mp4"
-import "./Home.css"
-import "./heading.css"
-import info from "../images/icons/info.png"
 
+import homeVideo from "./underwater.mp4"
+import info from "../images/icons/info.png"
 import UserContext from "../auth/UserContext";
 
+import "./Home.css"
+import "./heading.css"
 
 
-/** Homepage of site.
- *
- * Shows welcome message or login/register buttons.
- *
+
+/**
  * Routed at /
  *
- * MyRoutes -> Homepage
+ * Component for the landing page of the application.
+ *
+ * This component serves as the main landing page of the application, featuring a captivating
+ * background video, an interactive form container, an animated heading, and additional content.
+ * Users can engage with the dynamic UI elements on this page, including toggling an "About" text
+ * section for additional information.
+
+ *
+ * @component
+ * @return {JSX.Element} Home component
+ * @memberof MyRoutes
  */
 
 const Home = () => {
@@ -26,7 +33,6 @@ const Home = () => {
 
 
     useEffect(() => {
-
         setOnGamePage(false)
         setShowLogin(false);
         setShowSignup(false);

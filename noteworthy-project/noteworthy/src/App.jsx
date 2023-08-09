@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactElement, ReactNode, } from "react";
+import React, { useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { BrowserRouter } from "react-router-dom";
 import MyRoutes from './routes-nav/MyRoutes'
@@ -6,7 +6,7 @@ import MyNav from './routes-nav/MyNav'
 import UserContext from "./auth/UserContext";
 import musicContext from "./songs/MusicContext";
 import useLocalStorage from "./hooks/useLocalStorage";
-import Melodic2API from "./api/api";
+import NoteworthyAPI from "./api/api";
 import LoginForm from "./auth/LoginForm";
 import SignupForm from "./auth/SignupForm";
 
@@ -17,20 +17,18 @@ import './App.css'
 
 
 
-
-
-
-/** Jobly application.
-
- * - currentUser: user obj from API. This becomes the canonical way to tell
- *   if someone is logged in. This is passed around via context throughout app.
+/**
+ * Main component of the Noteworthy web application.
  *
- * - token: for logged in users, this is their authentication JWT.
- *   Is required to be set for most API calls. This is initially read from
- *   localStorage and synced to there via the useLocalStorage hook.
+ * This component serves as the entry point for the application. It handles
+ * user authentication, routing, and context management. It provides the
+ * top-level structure of the application, including navigation and routes.
  *
- * App -> MyRoutes
+ * @component
+ * @return {JSX.Element} App component
  */
+
+
 
 
 function App() {
@@ -38,17 +36,17 @@ function App() {
   const [currentUser, setCurrentUser] = useLocalStorage("currentUser", null);
   const [song, setSong] = useLocalStorage("song", null);
   const [notes, setNotes] = useLocalStorage("notes", null);
-  const [encodedData, setEncodedData] = useState(null);
+  const [encodedData, setEncodedData] = useState(null);// Encoded audio data for the selected song
 
-  const [hasRefreshedGame, setHasRefreshedGame] = useState(false);
+  const [hasRefreshedGame, setHasRefreshedGame] = useState(false); // Flag to indicate whether the game page has been refreshed
   const [userBestScore, setUserBestScore] = useLocalStorage("UserBestScore", false);
   const [topScore, setTopScore] = useLocalStorage("topScore", null);
   const [userHasTop, setUserHasTop] = useLocalStorage("userHasTop", null);
 
-  const [userBeatTop, setUserBeatTop] = useLocalStorage("userBeatTop", null);
-  const [userBeatPersonalBest, setUserBeatPersonalBest] = useLocalStorage("userBeatPersonalBest", null);
-  const [totalScore, setTotalScore] = useLocalStorage("totalScore", null);
-  const [recalcGameResults, setRecalcGameResults] = useLocalStorage("recalcGameResults", false);
+  const [userBeatTop, setUserBeatTop] = useLocalStorage("userBeatTop", null);// Flag to indicate whether the user beat the top score
+  const [userBeatPersonalBest, setUserBeatPersonalBest] = useLocalStorage("userBeatPersonalBest", null);// Flag to indicate whether the user beat their personal best score
+  const [totalScore, setTotalScore] = useLocalStorage("totalScore", null);// Total score achieved by the user
+  const [recalcGameResults, setRecalcGameResults] = useLocalStorage("recalcGameResults", false);// Flag to indicate whether game results need to be recalculated after login
 
   const [loginFormError, setLoginFormError] = useState(false)
   const [signupFormError, setSignupFormError] = useState(false)
@@ -62,7 +60,7 @@ function App() {
   const [token, setToken] = useLocalStorage("token", null);
 
 
-
+  // Handling login and signup form errors...
   useEffect(() => {
     if (loginFormError) {
       setShowLogin(true)
@@ -80,7 +78,7 @@ function App() {
   //Register new User
   async function signup(data, mp3Id = null) {
     setLoginFormError(false)
-    const res = await Melodic2API.registerUser(data);
+    const res = await NoteworthyAPI.registerUser(data);
     if (res.status === 400) {
       setSignupFormError(res.data.error.message)
     } else {
@@ -99,7 +97,7 @@ function App() {
   //Login User
   async function login(data, mp3Id = null) {
     setSignupFormError(false)
-    const res = await Melodic2API.loginUser(data);
+    const res = await NoteworthyAPI.loginUser(data);
     if (res.status === 401) {
 
       setLoginFormError(res.data.error.message)
@@ -129,7 +127,7 @@ function App() {
   }
 
 
-
+  //Toggle display of the login form.
   function toggleLoginForm() {
     setShowLogin(prevState => !prevState)
     setShowSignup(false)
@@ -137,6 +135,8 @@ function App() {
 
 
   }
+
+  //Toggle display of the signup form.
   function toggleSignupForm() {
     setShowSignup(prevState => !prevState)
     setShowLogin(false)
@@ -146,7 +146,13 @@ function App() {
 
 
 
-
+  /**
+   * Fetches the user's best score for a specific song.
+   * 
+   * @param {string} mp3Id - The ID of the song.
+   * @param {string} username - The username of the user.
+   * @param {Object} highScore - The top score object.
+   */
   async function getUserBestScore(mp3Id, username, highScore) {
     if (highScore && (highScore.username === username)) {
 
@@ -154,7 +160,7 @@ function App() {
       setUserBestScore(highScore)
     } else {
       setUserHasTop(false)
-      const score = await Melodic2API.getUserSongTopScore(mp3Id, username);
+      const score = await NoteworthyAPI.getUserSongTopScore(mp3Id, username);
 
       if (score === null) {
         setUserBestScore(false);
@@ -167,16 +173,16 @@ function App() {
 
 
 
-  // Load user info from API. Until a user is logged in and they have a token,
-  // this should not run. It only needs to re-run when a user logs out, so
-  // the value of the token is a dependency for this effect.
+  /**
+   * Checks the token and fetches user information if available.
+   */
   useEffect(() => {
     async function checkToken() {
       if (token) {
         try {
           let { username } = jwt_decode(token);
-          Melodic2API.userToken = token;
-          const user = await Melodic2API.getUser(username);
+          NoteworthyAPI.userToken = token;
+          const user = await NoteworthyAPI.getUser(username);
           setCurrentUser(user);
 
         } catch (err) {
@@ -185,13 +191,17 @@ function App() {
         }
       }
     }
-
     checkToken();
-
 
   }, [token]);
 
 
+
+  /**
+ * Renders the appropriate form based on the current display state.
+ * 
+ * @returns {JSX.Element} JSX of the login or signup form.
+ */
   const getFormJSX = () => {
     if (showLogin) {
       return (
@@ -202,6 +212,10 @@ function App() {
     }
   }
 
+
+  /**
+ * Sets the `isAnimated` state to trigger animation effects on heading hover.
+ */
   const handleHeadingHover = () => {
     setIsAnimated('animated')
   }

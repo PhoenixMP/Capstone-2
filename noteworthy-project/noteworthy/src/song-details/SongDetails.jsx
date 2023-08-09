@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate, Link } from "react-router-dom";
-import Melodic2API from "../api/api";
+import { useNavigate } from "react-router-dom";
+import NoteworthyAPI from "../api/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import musicContext from "../songs/MusicContext";
 import userContext from "../auth/UserContext";
@@ -16,14 +16,22 @@ import './recordPlayer.css'
 import './SongDetails.css'
 
 
-/** Homepage of site.
+
+/**
+ * Routed at /song/:mp3Id
+ * Component for displaying details and leaderboard of a song.
  *
- * Shows welcome message or login/register buttons.
+ * Displays song details, a leaderboard if available, and a form for login/signup.
+ * Handles navigation to the game page.
  *
- * Routed at /
- *
- * MyRoutes -> Homepage
+ * @component
+ * @return {JSX.Element} SongDetails component
+ *  * @memberof MyRoutes
+ * @see {@link MyRoutes}
  */
+
+
+
 
 const SongDetails = () => {
 
@@ -33,12 +41,15 @@ const SongDetails = () => {
 
 
     const { song, setSong, setNotes, setEncodedData, setHasRefreshedGame, hasRefreshedGame } = useContext(musicContext);
-    const { userHasTop, getUserBestScore, getFormJSX, setOnGamePage, onGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
+    const { getUserBestScore, getFormJSX, setOnGamePage, onGamePage, setUserHasTop, currentUser, userBestScore, setUserBestScore, topScore, setTopScore, setShowLogin, setShowSignup } = useContext(userContext);
     const [runnerUpScores, setRunnerUpScores] = useState(null);
 
 
 
 
+    /**
+     * Function to navigate to the game page for the current song.
+     */
     const navigateGame = () => {
         // navigate to /
         if (hasRefreshedGame) setHasRefreshedGame(false);
@@ -46,7 +57,11 @@ const SongDetails = () => {
     };
 
 
-
+    /**
+     * Get JSX for the appropriate leaderboard component based on available scores.
+     *
+     * @return {JSX.Element} JSX for the leaderboard component
+     */
     const getLeaderboardJSX = () => {
         if (topScore) {
             return (<Leaderboard topScore={topScore} runnerUpScores={runnerUpScores} navigateGame={navigateGame} song={song} />)
@@ -56,14 +71,14 @@ const SongDetails = () => {
     }
 
 
-
+    // Fetch song details and notes on component mount
     useEffect(function getSongInfo() {
         if (!onGamePage) {
             setOnGamePage(false)
             setShowLogin(false);
             setShowSignup(false);
             async function getSong() {
-                const newSong = await Melodic2API.getSong(mp3Id);
+                const newSong = await NoteworthyAPI.getSong(mp3Id);
                 setSong(newSong.song);
                 setNotes(newSong.notes.notes)
 
@@ -75,12 +90,12 @@ const SongDetails = () => {
     }, [mp3Id, onGamePage]);
 
 
-
+    // Fetch leaderboard scores on component mount
     useEffect(function getScoreInfo() {
 
         if (!onGamePage) {
             async function getGeneralScores() {
-                const scores = await Melodic2API.getSongTopScores(mp3Id);
+                const scores = await NoteworthyAPI.getSongTopScores(mp3Id);
 
 
                 if (scores.length === 0) {

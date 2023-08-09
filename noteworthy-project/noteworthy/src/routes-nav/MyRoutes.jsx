@@ -9,17 +9,17 @@ import UserContext from "../auth/UserContext";
 
 
 
-/** Site-wide routes.
- *
- * Parts of site should only be visitable when logged in. Those routes are
- * wrapped by <PrivateRoute>, which is an authorization component.
- *
- * Visiting a non-existant route redirects to the homepage.
- */
+/**
+ * Site-wide routes.
 
+ *
+ * @component
+ * @param {function} login - Function to handle user login
+ * @param {function} signup - Function to handle user signup
+ * @return {JSX.Element} Routes component defining site-wide routes
+ */
 function MyRoutes({ login, signup }) {
   const { currentUser } = useContext(UserContext);
-
 
 
   return (

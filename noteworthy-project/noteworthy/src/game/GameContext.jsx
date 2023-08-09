@@ -1,6 +1,11 @@
 import React from "react";
-
-/** Context: provides currentUser object and setter for it throughout app. */
+/**
+ * @context
+ * React Context for managing game-related state and functions.
+ *
+ * This context provides access to various game-related state variables and functions to control
+ * game behavior, animations, audio, and player interactions.
+ */
 
 const GameContext = React.createContext();
 

@@ -1,9 +1,7 @@
-import React, { useContext, useState, useRef } from "react";
+import React from "react";
 
 import PianoKey from "./PianoKey";
-import gameContext from "../../GameContext";
 
-const BASE_URL = window.location.origin;
 import noteC from './notes-mp3/note_C.mp3';
 import noteCS from './notes-mp3/note_CS.mp3';
 import noteD from './notes-mp3/note_D.mp3';
@@ -17,18 +15,15 @@ import noteA from './notes-mp3/note_A.mp3';
 import noteAS from './notes-mp3/note_AS.mp3';
 import noteB from './notes-mp3/note_B.mp3';
 
-
-
-
-
-
-
+/**
+ * @component
+ * Component representing a piano keyboard with different keys and audible notes.
+ * 
+ * @returns {JSX.Element} The Piano component.
+ */
 
 
 function Piano() {
-
-
-
 
 
     return (
