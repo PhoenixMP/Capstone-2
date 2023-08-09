@@ -20,7 +20,7 @@ INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (11196, '
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (16807, 'In The End', 'Linkin Park', 'alt rock',  215.546078, 205.83973261070525);
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (5187, 'Thriller', 'Michael Jackson','pop', 324.2395833333333, 239.58733690704995);
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (11543, 'Just Dance', 'Lady GaGa', 'pop',237.9438460625, 246.74340227051445);
-INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (11194, 'Everytime We Touch', 'Cascada', 'electronic', 205.00811600833327, 271.7028706971131);
+INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (11194, 'Everytime We Touch', 'Cascada', 'pop', 205.00811600833327, 271.7028706971131);
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (11406, 'Umbrella', 'Rihanna', 'pop', 281.31458484375, 178.37190388946144);
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (12549, 'Set Fire to the Rain', 'Adele', 'pop', 240.08309325, 216.49404365453753);
 INSERT INTO songs (mp3_id, title, dir, genre, song_length, bpm) VALUES (8109, 'American Idiot', 'Green Day', 'alt rock', 160.35, 199.99999999999972);
