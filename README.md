@@ -104,8 +104,6 @@ The background music plays as a version of the song without its central melody. 
 This dynamic connection between player inputs and audio responses provides an essential means for players to gauge their progress and adjust their actions, fostering a heightened sense of interaction between the immersive background music and the player's active contribution through virtual piano key presses. 
 
 
-
-
 ### Testing Status: Initial Manual Testing Conducted
 The website project has undergone an initial round of manual testing, where I personally navigated through the site and thoroughly interacted with its features. While the formal unit test code is temporarily pending, rest assured that this phase is planned. Updates will be provided as testing activities are advanced. Your understanding is appreciated.
 
@@ -125,17 +123,22 @@ https://noteworthy-backend.onrender.com/
 ### Additional Notes
 
 #### __CSS Credit__
-  - The homepage heading animation where the pages appear behind the text was inspired by Charlie Marcotte on CodePen: https://codepen.io/FUGU22/pen/YxEojN
-  - The falling notes animation that appear on the song search and profile page consists of css code by yochans on Codepen: https://codepen.io/yochans/pen/PoQMxQj
-  - The loading component consists of css code by ugly-elephant-80 on Uiverse: https://uiverse.io/Shoh2008/ugly-elephant-80
-  - The login/signup form consists of css code by vinodjangid07 on Uiverse: https://uiverse.io/vinodjangid07/splendid-bat-9
-  - The songs page vinyl slide-out animation consists of css code by Nicolas Jesenberger on CodePen: https://codepen.io/nicolasjesenberger/pen/jOeLNJv
-  - The score cards on the profile page consists of css code by William Goldsworthy on CodePen: https://codepen.io/william-goldsworthy/pen/JzVajj
-  - The background confetti animation when a user achieves a new top score consists of css code by Arista on CodePen: https://codepen.io/aristamademe/pen/ZERRRqZ
-  - The result/save-score container: https://uiverse.io/sabbircoder07/quick-panther-36
-  - 
+The components listed below incorporate CSS contributions from the respective sources:
+  - Homepage heading animation: Charlie Marcotte's CodePen - https://codepen.io/FUGU22/pen/YxEojN
+  - Falling notes animation (song search and profile pages): yochans on CodePen - https://codepen.io/yochans/pen/PoQMxQj
+  - Loading component: ugly-elephant-80 on Uiverse - https://uiverse.io/Shoh2008/ugly-elephant-80
+  - Login/signup form: vinodjangid07 on Uiverse - https://uiverse.io/vinodjangid07/splendid-bat-9
+  - Songs page vinyl slide-out animation: Nicolas Jesenberger on CodePen - https://codepen.io/nicolasjesenberger/pen/jOeLNJv
+  - Profile page score cards: William Goldsworthy on CodePen - https://codepen.io/william-goldsworthy/pen/JzVajj
+  - Background confetti animation (new top score): Arista on CodePen - https://codepen.io/aristamademe/pen/ZERRRqZ
+  - Result/save-score container design: https://uiverse.io/sabbircoder07/quick-panther-36
 
-#### __MP3 Credit__
+
+#### __Song Credits and Usage Disclaimer__
+
+The songs featured on this website have been transformed into interactive gameplay for demonstration and educational purposes only. The MIDI files used to create these musical experiences were sourced primarily from freemidi.org, and a piano arrangement for the track 'I'm Just a Ken' (from the Barbie movie) was contributed by user Mattea Lee on MuseScore. I do not claim ownership or rights to the original songs, which are popular mainstream compositions subject to copyright protection. The transformation of MIDI files into interactive gameplay, including note data manipulation and conversion into MP3 format, has been undertaken solely for the purpose of showcasing technical capabilities and creative innovation. No commercial use or distribution of the songs is intended or implied.
+
+If you are the rights holder of any of the compositions featured on this website and have concerns about their usage, please contact me so that I can propmptly address any issues.
 
 
 
