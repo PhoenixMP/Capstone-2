@@ -112,7 +112,21 @@ The website project has undergone an initial round of manual testing, where I pe
 
 
 ### NoteWorthy Backend API
-https://noteworthy-backend.onrender.com/
+Web server hosted on render: https://noteworthy-backend.onrender.com/
+
+#### __Backend API and Database Architecture Overview:__
+The NoteWorthy application is built with a React front end that communicates with a separate Express web server acting as the backend. This modular approach allows for efficient handling of API calls between the two components. To facilitate secure communication and access, API keys are utilized for authorization when making requests to the backend's endpoints.
+
+#### __Database Structure:__
+NoteWorthy employs two distinct databases to maintain data separation and modularity. The first database contains song-related information used to render the interactive gameplay experience. This includes song metadata, note data forming the melody, and MP3 files that are stored on the backend server.
+The second database stores user-related information. User records consist of login credentials, user profiles, and associated scores. Each score is linked to a specific song by utilizing a corresponding song ID for efficient data organization and retrieval.
+
+#### __Song Database Construction:__
+The song database was populated through a meticulous process involving MIDI files. Using Python, the 'pretty_midi' library was employed to dissect MIDI files, parsing each track within a song. The melody track was identified among the available tracks, and from that melody track note data was extracted. These notes form the cascading falling notes that constitute the core gameplay experience.
+New Midi files were generated to create an audio backdrop for the melody. These files retained all original tracks except the melody track, effectively creating a melody-less version akin to karaoke accompaniments. The MIDI files were subsequently converted into MP3 files and stored on the backend server.
+Storage and Retrieval of Song Data:
+Within the song database, note data is stored as JSON objects. The encoded MP3 files are organized within the backend's file system, categorized by the corresponding song ID. When a request for a specific song ID is made, the backend locates the corresponding MP3 file and retrieves its encoded data, which is then transmitted to the front end for playback.
+
 
 ### Tech Stack
   - Front End:
