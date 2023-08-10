@@ -1,7 +1,9 @@
 
 # NoteWorthy
 Deployed on Render: https://noteworthy-play.onrender.com/
+
 ![Video not avaialble](/md-files/noteworthy-demo1.mp4)
+![Video not avaialble](/md-files/noteworthy-demo2.mp4)
 
 ### About Noteworthy
 
@@ -104,26 +106,36 @@ This dynamic connection between player inputs and audio responses provides an es
 
 
 
-
-
+### Testing Status: Initial Manual Testing Conducted
+The website project has undergone an initial round of manual testing, where I personally navigated through the site and thoroughly interacted with its features. While the formal unit test code is temporarily pending, rest assured that this phase is planned. Updates will be provided as testing activities are advanced. Your understanding is appreciated.
 
 ### User Flow Diagram
+![Image not avaialble](/md-files/user-flow-diagram.png)
 
-### Database Schema
 
 ### NoteWorthy Backend API
 https://noteworthy-backend.onrender.com/
 
 ### Tech Stack
-Front End:
--React
-Back End/Server:
--Express.js and Node.js
+  - Front End:
+    - React
+  - Back End/Server:
+    - Express.js and Node.js
 
 ### Additional Notes
 
-
 #### __CSS Credit__
+  - The homepage heading animation where the pages appear behind the text was inspired by Charlie Marcotte on CodePen: https://codepen.io/FUGU22/pen/YxEojN
+  - The falling notes animation that appear on the song search and profile page consists of css code by yochans on Codepen: https://codepen.io/yochans/pen/PoQMxQj
+  - The loading component consists of css code by ugly-elephant-80 on Uiverse: https://uiverse.io/Shoh2008/ugly-elephant-80
+  - The login/signup form consists of css code by vinodjangid07 on Uiverse: https://uiverse.io/vinodjangid07/splendid-bat-9
+  - The songs page vinyl slide-out animation consists of css code by Nicolas Jesenberger on CodePen: https://codepen.io/nicolasjesenberger/pen/jOeLNJv
+  - The score cards on the profile page consists of css code by William Goldsworthy on CodePen: https://codepen.io/william-goldsworthy/pen/JzVajj
+  - The background confetti animation when a user achieves a new top score consists of css code by Arista on CodePen: https://codepen.io/aristamademe/pen/ZERRRqZ
+  - The result/save-score container: https://uiverse.io/sabbircoder07/quick-panther-36
+  - 
+
+#### __MP3 Credit__
 
 
 
