@@ -2,6 +2,10 @@
 # NoteWorthy
 Deployed on Render: https://noteworthy-play.onrender.com/
 
+### About Noteworthy
+
+NoteWorthy is a website that brings the excitement of a rhythm-based game like Guitar Hero, but with a unique twist – players use their computer keyboard to play piano notes. Just like in Guitar Hero, users are presented with a scrolling note highway on the screen, but this time, the notes correspond to piano keys. As the notes approach, players must hit the corresponding keys on their keyboard to produce the audio for the melody. With a diverse selection of songs and varying levels of difficulty, the game challenges players' timing, coordination, and musical skills. This website is not mobile compatible.
+
 
 *Gain insights into the project's website navigation and the interactive gameplay through two separate YouTube videos. 
 The first is a walkthrough that highlights the website's structure and the second explores a gameplay preview.*
@@ -9,9 +13,7 @@ The first is a walkthrough that highlights the website's structure and the secon
 [![Image not available](/md-files/noteworthy-home.png)](https://youtu.be/c0Q13rNL8dQ)
 [![Image not available](/md-files/noteworthy-gameplay.png)](https://www.youtube.com/watch?v=2MRHU614ZzU)
 
-### About Noteworthy
 
-NoteWorthy is a website that brings the excitement of a rhythm-based game similar to Guitar Hero, but with a unique twist – players use their computer keyboard to play piano notes. Just like in Guitar Hero, users are presented with a scrolling note highway on the screen, but this time, the notes correspond to piano keys. As the notes approach, players must hit the corresponding keys on their keyboard to produce the audio for the melody. With a diverse selection of songs and varying levels of difficulty, the game challenges players' timing, coordination, and musical skills. 
 
 ### Website Features
 #### __Search Songs__
@@ -28,7 +30,7 @@ Leaderboards promote a sense of achievement and social interaction among players
 
 #### __User Profiles__
 Registered users can access their dedicated profile page, showcasing a carousel of score cards representing their achievements. Users can accumulate these score cards by saving their best scores for different songs. This profile page offers two distinct views: "Personal Best" and "Undefeated" score cards.
-A "Personal Best" score card is initially obtained for a song as soon as a user saves a non-zero score. This card is continually updated whenever the user achieves a new personal best score for that particular song.
+A "Personal Best" score card is initially obtained for a song as soon as a user saves a non-zero score. This card is continually updated whenever the user achieves a new personal best score for that song.
 On the other hand, "Undefeated" score cards are earned when a user holds the top score for a specific song. However, these cards can be relinquished if another user surpasses their score, reflecting a dynamic and competitive aspect of the game's leaderboard system.
 
 
@@ -73,7 +75,7 @@ The score meter serves as a visual incentive, encouraging players to aim for hig
 
 #### __Personal Best Score__
 The “Personal Best” score feature is a snippet of information visible solely to authenticated users who have previously set a score for that specific song. When present, this feature exhibits the player's highest achieved score for the given song. Notably, this score is independent of the top score and serves as a personalized reference point reflecting the player's individual performance.
-The inclusion of the players personal best score serves as a factual representation of their progress and performance, and allows users to track their personal accomplishments within the game. 
+The inclusion of the players personal best score serves as a factual representation of their progress and performance and allows users to track their personal accomplishments within the game. 
 
 #### __Restart Game & Exit Game__
 The restart game feature enables players to reset the current gameplay session at any point and start over from the beginning of the song. The exit game feature allows players to exit the game and return to the leaderboard at any point during gameplay.
@@ -101,7 +103,7 @@ The countdown feature provides a visual countdown from 3 before the start of gam
 I've generated four distinct background videos using the AI video generation software, Runway Gen 2. These videos showcase abstract surrealist imagery centered around grand pianos. During gameplay users are treated to a visual spectacle as one of these randomly selected background videos accompanies their experience. This dynamic feature enhances immersion, providing players with engaging and visually captivating surroundings that complement the musical gameplay.
 
 #### __Note Accuracy Feedback__
-The visual feedback system for denotating the accuracy of a players keypress provides instantaneous cues to players. As users interact with falling notes and piano keys, a color-coded system activates: accurate hits illuminate both the falling note and corresponding piano key in green, while mistimed actions trigger a red glow. Below the virtual piano keys, real-time descriptors ("perfect," "great," "good," or "miss") appear, accompanied by the precise points earned for that note. This swift, dynamic feedback loop enhances player awareness, encouraging timely and precise actions for an immersive gaming experience.
+The visual feedback system for denotating the accuracy of a player’s keypress provides instantaneous cues to players. As users interact with falling notes and piano keys, a color-coded system activates: accurate hits illuminate both the falling note and corresponding piano key in green, while mistimed actions trigger a red glow. Below the virtual piano keys, real-time descriptors ("perfect," "great," "good," or "miss") appear, accompanied by the precise points earned for that note. This swift, dynamic feedback loop enhances player awareness, encouraging timely and precise actions for an immersive gaming experience.
 
 #### __Audio Feedback__
 The background music plays as a version of the song without its central melody. With each virtual piano key press, the corresponding note's audio is triggered, allowing players to generate individual note sounds. Accurate key presses enable players to progressively reintegrate the absent melody, effectively completing the song's arrangement. The precision of their timing and accuracy directly influences the harmony of the audio. Mistimed or incorrect key presses, however, introduce discernible disruptions, immediately conveying deviations in performance. 
@@ -112,7 +114,7 @@ This dynamic connection between player inputs and audio responses provides an es
 The website project has undergone an initial round of manual testing, where I personally navigated through the site and thoroughly interacted with its features. While the formal unit test code is temporarily pending, rest assured that this phase is planned. Updates will be provided as testing activities are advanced. Your understanding is appreciated.
 
 ### User Flow Diagram
-![Image not avaialble](/md-files/user-flow-diagram.png)
+![Image not available](/md-files/user-flow-diagram.png)
 
 
 ### NoteWorthy Backend API
@@ -128,7 +130,8 @@ The second database stores user-related information. User records consist of log
 #### __Song Database Construction:__
 The song database was populated through a meticulous process involving MIDI files. Using Python, the 'pretty_midi' library was employed to dissect MIDI files, parsing each track within a song. The melody track was identified among the available tracks, and from that melody track note data was extracted. These notes form the cascading falling notes that constitute the core gameplay experience.
 New Midi files were generated to create an audio backdrop for the melody. These files retained all original tracks except the melody track, effectively creating a melody-less version akin to karaoke accompaniments. The MIDI files were subsequently converted into MP3 files and stored on the backend server.
-Storage and Retrieval of Song Data:
+
+#### __Storage and Retrieval of Song Data:__
 Within the song database, note data is stored as JSON objects. The encoded MP3 files are organized within the backend's file system, categorized by the corresponding song ID. When a request for a specific song ID is made, the backend locates the corresponding MP3 file and retrieves its encoded data, which is then transmitted to the front end for playback.
 
 
@@ -156,7 +159,7 @@ The components listed below incorporate CSS contributions from the respective so
 
 The songs featured on this website have been transformed into interactive gameplay for demonstration and educational purposes only. The MIDI files used to create these musical experiences were sourced primarily from freemidi.org, and a piano arrangement for the track 'I'm Just a Ken' (from the Barbie movie) was contributed by user Mattea Lee on MuseScore. I do not claim ownership or rights to the original songs, which are popular mainstream compositions subject to copyright protection. The transformation of MIDI files into interactive gameplay, including note data manipulation and conversion into MP3 format, has been undertaken solely for the purpose of showcasing technical capabilities and creative innovation. No commercial use or distribution of the songs is intended or implied.
 
-If you are the rights holder of any of the compositions featured on this website and have concerns about their usage, please contact me so that I can propmptly address any issues.
+If you are the rights holder of any of the compositions featured on this website and have concerns about their usage, please contact me so that I can promptly address any issues.
 
 
 
