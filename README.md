@@ -1,13 +1,12 @@
 
 # NoteWorthy
 Deployed on Render: https://noteworthy-play.onrender.com/
-
-![Video not avaialble](/md-files/noteworthy-demo1.mp4)
-![Video not avaialble](/md-files/noteworthy-demo2.mp4)
+[![Image not available](/md-files/noteworthy-home.png)](https://youtu.be/c0Q13rNL8dQ)
+[![Image not available](/md-files/noteworthy-gameplay.png)](https://www.youtube.com/watch?v=2MRHU614ZzU)
 
 ### About Noteworthy
 
-Noteworthy is a website that brings the excitement of a rhythm-based game similar to Guitar Hero, but with a unique twist – players use their computer keyboard to play piano notes. Just like in Guitar Hero, users are presented with a scrolling note highway on the screen, but this time, the notes correspond to piano keys. As the notes approach, players must hit the corresponding keys on their keyboard to produce the audio for the melody. With a diverse selection of songs and varying levels of difficulty, the game challenges players' timing, coordination, and musical skills. 
+noteWorthy is a website that brings the excitement of a rhythm-based game similar to Guitar Hero, but with a unique twist – players use their computer keyboard to play piano notes. Just like in Guitar Hero, users are presented with a scrolling note highway on the screen, but this time, the notes correspond to piano keys. As the notes approach, players must hit the corresponding keys on their keyboard to produce the audio for the melody. With a diverse selection of songs and varying levels of difficulty, the game challenges players' timing, coordination, and musical skills. 
 
 ### Website Features
 #### __Search Songs__
@@ -111,7 +110,7 @@ The website project has undergone an initial round of manual testing, where I pe
 ![Image not avaialble](/md-files/user-flow-diagram.png)
 
 
-### NoteWorthy Backend API
+### noteWorthy Backend API
 https://noteworthy-backend.onrender.com/
 
 ### Tech Stack
