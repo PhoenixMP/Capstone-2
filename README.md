@@ -51,7 +51,8 @@ The thorough scoring system incentivizes players to strive for accuracy and prec
 
 #### __Milestone Streak Popup__
 The milestone streak popup is a transient graphical element that momentarily appears prominently on the screen whenever a user successfully achieves a milestone streak during gameplay. When reached, these milestone streaks contribute to an augmented score multiplier that affects the points earned for each correct keypress. 
-Purpose: The introduction of the milestone streak popup serves as an informative visual cue to acknowledge and celebrate a player's achievement of a significant milestone, without disrupting gameplay flow. 
+
+The introduction of the milestone streak popup serves as an informative visual cue to acknowledge and celebrate a player's achievement of a significant milestone, without disrupting gameplay flow. 
 
 
 #### __Score Multiplier__
