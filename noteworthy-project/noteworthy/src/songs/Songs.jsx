@@ -141,9 +141,9 @@ const Songs = () => {
                                 <div className="search-container">
                                     <Search searchFor={searchTitle} />
                                     <div className="genre-buttons">
-                                        {genres.map(genre => (
+                                        {genres.map((genre, idx) => (
 
-                                            <button className={`genre-button ${(genreButton === genre) ? "active" : ""}`} onClick={() => searchGenre(genre)}>{genre}</button>
+                                            <button key={idx} className={`genre-button ${(genreButton === genre) ? "active" : ""}`} onClick={() => searchGenre(genre)}>{genre}</button>
                                         ))}
 
                                     </div>

@@ -64,18 +64,18 @@ function Leaderboard({ topScore, runnerUpScores, navigateGame, song }) {
                     <tbody>
                         <tr className="tr first-place">
                             <td className="td number">1</td>
-                            {userHasTop ? (<td className="td name">  <Link style={{ textDecoration: 'none', color: 'white' }} to="/profile"> {topScore.username} (You)</Link></td>) : (<td className="td name">{topScore.username}</td>)}
+                            {userHasTop ? (<td className="td name"> <span>  <Link style={{ textDecoration: 'none', color: 'white' }} to="/profile"> {topScore.username} (You)</Link></span></td>) : (<td className="td name"><span>{topScore.username}</span></td>)}
                             <td className="td timestamp">{topScore.scoreTimestamp}</td>
                             <td className="td points">
                                 {topScore.score} <img className="gold-medal" src={medalImage} /></td>
                         </tr>
                         {runnerUpScores.map((score, idx) => {
                             return (
-                                <tr className="tr runner-ups">
+                                <tr className="tr runner-ups" key={idx}>
                                     <td className="td number">{idx + 2}</td>
                                     {(userBestScore && (userBestScore.id === score.id)) ?
-                                        (<td className="td name"> {score.username} (You)</td>) :
-                                        (<td className="td name"> {score.username} </td>)}
+                                        (<td className="td name"> <span>{score.username}</span> (You)</td>) :
+                                        (<td className="td name"> <span>{score.username}</span>  </td>)}
                                     <td className="td timestamp">{score.scoreTimestamp}</td>
                                     <td className="td points"> {score.score}</td>
                                 </tr>
