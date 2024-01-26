@@ -19,7 +19,7 @@ import "./SongCard.css"
 
 
 const SongCardList = ({ songs }) => {
-    console.log(songs)
+
 
     return (
         <div className="song-card-list">

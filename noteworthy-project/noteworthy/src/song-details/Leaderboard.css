@@ -131,9 +131,24 @@
     text-align: left;
 }
 
+
 .name {
     text-align: left;
     font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.name:hover {
+    white-space: normal;
+    z-index: 1;
+
+}
+
+.name span:hover {
+    display: inline-block;
+    animation: marquee 5s linear infinite;
 }
 
 .timestamp {
@@ -191,4 +206,10 @@
     background-color: #5c5be5;
     position: absolute;
     z-index: -1;
+}
+
+@keyframes marquee {
+    to {
+        transform: translateX(-100%);
+    }
 }
